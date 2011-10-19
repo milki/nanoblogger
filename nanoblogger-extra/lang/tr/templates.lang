@@ -1,0 +1,47 @@
+# NanoBlogger Turkish language definitions
+# Templates
+# lang/tr/templates.lang
+
+# weblog entry links and messages
+template_permlink="Kalıcı Bağ"
+template_catlinks="Bölümler:"
+template_cmtlink="Yorumlar"
+template_postedby="Yazan"
+
+# only here for compat. with early 3.3 rc's
+permanentlink_title="$template_permlink"
+categorylinks_title="$template_catlinks"
+commentslink_title="$template_cmtlink"
+
+# weblog main messages
+template_archiveindex="Arşiv Dizini"
+template_category="Bölümler"
+template_contact="Erişim"
+template_fortune="Fal"
+template_links="Bağlar"
+template_rentries="En Son Eklenenler"
+template_syndicate="RSS/Atom Aboneliği"
+template_syndicate_main="Site"
+template_status="Weblog Durumu"
+template_powered="Bu weblog'un arkasındakiler: &#36;EDITOR, bash, cat, grep, sed, ve"
+
+# misc. weblog links
+template_archives="Arşiv"
+template_main="Baş Sayfa"
+
+# dynamic template messages
+template_articles="Makaleler"
+template_browsecat="Bölüme göre"
+template_browsedate="Tarihe göre"
+template_browseentry="Kayda göre"
+
+# weblog status messages
+template_totalcats="Toplam bölüm sayısı:"
+template_totalentries="Toplam kayıt sayısı:"
+template_lastentry="Son kayıt:"
+template_lastupdated="Son güncelleme:"
+
+catlinks_title="$categorylinks_title"
+articles_nolist="0"
+categories_nolist="0"
+template_catarchives="Dosyalandığı yer:"

@@ -1,0 +1,150 @@
+# NanoBlogger Turkish language definitions
+# Messages
+# lang/tr/messages.lang
+
+# main
+main_badopts="geçersiz seçenek:"
+main_panic="Daha fazla bilgi için '`basename $0` --help' deneyin."
+
+# check_arg
+checkarg_badarg="bu seçeneği değeriyle kullanabilirsiniz!"
+checkarg_help="Daha fazla bilgi için '`basename $0` --help' deneyin."
+
+# check_conf
+checkconf_nobase="ana dizin yok! görüşürüz."
+checkconf_noblog="weblog dizini belirtilmemiş! görüşürüz."
+checkconf_nousrconf="weblog config dizini yok! görüşürüz."
+checkconf_noblogdir="weblog dizini yok! görüşürüz."
+checkconf_nodata="weblog data dizini yok! görüşürüz."
+checkconf_nocache="weblog cache dizini yok! görüşürüz."
+checkconf_notemplates="weblog şablon dizini yok! görüşürüz."
+
+# query_db
+querydb_init="ana veri tabanı sıfırlanıyor ..."
+querydb_update="ana veri tabanı güncelleniyor ..."
+
+# validate category id(s)
+catid_bad="hatalı numara(lar)!"
+checkcatid_invalid="geçersiz bölüm numaraları / numarası:"
+checkcatid_novalid="geçerli bir bölüm numarası belirtilmelisiniz!"
+
+# validate metadata files
+checkmetatags_notag="eksik meta-etiket:"
+
+# config_weblog
+configweblog_nomod="bir değişiklik yapmadım! görüşürüz."
+
+# load_template
+loadtemplate_nofile="şablon dosyası yok! görüşürüz."
+
+# make_page
+makepage_nosource="kaynak dosyası yok! görüşürüz."
+makepage_nooutput="çıktı dosyası belirtmediniz."
+makepage_notemplate="şablon dosyası yok! görüşürüz."
+
+# paginate
+paginate_action="sayfalandırılıyor"
+
+# build_archives
+buildarchives_action="arşivler oluşturuluyor ..."
+
+# build_weblog
+buildweblog_all="tüm weblog dosyalarını güncelliyorum! zaman alabilir ..."
+buildweblog_files="weblog dosyalarını oluşturuyorum ..."
+buildweblog_main="ana index sayfalarını oluşturuyorum ..."
+buildweblog_cache="önbelleği temizliyorum ..."
+
+# import_file
+importfile_nofile="yok!"
+
+# nb_browser
+nbbrowser_nobrowser="\$NB_BROWSER içindeki tarayıcılardan hiçbiri işe yaramadı!"
+
+# nb_draft
+nbdraft_asknew="dosya yok! yaratayım mı?"
+
+# nb_edit
+nbedit_nofile="dosya yok!"
+nbedit_prompt="devam için [enter] tuşuna basın:"
+nbedit_failed="dosyayı yazamadım! görüşürüz."
+
+# add_entry
+addentry_catinfo="seçilen bölüm numarası / numaraları:"
+addentry_action="yeni kaydı ekliyorum ..."
+
+# confirm_action
+confirmaction_ask="emin misiniz?"
+
+# misc. validation errors
+novalid_entryid="geçerli bir kayıt numarası belirtmelisiniz."
+invalid_entryid="geçersiz kayıt numarası / numaraları:"
+
+# edit_weblog
+editweblog_onecat="bir başlığı düzenlerken sadece bir bölüm belirtebilirsiniz!"
+editweblog_title="başlığı değiştiriyorum:"
+editweblog_catinfo="seçilen bölüm numarası / numaraları:"
+editweblog_nomod="hiç değişiklik yapmadım! görüşürüz."
+editweblog_action="değişen weblog kayıtlarını işliyorum..."
+editweblog_noaction="hiç değişiklik yapmadım! görüşürüz."
+
+# delete_weblog
+deleteweblog_delcat="bölüm numarasını / numaralarını siliyorum:"
+deleteweblog_onecat="only one category can be specified when deleting entries from a category!"
+deleteweblog_catinfo="seçilen bölüm numarası / numaraları:"
+deleteweblog_delentry="Kayıt numarası / numaralarını siliyorum:"
+
+# header attributes
+header_ID="NUMARA"
+header_Title="Başlık"
+header_Category="Bölüm numarası / numaraları"
+header_Date="Tarih"
+
+# list_weblog
+listweblog_nocat="no categories exist yet! görüşürüz."
+listweblog_nomatch="aramanıza uygun bir şey yok! görüşürüz."
+
+# move_entry
+moveentry_catfirst="must specify category before entry!"
+moveentry_catinfo="seçilen bölüm numarası / numaraları:"
+moveentry_moventry="şu kayıtları taşıyorum:"
+
+# add_weblog
+addweblog_noweblog="weblog dizini belirtilmedi! görüşürüz."
+addweblog_newblog="weblog dizinini yaratılıyorum"
+addweblog_nocreate="weblog dizinini yaratamadım!"
+addweblog_copyaction="varsayılan weblog dosyalarını kopyalıyorum ..."
+addweblog_askconf="yen weblog'u şimdi yapılandırmak ister misiniz?"
+addweblog_confaction="yeni weblog'u yapılandırıyorum ..."
+addweblog_noconf="weblog'u yapılandırmadım! sonra yapılandırmak için '`basename $0` -b [blog_dir] --configure -u all' komutunu kullanın."
+addweblog_newcat="yeni bölüm oluşturuyorum"
+addweblog_titlecat="bölümün başlığını girin"
+addweblog_untitled="Başlıksız"
+addweblog_madecat="şu bölüm için veritabanı oluşturuldu"
+addweblog_author="yazarın ismini girin"
+addweblog_title="bir başlık girin"
+addweblog_desc="kısa bir tanım girin"
+addweblog_editnew="yeni kayıt düzenleniyor ..."
+
+# preview_weblog
+preview_nocmd="önizleme komutu ayarlanmamış! görüşürüz."
+preview_action="weblog önizleniyor ..."
+preview_asknow="weblog'unuzu şimdi önizlemek ister misiniz?"
+
+# publish_weblog
+publish_nocmd="basım komutu ayarlanmamış! görüşürüz."
+publish_action="weblog basılıyor ..."
+publish_asknow="weblog'u şimdi basmak ister misiniz?"
+
+# misc.
+notitle="Başlıksız"
+nowritedir="dizine yazma hakkı yok! görüşürüz."
+samefilename="dosya ismi zaten var!"
+filterdate_failed="tarihe göre süzme başarısız oldu, yerine zaman bilgisini kullanıyorum."
+
+checkmetavars_novar="missing metavar:"
+nbbrowser_running="Çalışıyor:"
+novalid_entrytime="'YYYY-MM-DD HH:MM:SS' cinsinden geçerli bir TIMESTAMP verilmeli"
+invalid_entrytime="geçersiz TIMESTAMP ya da çakışma"
+catentry_catfirst="yazıdan önce etiket belirtilmeli!"
+catentry_catinfo="seçilen etiket/etiketler"
+catentry_tagging="tagging entry id(s):"

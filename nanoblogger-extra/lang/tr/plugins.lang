@@ -1,0 +1,9 @@
+# NanoBlogger Turkish language definitions
+# Plugins
+# lang/tr/plugins.lang
+
+# plugins - generic messages
+plugins_action="oluşturuluyor"
+plugins_loadaction="yükleniyor"
+plugins_textformataction="metin biçimleniyor - $plugins_loadaction"
+plugins_entryfilteraction="metin filtreleniyor .."

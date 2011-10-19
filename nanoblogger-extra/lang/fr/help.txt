@@ -1,0 +1,99 @@
+# First translator: Julie Wojcicki <chili-nb@ssji.net>
+NanoBlogger - Moteur de blog pour la ligne de commande
+
+Version $VERSION, Copyright (C) 2008 Kevin Wood <un1xt3r-at-fastmail-dot-fm>
+traduction : Denis Bernard <deber@users.sourceforge.net>
+
+NanoBlogger comes with ABSOLUTELY NO WARRANTY; see version 2 of the GNU General
+Public License for further details
+
+Usage:
+ $BASENAME [-b blog_dir] [options] <action>
+
+Actions :
+ add [article|entry|tag|weblog]   	- crée un nouvel article, entrée, tag ou
+					  un blog (répertoire).
+ configure				- configure le blog (pour 'update').
+ delete [entry|tag] <ID> 		- supprime l'entrée, tag ou détague
+					  l'entrée.
+ draft <FILE> 				- crée et édite un métafichier.
+ edit [[entry|tag] <ID>]|file <FILE>]	- édite une entrée, un métafichier ou un
+					  tag.
+ list [all|tags|DATE|max|tag <ID>]	- liste les entrées ou les tags (par
+					  défaut 'all').
+ import [article|entry] <FILE>          - importe le nouvel article ou l'entrée
+                                          depuis le métafichier.
+ make-file <FILE>                       - crée un nouveau métafichier.
+ make-page <FILE1> <FILE2> 		- crée une nouvelle page de blog
+					  (fichier2) depuis le métafichier
+					  (fichier1).
+ manual					- affiche le manuel.
+ preview				- lance la commande d'aperçu du blog.
+ publish				- lance la commande de publication du
+					  blog.
+ tag-entry <ID>                         - tag l'entrée (pour '--tag').
+ update [all|tag|DATE|main|max|         - force la mise à jour du blog ( par
+ articles|feeds|tag <ID>]                 défaut à 'all').
+ update-cache [all|tag|DATE|main|max|   - force la mise à jour du cache (par
+        expired|tag <ID>]                 défaut à 'expired').
+
+Options :
+ -b, --blog-dir <DIRECTORY>		spécifie le répertoire du blog.
+ -f, --force 				force la mise à jour du cache. (synonyme
+					de 'update-cache').
+ -h,--help				affiche ce message d'aide.
+ -i, --interactive <1=on/0=off> 	bascule en mode interactif (pour 'add',
+ 					'delete', 'preview', 'publish' et
+					'update').
+ -v, --verbose <1=on/0=off>		bascule en mode verbeux.
+ --conf-file <FILE>			spécifie le fichier de configuration
+					alternatif.
+ --desc <text>				met le texte descriptif (pour 'add',
+ 					'draft', 'import' et 'make-*').
+ --data-dir <DIRECTORY>			spécifie le répertoire [data] du blog.
+ --meta-file <FILE>                     spécifie le métafichier (pour 'add').
+ --title <TEXT> 			assigne le titre (pour 'add', 'article',
+					'draft', 'edit', 'import' et 'make-*').
+ --author <TEXT>			assigne le nom de l'auteur (pour 'add',
+					'draft', 'import' et 'make-*').
+ --plugin-dir <DIRECTORY> 		spécifie le répertoire [plugin] du blog.
+ -q, --query [all|tag|DATE|main|max]    -spécifie une requête (pour 'edit',
+                                        'delete', 'list', 'tag-entry', 'update',
+                                        et 'update-cache').
+ -c, --tag <ID>                         -spécifie le tag (pour 'add', 'delete',
+                                        'edit', 'list', 'import', 'update',
+                                        et 'update-cache').
+ --text <text> 				écrit le corps du texte (pour 'add',
+					'draft', ''import' et 'make-*').
+ --template <FILE>			spécifie le fichier à charger comme
+					gabarit (pour 'draft', 'import' et
+					'make-*').
+ --template-dir <DIRECTORY>		spécifie le répertoire [template] du
+					blog.
+ --var <VARIABLE>  	 		définit la méta-variable (pour 'add',
+ 					'draft', 'edit','import' et 'make-*').
+ --set-var <INPUT>  			assigne la méta-variable (pour '--var').
+ --no-preview                           désactive la prévisualisation (pour
+					'add').
+ --no-publish                           désactive la publication automatique
+					(pour 'add').
+ --version				affiche la version.
+
+Autres options courtes :
+ -a             équivalent à l'action add.
+ -d <ID>        supprime l'entrée (va avec '-c').
+ -E <FILE>      équivalent à l'action draft.
+ -e <ID>        édite l'entrée (va avec '-c').
+ -l             équivalent de l'action list.
+ -m <ID>        équivalent de l'action tag-entry.
+ -u             équivalent de l'action update.
+
+ --tag, delete, edit et tag-entry acceptent plusieurs numéros séparés par des
+ virgules (par ex. 1,2,3).
+ 
+ DATE = CCYY-MM-DD, CCYY-MM, CCYY (ou plage : DATE1,DATE2)
+note : les requêtes spéciales comme "articles" et "feeds" sont typiquement
+conbinées avec l'action "update".
+
+Plus d'info :
+ URL: http://nanoblogger.sourceforge.net

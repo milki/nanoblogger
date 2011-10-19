@@ -1,0 +1,49 @@
+# NanoBlogger Plugin: Page Links
+# reload a set of links for use on other pages
+
+# reset BASE_URL data
+baseurl_sedvar=`echo "$BASE_URL" |sed -e 's/\//\\\\\//g'`
+baseurl_sedscript='/[^ ][.]\// s//\"'$baseurl_sedvar'/g'
+
+# reload NB_Calendar
+if [ ! -z "$NB_Calendar" ]; then
+	#NB_Calendar=$(< "$BLOG_DIR/$PARTS_DIR/cal.$NB_FILETYPE")
+	RLOAD_DATA=`sed -e "$baseurl_sedscript" "$BLOG_DIR/$PARTS_DIR/cal.$NB_FILETYPE"`
+	NB_Calendar="$RLOAD_DATA"
+fi
+
+# reload NB_ArticleLinks
+if [ ! -z "$NB_ArticleLinks" ]; then
+	#NB_ArticleLinks=$(< "$BLOG_DIR/$PARTS_DIR/article_links.$NB_FILETYPE")
+	RLOAD_DATA=`sed -e "$baseurl_sedscript" "$BLOG_DIR/$PARTS_DIR/article_links.$NB_FILETYPE"`
+	NB_ArticleLinks="$RLOAD_DATA"
+fi
+
+# reload NB_RecentEntries
+if [ ! -z "$NB_RecentEntries" ]; then
+	#NB_RecentEntries=$(< "$BLOG_DIR/$PARTS_DIR/recent_entries.$NB_FILETYPE")
+	RLOAD_DATA=`sed -e "$baseurl_sedscript" "$BLOG_DIR/$PARTS_DIR/recent_entries.$NB_FILETYPE"`
+	NB_RecentEntries="$RLOAD_DATA"
+fi
+
+# reload NB_OlderEntries
+if [ ! -z "$NB_OlderEntries" ]; then
+	#NB_OlderEntries=$(< "$BLOG_DIR/$PARTS_DIR/older_entries.$NB_FILETYPE")
+	RLOAD_DATA=`sed -e "$baseurl_sedscript" "$BLOG_DIR/$PARTS_DIR/older_entries.$NB_FILETYPE"`
+	NB_OlderEntries="$RLOAD_DATA"
+fi
+
+# reload NB_CategoryLinks
+if [ ! -z "$NB_CategoryLinks" ]; then
+	#NB_CategoryLinks=$(< "$BLOG_DIR/$PARTS_DIR/category_links.$NB_FILETYPE")
+	RLOAD_DATA=`sed -e "$baseurl_sedscript" "$BLOG_DIR/$PARTS_DIR/category_links.$NB_FILETYPE"`
+	NB_CategoryLinks="$RLOAD_DATA"
+fi
+
+# reload NB_MonthLinks
+if [ ! -z "$NB_MonthLinks" ]; then
+	#NB_MonthLinks=$(< "$BLOG_DIR/$PARTS_DIR/month_links.$NB_FILETYPE")
+	RLOAD_DATA=`sed -e "$baseurl_sedscript" "$BLOG_DIR/$PARTS_DIR/month_links.$NB_FILETYPE"`
+	NB_MonthLinks="$RLOAD_DATA"
+fi
+

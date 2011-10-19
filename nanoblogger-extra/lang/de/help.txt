@@ -1,0 +1,86 @@
+# NanoBlogger German language definitions
+# Translation: Sven Bergner <bergner@linuxtaskforce.de>
+# Help
+# lang/de/help.txt
+NanoBlogger - Konsolen Weblog Engine.
+Version $VERSION, von Kevin Wood <n1xt3r@fastmail.fm>
+
+Benutzung:
+ $BASENAME [-b blog_verzeichnis] [Optionen] <Aktion>
+
+Aktionen:
+ add					- erzeugt einen neuen Eintrag, Kategorie, oder Weblog
+					(Verzeichnis).
+ configure				- Konfiguriere Weblog (für 'update').
+ delete <ID,tag>			- löscht einen Eintrag, ein Tag, oder
+					  entfernt ein Tag von einem Eintrag.
+ draft <file>    			- Editiert oder erzeugt eine Metadatei.
+ edit <ID,tag>			        - Editiert einen Eintrag oder eine Kategorie.
+ list					- Zeigt Einträge oder Tags an (für
+					  'query' und 'tag' ist max Standard).
+ makepage <file1> <file2>		- Erzeugt eine neue Weblog Seite (file2) aus
+					  Metafile (file1).
+ tag-entry <ID>				- Eintrag taggen (für 'tag')
+ tag-list				- Alle Tags anzeigen (identisch mit 'query tag list')
+ manual	          			- Zeigt das Handbuch an.
+ make-file <file>			- Erzeugt eine neue Meta-Datei
+ preview				- Startet das Kommando zur Vorschau des Weblog
+ publish				- Startet das Kommando zur
+					  Veröffentlichung des Weblog
+ query <all,tag,DATE,main,max,		- Spezifiziert und startet eine Abfrage (für 'edit',
+ 	expired>			  'delete', 'list', 'tag-entry',
+					  'update', und 'update-cache').
+ tag <ID,new> 	 	 		- Spezifiziert ein TAG (für 'add', 'delete',
+					  'edit', 'list', 'update', und
+					  'update-cache').
+ file <file>				- Spezifiziert ein Metafile zum
+					  Importieren als Eintrag (für 'add').
+ update-cache				- Erzwingt eine Aktualisierung des Cache 
+					  (für 'query', Standardwert ist 'expired').
+ update					- Erzwingt eine Aktualisierung der Weblog-Dateien
+					  (für 'query', Standardwert ist 'max').
+
+Optionen:
+ -b, --blogdir <Verzeichnis>		spezifiziert das Weblog Verzeichnis.
+ -f, --force				Erzwingt eine Aktualisierung des Cache
+					  (identisch mit 'update-cache')
+ -h, --help				Zeigt diese Meldung an.
+ -i, --interactive <1=an/0=aus>		startet interaktiv (für 'add', 'delete',
+ 					'preview', 'publish', und 'update').
+ -v, --verbose <1=an/0=aus>		Umschalten zwischen langen und kurzen Meldungen.
+ --conf-file <file>			Spezifiziert eine alternative Konfigurationsdatei.
+ --desc <text>				setzt den  Beschreibungstext (für 'add',
+ 					'draft', 'make-file' und 'makepage').
+ --data-dir <Verzeichnis>		Spezifiziert das Datenverzeichnis des Weblog.
+ --title <text>				Setzt den Titel (für 'add', 'draft',
+ 					'make-file' und 'make-page').
+ --author <text>			Setzt den Text für Autor (für 'add',
+					'draft', 'make-file' und 'make-page').
+ --plugin-dir <Verzeichnis> 		Spezifiziert das Plugin Verzeichnis des Weblog.
+ --text <text>				Setzt Text des Body (für 'add',	'draft',
+					'make-file' und 'make-page'). 
+ --template <file>			Spezifiert file to load as template (für
+ 					'draft', 'make-page' und 'make-file').
+ --template-dir <Verzeichnis>		Spezifiziert das Weblog Template-Verzeichnis.
+ --var <VARIABLE>  	 		Definiert eine Meta-Variable (für '-a', '-E',
+ 					'-e', '--make-file' und '-M').
+ --set-var <input>  			Setzt eine Meta-Variable (für '--var').
+ --version				Zeigt die Versionsinformation an.
+
+ tag, delete, edit, tag-entry akzeptieren mehrere, durch Komma getrennte IDs (z.B. 1,2,3).
+ 
+ DATE = CCYY-MM-DD, CCYY-MM, CCYY (oder ein Zeitraum = DATE1,DATE2)
+
+Beispiele:
+
+ Spezifiziert das Weblog Verzeichnis, das erzeugt werden soll.
+	nb -b ~/public_html/weblog add
+
+ Erzeuge ein neues "Beispiel" Tag
+	nb -b ~/public_html/weblog tag Neu --title Beispiel add
+
+ Erzeugt einen neuen Eintrag ausschließlich mit Kommandozeilenoptionen!
+	nb -b ~/public_html/weblog -author 'MeinName' --title 'MeinTitel' --text 'Text!' add
+
+Mehr Informationen unter:
+ URL: http://nanoblogger.sourceforge.net

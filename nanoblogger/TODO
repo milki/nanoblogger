@@ -1,0 +1,4 @@
+* allow mutliple meta-variables to be defined from command line perhaps by
+  way of meta-data file.
+* replace remaining references to categories with tags or combine in less
+  confusing manner.

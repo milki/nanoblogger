@@ -1,0 +1,150 @@
+# NanoBlogger English language definitions
+# Messages
+# lang/en/messages.lang
+
+# main
+main_badopts="invalid option:"
+main_panic="Try '`basename $0` --help' for more information."
+
+# check_arg
+checkarg_badarg="option requires an argument!"
+checkarg_help="Try '`basename $0` --help' for more information."
+
+# check_conf
+checkconf_nobase="base directory doesn't exist! goodbye."
+checkconf_noblog="no weblog directory specified! goodbye."
+checkconf_nousrconf="weblog config file doesn't exist! goodbye."
+checkconf_noblogdir="weblog directory doesn't exist! goodbye."
+checkconf_nodata="weblog's data directory doesn't exist! goodbye."
+checkconf_nocache="weblog's cache directory doesn't exist! goodbye."
+checkconf_noparts="weblog's parts directory doesn't exist! goodbye."
+checkconf_notemplates="weblog's templates directory doesn't exist! goodbye."
+
+# query_db
+querydb_init="initializing main database ..."
+querydb_update="updating main database ..."
+
+# validate tag id(s)
+catid_bad="bad id(s)!"
+checkcatid_invalid="invalid tag id(s):"
+checkcatid_novalid="must specify valid tag id!"
+
+# validate metadata files
+checkmetavars_novar="missing metavar:"
+
+# config_weblog
+configweblog_nomod="no changes were made! goodbye."
+
+# load_template
+loadtemplate_nofile="template file doesn't exist! goodbye."
+
+# make_page
+makepage_nosource="source file doesn't exist! goodbye."
+makepage_nooutput="output file not specified."
+makepage_notemplate="template file doesn't exist! goodbye."
+
+# paginate
+paginate_action="paginating"
+
+# build_archives
+buildarchives_action="generating archives ..."
+
+# build_weblog
+buildweblog_all="updating all weblog files! this may take a while ..."
+buildweblog_files="generating weblog files ..."
+buildweblog_main="generating main index page(s) ..."
+buildweblog_cache="expiring cache data ..."
+
+# import_file
+importfile_nofile="doesn't exist!"
+
+# nb_browser
+nbbrowser_running="running:"
+nbbrowser_nobrowser="please define another web browser in \$NB_BROWSER or \$BROWSER."
+
+# nb_draft
+nbdraft_asknew="file doesn't exist! create?"
+
+# nb_edit
+nbedit_nofile="file doesn't exist!"
+nbedit_prompt="press [enter] to continue:"
+nbedit_failed="failed to write file! goodbye."
+
+# add_entry
+addentry_catinfo="selected tag id(s):"
+addentry_action="adding new entry ..."
+
+# confirm_action
+confirmaction_ask="are you sure?"
+
+# misc. validation errors
+novalid_entryid="must specify a valid entry id."
+invalid_entryid="invalid entry id(s):"
+novalid_entrytime="must specify a valide TIMESTAMP - 'YYYY-MM-DD HH:MM:SS'"
+invalid_entrytime="invalid entry TIMESTAMP or conflict"
+
+# edit_weblog
+editweblog_onecat="only one tag can be specified when editing a title!"
+editweblog_title="changing title to:"
+editweblog_catinfo="selected tag id(s):"
+editweblog_nomod="no changes were made! goodbye."
+editweblog_action="processing modified weblog entries ..."
+editweblog_noaction="no changes were made! goodbye."
+
+# delete_weblog
+deleteweblog_delcat="deleting tag id(s):"
+deleteweblog_onecat="only one tag can be specified when untagging entries!"
+deleteweblog_catinfo="selected tag id(s):"
+deleteweblog_delentry="deleting entry id(s):"
+
+# header attributes
+header_ID="ID"
+header_Title="Title"
+header_Category="Tag ID(s)"
+header_Date="Date"
+
+# list_weblog
+listweblog_nocat="no tags exist yet! goodbye."
+listweblog_nomatch="nothing matched your query! goodbye."
+
+# cat_entry
+catentry_catfirst="must specify tag before entry!"
+catentry_catinfo="selected tag id(s):"
+catentry_tagging="tagging entry id(s):"
+
+# add_weblog
+addweblog_noweblog="no weblog directory specified! goodbye."
+addweblog_newblog="creating weblog directory"
+addweblog_nocreate="failed to create weblog directory!"
+addweblog_copyaction="copying default weblog files ..."
+addweblog_askconf="would you like to configure the new weblog now?"
+addweblog_confaction="configuring new weblog ..."
+addweblog_noconf="weblog not configured! configure with '`basename $0` --blog-dir [blog_dir] configure query all update'"
+addweblog_newcat="creating new tag"
+addweblog_titlecat="enter name for the new tag"
+addweblog_untitled="Untitled"
+addweblog_madecat="tag database created for"
+addweblog_author="enter author's name"
+addweblog_title="enter a title"
+addweblog_desc="enter a short description"
+addweblog_editnew="editing new entry ..."
+addweblog_newarticle="adding new article ..."
+addweblog_noarticledir="failed to verify articles directory! check ARTICLES_DIR in configuration."
+addweblog_noarticlesrc="no legitimate article source could be found!"
+
+# preview_weblog
+preview_nocmd="no preview commmand set! goodbye."
+preview_action="previewing weblog ..."
+preview_asknow="would you like to preview your weblog now?"
+
+# publish_weblog
+publish_nocmd="no publish command set! goodbye."
+publish_action="publishing weblog ..."
+publish_asknow="would you like to publish the weblog now?"
+
+# misc.
+notitle="Untitled"
+nowritedir="no write permissions for directory! goodbye."
+samefilename="filename already exists!"
+filterdate_failed="date filtering failed, using timestamp instead."
+

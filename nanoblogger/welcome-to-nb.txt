@@ -1,0 +1,37 @@
+TITLE: Welcome to NanoBlogger 3.4.2!
+AUTHOR: n1xt3r
+DATE:
+DESC: nanoblogger welcome message
+FORMAT: raw
+-----
+BODY:
+<p>Welcome to NanoBlogger, a small weblog engine for the UNIX command line.</p>
+<p><strong>Quick Reference</strong></p>
+<ul>
+<li>create new weblog (directory) ... <code>nb -b &lt;blog_dir&gt; add <em>weblog</em></code></li>
+<li>create new article ... <code>nb add <em>article</em></code></li>
+<li>create new entry (w/o tag) ... <code>nb add <em>entry</em></code></li>
+<li>create new tag ... <code>nb add <em>tag</em></code></li>
+<li>tag new entry ... <code>nb --tag [tag_id] add <em>entry</em></code></li>
+<li>list entries ... <code>nb list &lt;query&gt;</code></li>
+<li>list tags ... <code>nb list <em>tags</em></code></li>
+<li>list entries by tag ... <code>nb list <em>tag</em> [tag_id]</code></li>
+<li>edit entry ... <code>nb edit <em>entry</em> [entry_id]</code></li>
+<li>tag entry ... <code>nb --tag [tag_id] tag-entry [entry_id]</code></li>
+<li>untag entry ... <code>nb --tag [tag_id] delete <em>entry</em> [entry_id]</code></li>
+<li>delete tag ... <code>nb delete <em>tag</em> [tag_id]</code></li>
+<li>delete entry ... <code>nb delete <em>entry</em> [entry_id]</code></li>
+<li>draft entry or article ... <code>nb draft [draft_file]</code></li>
+<li>import draft as entry ... <code>nb import <em>entry</em> [draft_file]</code></li>
+<li>import draft as article ... <code>nb import <em>article</em> [draft_file]</code></li>
+<li>update weblog ... <code>nb update &lt;all|DATE|main|max|articles|feeds&gt;</code></li>
+</ul>
+<p><code>&lt;query&gt;</code> may equal <code>all,tag,DATE or max</code> (defaults to all)</p>
+<p>
+Thank you for choosing NanoBlogger. Please direct comments and suggestions to
+the <a title="mailing list" href="http://groups.yahoo.com/group/nanoblogger/">mailing list</a> or
+submit a bug report to the
+<a title="bug tracker" href="http://sourceforge.net/tracker/?func=add&group_id=103576&atid=635240">project page</a>
+over at sourceforge.net.
+</p>
+END-----

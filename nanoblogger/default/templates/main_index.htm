@@ -1,0 +1,115 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<meta http-equiv="Content-Type" content="$BLOG_MIMETYPE; charset=$BLOG_CHARSET" />
+<meta name="generator" content="NanoBlogger $VERSION" />
+<meta name="robots" content="all" />
+<meta name="revisit-after" content="31 days" />
+
+<title>$BLOG_TITLE</title>
+
+<link rel="stylesheet" href="${BASE_URL}$BLOG_CSS" type="text/css" media="all" />
+<link rel="stylesheet" href="${BASE_URL}styles/print.css" type="text/css" media="print" />
+<link rel="shortcut icon" href="${BASE_URL}$BLOG_ICON" />
+$NB_AtomAltLink
+$NB_RSS2AltLink
+$NB_RSSAltLink
+</head>
+
+<body>
+
+<div id="banner">
+	<h1><a href="${BASE_URL}$NB_INDEX" accesskey="1">$BLOG_TITLE</a></h1>
+	<span class="description">$BLOG_DESCRIPTION</span>
+</div><!-- /banner div -->
+
+<div id="container">
+
+	<div id="links">
+		<!-- calendar.sh -->
+		<div class="calendar">
+			$NB_Calendar
+		</div>
+		<!-- weblog_links.sh -->
+		<div class="sidetitle">
+			$template_links
+		</div>
+		<div class="side">
+			$NB_MainLinks
+		</div>
+		<!-- articles_meta.sh -->
+		<div class="sidetitle">
+			$template_articles
+		</div>
+		<div class="side">
+			$NB_ArticleLinks
+		</div>
+		<!-- recent_entries.sh -->
+		<div class="sidetitle">
+			$template_rentries
+		</div>
+		<div class="side">
+			$NB_RecentEntries
+		</div>
+		<!-- weblog_links.sh -->
+		<div class="sidetitle">
+			$template_category
+		</div>
+		<div class="side">
+			$NB_CategoryLinks
+		</div>
+		<div class="sidetitle">
+			$template_archives
+		</div>
+		<div class="side">
+			<a href="${BASE_URL}$ARCHIVES_DIR/$NB_INDEX">$template_archiveindex</a><br />
+			$NB_YearLinks
+			<!-- $NB_MonthLinks -->
+		</div>
+		<div class="sidetitle">
+			$template_syndicate
+		</div>
+		<div class="syndicate">
+			$NB_BlogFeeds
+			$NB_CategoryFeeds
+		</div>
+		<div class="sidetitle">
+			$template_contact
+		</div>
+		<div class="side">
+			$BLOG_CONTACT
+		</div>
+		<!-- weblog_status.sh -->
+		<div class="sidetitle">
+			$template_status
+		</div>
+		<div class="side">
+			$NB_BlogStatus
+		</div>
+		<div class="sidetitle">
+		</div>
+		<div class="powered">
+			$template_powered
+			<a href="http://nanoblogger.sourceforge.net">nb $VERSION</a>
+		</div>
+	</div><!-- /links div -->
+
+	<div id="content">
+
+		<a id="top"></a>
+		<div class="blog">
+			$NB_MetaBody
+			<div class="menu">
+				$NB_PageLinks
+			</div>
+		</div>
+		<div class="menu">
+			<a href="#top">$NB_TopPage</a>
+		</div>
+
+	</div><!-- /content div -->
+
+</div><!-- /container div -->
+
+</body>
+</html>

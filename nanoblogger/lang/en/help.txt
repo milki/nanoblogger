@@ -1,0 +1,89 @@
+NanoBlogger - Command line weblog engine.
+Version $VERSION, Copyright $COPYRIGHT Kevin Wood <un1xt3r-at-fastmail-dot-fm>
+
+NanoBlogger comes with ABSOLUTELY NO WARRANTY; see version 2 of the GNU General
+Public License for further details
+
+Usage:
+ $BASENAME [-b blog_dir] [options] <action>
+
+Actions:
+ add [article|entry|tag|weblog] 	- create new article, entry, tag, or
+ 					  weblog (directory).
+ configure				- configure weblog (for 'update').
+ delete [entry|tag] <ID>		- delete entry, tag, or un-tag entry.
+ draft <FILE> 				- create and edit meta-file.
+ edit [[entry|tag] <ID>]|file <FILE>]	- edit entry, meta-file or tag.
+ list [all|tags|DATE|max|tag <ID>]	- list entries or tags (defaults to
+					  'all').
+ import [article|entry] <FILE> 		- import new article or entry from
+ 					  meta-file.
+ make-file <FILE> 			- create new meta-file.
+ make-page <FILE1> <FILE2> 		- create new weblog page (file2) from
+					  meta-file (file1).
+ manual					- view the manual.
+ preview				- run command to preview weblog.
+ publish				- run command to publish weblog.
+ tag-entry <ID>				- tag entry (for '--tag').
+ update [all|tag|DATE|main|max| 	- force weblog update (defaults to
+ 	articles|feeds|tag <ID>]	  'all').
+ update-cache [all|tag|DATE|main|max| 	- force cache update (defaults to
+ 	expired|tag <ID>]		  'expired').
+
+Options:
+ -b, --blog-dir <DIRECTORY>		specify weblog directory.
+ -f, --force 				force cache update. (synonymous with
+ 					'update-cache').
+ -h,--help				show this help message.
+ -i, --interactive <1=on/0=off> 	toggle interactive mode (for 'add',
+ 					'delete', 'preview', 'publish', and
+					'update').
+ -v, --verbose <1=on/0=off>		toggle verbosity.
+ --conf-file <FILE>			specify alternate configuration file.
+ --desc <text>				set text of description (for 'add',
+ 					'draft', 'import', and 'make-*').
+ --data-dir <DIRECTORY>			specify weblog's data directory.
+ --meta-file <FILE> 			specify meta-file (for 'add').
+ --title <TEXT> 			set title (for 'add', 'article',
+ 					'draft', 'edit', 'import', and
+					'make-*').
+ --author <TEXT>			set text of author (for 'add', 'draft',
+ 					'import' and 'make-*').
+ --plugin-dir <DIRECTORY> 		specify weblog's plugin directory.
+ -q, --query [all|tag|DATE|main|max] 	- specify a query to run (for 'edit',
+ 					  'delete', 'list', 'tag-entry',
+					  'update', and 'update-cache').
+ -c, --tag <ID> 			- specify tag (for 'add', 'delete',
+ 					  'edit', 'list', 'import', 'update',
+					  and 'update-cache').
+ --text <TEXT> 				set text of body (for 'add', 'draft',
+ 					'import' and 'make-*').
+ --template <FILE>			specify file to load as template (for
+ 					'draft', 'import' and 'make-*').
+ --template-dir <DIRECTORY>		specify weblog's template directory.
+ --var <VARIABLE>  	 		define meta-variable (for 'add',
+ 					'draft', 'edit', 'import' and 'make-*').
+ --set-var <INPUT>  			set meta-variable (for '--var').
+ --no-preview 				disables automatic preview (for 'add').
+ --no-publish 				disables automatic publish (for 'add').
+ --version				display version information.
+
+More Short Options:
+ -a 		equivalent of add action.
+ -d <ID>	deletes entry (works with '-c').
+ -E <FILE> 	equivalent of draft action.
+ -e <ID> 	edits entry (works with '-c').
+ -l 		equivalent of list action.
+ -m <ID> 	equivalent of tag-entry action.
+ -u 		equivalent of update action.
+
+ --tag,delete,edit,tag-entry accepts multiple ID numbers separated by commas
+ (e.g.  1,2,3).
+ 
+ DATE = CCYY-MM-DD, CCYY-MM, CCYY (or range = DATE1,DATE2)
+
+note: special queries such as "articles" and "feeds" typically get combined with
+      the update action.
+
+More info:
+ URL: http://nanoblogger.sourceforge.net

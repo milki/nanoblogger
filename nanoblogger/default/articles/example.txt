@@ -1,0 +1,38 @@
+TITLE: Example Article
+AUTHOR: n1xt3r
+DATE:
+DESC: example article for nanoblogger
+FORMAT: raw
+-----
+BODY:
+<p>
+This is an example article created by the default articles plugin, which
+is a plugin that acts like a conduit for adding additional content to
+your weblog. The plugin works by scanning the <em>articles</em>
+directory for files ending with ".txt" that are new or have been
+recently modified and refreshes the articles accordingly.
+</p>
+<p>
+New articles can easily be created using the <code>add article</code>
+action.
+<pre>
+nb [--title 'Example Article'] add article
+</pre>
+<p>
+New articles can also be created manually using the <code>draft,
+query</code> and <code>update</code> actions.
+<pre>
+nb draft [blog_dir]articles/example.txt
+nb update main [publish]
+</pre>
+To remove an article simply rename it's suffix to something
+other than ".txt" or remove it from the <em>articles</em> directory ...
+</p>
+... followed by a quick:
+<pre>
+nb update main [publish]
+</pre>
+<p>
+View this article's <a href="../example.txt">meta-file</a>.
+</p>
+END-----

@@ -1,0 +1,146 @@
+# NanoBlogger German language definitions
+# Translation: Sven Bergner <bergner@linuxtaskforce.de>
+# Messages
+# lang/de/messages.lang
+
+# main
+main_badopts="Ungültige Option:"
+main_panic="Try '`basename $0` --help' for more information."
+
+# check_arg
+checkarg_badarg="Diese Option erfordert ein Argument!"
+checkarg_help="'`basename $0` --help' fürr mehr Informationen."
+
+# check_conf
+checkconf_nobase="Das Basisverzeichnis existiert nicht! Auf Wiedersehen."
+checkconf_noblog="Es wurde kein Weblog-Verzeichnis angegeben! Auf Wiedersehen."
+checkconf_nousrconf="Weblog Konfigurationsdatei existiert nicht! Auf Wiedersehen."
+checkconf_noblogdir="Weblog Verzeichnis existiert nicht! Auf Wiedersehen."
+checkconf_nodata="Datenverzeichnis des Weblog existiert nicht! Auf Wiedersehen."
+checkconf_nocache="Cacheverzeichnis des Weblog existiert! Auf Wiedersehen."
+checkconf_notemplates="Template Verzeichnis des Weblog existiert nicht! Auf Wiedersehen."
+
+# query_db
+querydb_init="Initialisiere Hauptdatenbank ..."
+querydb_update="Aktualisiere Hauptdatenbank ..."
+
+# validate category id(s)
+catid_bad="Falsche ID(s)!"
+checkcatid_invalid="Ungültige Kategorie ID(s):"
+checkcatid_novalid="muss eine gültige Kategorie ID sein!"
+
+# validate metadata files
+checkmetatags_notag="Fehlendes Metatag:"
+
+# config_weblog
+configweblog_nomod="Es wurden keine Änderungen gemacht! Auf Wiedersehen."
+
+# load_template
+loadtemplate_nofile="Template Datei existiert nicht! Auf Wiedersehen."
+
+# make_page
+makepage_nosource="Die Quelledatei existiert nicht! Auf Wiedersehen."
+makepage_nooutput="Es wurde keine Ausgabedatei spezifiziert."
+makepage_notemplate="Die Vorlagedatei existiert nicht! Auf Wiedersehen."
+
+# paginate
+paginate_action="Seiten werden umgebrochen"
+
+# build_archives
+buildarchives_action="Archive werden generiert ..."
+
+# build_weblog
+buildweblog_all="Alle Dateien des Weblog werden aktualisiert! Das kann eine Weile dauern ..."
+buildweblog_files="Weblog Dateien werden generiert ..."
+buildweblog_main="Die Haupt-Index-Seite(n) wird/werden generiert ..."
+buildweblog_cache="Cache wird aufgeräumt ..."
+
+# import_file
+importfile_nofile="existiert nicht!"
+
+# nb_browser
+nbbrowser_running="läuft:"
+nbbrowser_nobrowser="keine der Datenbanksuchroutinen in $NB_BROWSER bearbeitet!"
+
+# nb_draft
+nbdraft_asknew="Die Datei existiert nicht! Soll sie erzeugt werden?"
+
+# nb_edit
+nbedit_nofile="Die Datei existiert nicht!"
+nbedit_prompt="Zum Fortsetzen [enter] drücken:"
+nbedit_failed="Die Datei konnte nicht geschrieben werden! Auf Wiedersehen."
+
+# add_entry
+addentry_catinfo="Ausgewählte Kategorie ID(s):"
+addentry_action="Neuen Eintrag hinzufügen..."
+
+# confirm_action
+confirmaction_ask="Sind Sie sicher?"
+
+# misc. validation errors
+novalid_entryid="Es muss eine gültige Eintrags-ID angegeben werden."
+invalid_entryid="Ungültige Eintrags-ID(s):"
+novalid_entrytime="Es muss ein gültiger Zeitstempel spezifiziert werden - 'YYYY-MM-DD HH:MM:SS'"
+invalid_entrytime="Ungültiger Zeitstempel für den Eintrag oder ein Konflikt"
+
+# edit_weblog
+editweblog_onecat="Es kann nur eine Kategorie angegeben werden, wenn der Titel bearbeitet werden soll!"
+editweblog_title="Der Titel wird geändert in:"
+editweblog_catinfo="Ausgewählte Kategorie ID(s):"
+editweblog_nomod="Es wurden keine Änderungen gemacht! Auf Wiedersehen."
+editweblog_action="Geänderte Weblogeinträge werden bearbeitet ..."
+editweblog_noaction="Es wurden keine Änderungen gemacht! Auf Wiedersehen."
+
+# delete_weblog
+deleteweblog_delcat="Folgende Kategorie ID(s) werden gelöscht:"
+deleteweblog_onecat="Es kann nur eine Kategorie angegeben werden, wenn ein Eintrag aus einer Kategorie gelöscht werden soll!"
+deleteweblog_catinfo="Ausgewählte Kategorie ID(s):"
+deleteweblog_delentry="Löschen von Eintrag ID(s):"
+
+# header attributes
+header_ID="ID"
+header_Title="Titel"
+header_Category="Kategorie ID(s)"
+header_Date="Datum"
+
+# list_weblog
+listweblog_nocat="Es existieren noch keine Kategorien! Auf Wiedersehen."
+listweblog_nomatch="Kein passendes Suchergebnis gefunden! Auf Wiedersehen."
+
+# move_entry
+moveentry_catfirst="Die Kategorie muss vor dem Eintrag angegeben werden!"
+moveentry_catinfo="Ausgewählte Kategorie ID(s):"
+moveentry_moventry="Verschiebe Eintrag ID(s):"
+
+# add_weblog
+addweblog_noweblog="Es wurde kein Weblog-Verzeichnis spezifiziert! Auf Wiedersehen."
+addweblog_newblog="Erzeuge Weblog-Verzeichnis"
+addweblog_nocreate="Das Erzeugen des Weblog-Verzeichnis ist fehlgeschlagen!"
+addweblog_copyaction="Kopiere Standard-Weblog-Dateien ..."
+addweblog_askconf="Neuen Weblog jetzt konfigurieren?"
+addweblog_confaction="Konfiguriere neuen Weblog ..."
+addweblog_noconf="Der Weblog wurde noch nicht konfiguriert! Mit '`basename $0` -b [blog_dir] --configure -u all' kann er zu einem späteren Zeitpunkt konfiguriert werden."
+addweblog_newcat="Erzeuge neue Kategorie"
+addweblog_titlecat="Titel der neuen Kategorie eingeben"
+addweblog_untitled="Ohne Titel"
+addweblog_madecat="Kategorie Datenbank erzeugt für"
+addweblog_author="Name des Autors eingeben"
+addweblog_title="Titel eingeben"
+addweblog_desc="Kurzbeschreibung eingeben"
+addweblog_editnew="Neuen Eintrag bearbeiten ..."
+
+# preview_weblog
+preview_nocmd="Kein Vorschaukommando gesetzt! Auf Wiedersehen."
+preview_action="Vorschau des Weblog ..."
+preview_asknow="Soll die Vorschau des Weblog jetzt angezeigt werden?"
+
+# publish_weblog
+publish_nocmd="Kein Kommando zum Veröffentlichen gesetzt! Auf Wiedersehen."
+publish_action="Veröffentliche Weblog ..."
+publish_asknow="Soll der Weblog jetzt veröffentlicht werden?"
+
+# misc.
+notitle="Kein Titel"
+nowritedir="Es gibt keine Schreibrechte für das Verzeichnis! Auf Wiedersehen."
+samefilename="Der Dateiname existiert bereits!"
+filterdate_failed="Die Filterung nach Datum ist fehlgeschlagen, verwende Zeitstempel stattdessen."

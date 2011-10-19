@@ -1,0 +1,70 @@
+2010-02-15 19:07  n1xt3r
+
+	* ChangeLog, default/templates/main_index.htm, nb, plugins/atom.sh,
+	  plugins/rss2.sh, plugins/weblog_links.sh: - Fix: wrong logic
+	  found in load_plugins() loop, could cause loop to exit before
+	  completion.
+	  - Improves integration of feed links.
+
+2010-02-15 03:18  n1xt3r
+
+	* default/blog.conf, docs/nanoblogger.html, plugins/atom.sh,
+	  plugins/page/feed_links.sh, plugins/rss2.sh: Cleans up logic for
+	  toggling category based syndication.
+
+2010-02-15 01:14  n1xt3r
+
+	* default/templates/archive_index.htm,
+	  default/templates/year_archive.htm, docs/nanoblogger.html,
+	  nb.conf, plugins/archive/master_index.sh,
+	  plugins/entry/format/autobr.sh,
+	  plugins/entry/format/autotag-br.sh, plugins/page/feed_links.sh,
+	  plugins/weblog_status.sh: Fix: missing syndication links in
+	  archives (Charles Curley).
+
+2010-02-14 20:42  n1xt3r
+
+	* lib/tools.sh, plugins/atom.sh, plugins/entry/format/autobr.sh,
+	  plugins/entry/format/markdown.sh, plugins/entry/format/raw.sh,
+	  plugins/rss2.sh: - Corrects several plugins which wrongly
+	  utilized NB_EntryBody over NB_MetaBody.
+	  - Repackages with the original and much cleaner shortcode plugin
+	  implementation.
+
+2010-02-13 03:51  n1xt3r
+
+	* lib/tools.sh, plugins/entry/mod/base_url.sh,
+	  plugins/entry/mod/moods.sh: Activates shortcode plugins for both
+	  entries and pages.
+
+2010-02-13 02:54  n1xt3r
+
+	* lib/tools.sh: Fix: Addresses issue where entry plugin data was
+	  not being properly retained by
+	  NB_EntryBody.
+
+2009-08-10 00:27  n1xt3r
+
+	* lang/en/help.txt, nb: Replaces $CURRENT_YEAR in help message text
+	  with $COPYRIGHT variable.
+
+2009-08-10 00:01  n1xt3r
+
+	* docs/nanoblogger.html, lang/en/help.txt, lib/tools.sh, nb,
+	  plugins/archive/year/year_archive.sh, plugins/calendar.sh,
+	  plugins/entry/format/markdown.sh, plugins/makepage/tidy.sh,
+	  plugins/page/format/markdown.sh, welcome-to-nb.txt: - Fixes more
+	  Bash 4 incompatibilites discovered by Tobias Rehbein.
+	  - Adds new nb_eval function as wrapper to internal eval command.
+	  - Adds dynamic variable, $CURRENT_YEAR for copyright.
+
+2009-07-26 04:39  n1xt3r
+
+	* nb: Changes version information to read "SVN", indicating
+	  unstable.
+
+2009-07-25 18:00  n1xt3r
+
+	* plugins/archive/master_index.sh: Fix: Bash 4 throwed error due to
+	  improper syntax formatting.
+

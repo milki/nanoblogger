@@ -1,0 +1,87 @@
+NanoBlogger - Console weblog engine.
+Versión $VERSION, por Kevin Wood <n1xt3r@fastmail.fm>
+
+Uso:
+ $BASENAME [-b blog_dir] [opciones]
+
+Opciones:
+ -a, --add				crear nuevo post, categoría o weblog
+					(directorio).
+ -b, --blogdir <directorio>		especificar directorio del weblog.
+ -B, --body <text>			obsoleto, por favor use '-T' o '--text'
+ 					en su lugar.
+ -c, --category	<ID,cat>		especificar categoría (para '--add',
+					'--delete', '--edit', '--list',
+					'--update', y '--update-cache').
+ --cfgfile <archivo>			especificar un archivo de configuración alternativo.
+ --configure				configurar weblog (por '--update').
+ --datadir <directory>			especificar directorio de datos del weblog.
+ -d, --delete <ID,cat>			borrar un post o categoría.
+ -D, --desc <text>			establecer texto de la descripción (por '--add',
+ 					'--draft', '--makefile' y
+ 					'--makepage').
+ -e, --edit <ID,cat>			editar un post o categoría.
+ -E, --draft <file> 			editar o crear un borrador.
+ -f, --file <file> 			especificar un borrador a importar como post
+ 					(por '--add').
+ -h, --help				mostrar esta ayuda.
+ -i, --interactive <1=on/0=off> 	cambiar a modo interactivo (para '--add',
+ 					'--delete', '--preview', '--publish',
+ 					y '--update').
+ -l, --list <all,cat,DATE,max>		listar entradas o categorías (max por defecto).
+ --manual				ver el manual.
+ -m, --move <ID>			mover una entrada a una categoría específica
+					(para '--category').
+ -M, --makepage <file1> <file2> 	crear una nueva página de weblog (file2) desde
+					borrador (file1).
+ --makefile <file> 			crear nuevo borrador.
+ -n, --author <text>			establecer texto de autor (para '--add',
+					'--draft', '--makefile' y
+ 					'--makepage').
+ --plugindir <directory> 		especificar directorio de plugins del weblog.					
+ -p, --preview				comando para ver un preview del weblog.
+ -P, --publish				comndo para publicar el weblog.
+ -q, --query <DATE>			especificar a query para ver un (para '--edit' and
+ 					'--delete').
+ --template <file>			especificar un archivo para cargar como plantilla (para
+ 					'--draft', '--makepage' y
+ 					'--makefile').
+ --template-dir <directory>		especificar directorio de plantillas del weblog.
+ -t, --title <text>			establecer texto del título (para '--add',
+					'--category', '--draft',
+ 					'--makefile' y '--makepage').
+ --tag <TAG> 	 	 		especificar tag (for '--add', '--draft',
+					'--edit', '--makefile' y
+ 					 '--makepage').
+ --tag-text <text> 			establecer texto del tag (para '--tag').
+ -T, --text <text> 			establecer texto del cuerpo (for '--add',
+					'--draft', '--makefile' y
+ 					'--makepage').
+ -U, --update-cache <all,DATE,max,expired>
+ 					forzar actualización del cache de weblog, borrando
+ 					los datos de un cache específico (por defecto
+ 					'expired').
+ -u, --update <all,DATE,main,max> 	forzar actualización de los archivos del weblog para
+ 					un weblog específico (por defecto
+ 					'max').
+ -v, --verbose <1=on/0=off>		cambiar nivel de verborragia.
+ -V, --version				mostrar información de versión.
+
+ -c,-d,-e,-m aceptan múltiples números de ID separados por coma (e.g. 1,2,3).
+ 
+ --list y --update pueden aplicarse a entradas por fecha (sin id(s) de los posts).
+ date = YYYY-MM-DD, YYYY-MM, YYYY
+
+Ejemplos:
+
+ especificar el directorio del weblog a crear o a agregar un post
+	nb -b ~/public_html/weblog -a
+
+ crear nueva categoría y nombrarla "News"
+ 	nb -b ~/public_html/weblog -t "News" -c new -a
+
+ crear nuevo post usando sólo opciones en línea de comandos!
+	nb -b ~/public_html/weblog -n 'myname' -t 'Title' -T 'Text!' -a
+
+Más información:
+ URL: http://nanoblogger.sourceforge.net

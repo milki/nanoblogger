@@ -1,0 +1,17 @@
+# NanoBlogger Plugin to create excerpted version of entry
+# cuts content of entry off after "<!--more-->" or 1st blank line
+
+# re/initialize key template data
+NB_EntryExcerptMoreLink=; NB_EntryExcerpt=
+NB_EntryExcerpt=`echo "$NB_MetaBody" |sed -e '1,/<\!--more[^ *].*/!d'`
+excerpt_bool=${NB_EntryExcerpt//*<\!--more*/true}
+if [ "$excerpt_bool" != true ]; then
+	# strip markup then grab text up to 1st blank line
+	NB_EntryExcerpt=`echo "$NB_MetaBody" |sed -e 's/<[^>]*>//g; 1,/^$/!d'`
+else
+	# assume markup will be added later
+	NB_EntryExcerpt=`echo "$NB_MetaBody" |sed -e '1,/^$/!d'`
+fi
+# append "read more" link to full entry
+NB_EntryExcerptMoreLink='<br /><a href="'${ARCHIVES_PATH}$NB_EntryPermalink'">read more...</a>'
+NB_EntryExcerpt="$NB_EntryExcerpt $NB_EntryExcerptMoreLink"

@@ -1,0 +1,10 @@
+# NanoBlogger English language definitions
+# Plugins
+# lang/es/plugins.lang
+# traducido por alejandro@janoli.com.ar
+
+# plugins - generic messages
+plugins_action="generando"
+plugins_loadaction="cargando"
+plugins_textformataction="formateando texto - $plugins_loadaction"
+

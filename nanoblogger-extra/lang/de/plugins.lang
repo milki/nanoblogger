@@ -1,0 +1,9 @@
+# NanoBlogger German language definitions
+# Translation: Sven Bergner <bergner@linuxtaskforce.de>
+# Plugins
+# lang/de/plugins.lang
+
+# plugins - generic messages
+plugins_action="Generiere"
+plugins_loadaction="Lade .."
+plugins_entryfilteraction="Filtere text .."

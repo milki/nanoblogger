@@ -1,0 +1,62 @@
+# NanoBlogger MyMood plugin that replaces mood placeholders
+# with mood images - controled by moods.conf
+
+# modifies $NB_MyMood placeholder for templates
+
+set_baseurl "./"
+
+MOODS_DIR="$BLOG_DIR/moods"
+MOODS_URL="${BASE_URL}moods"
+MOODS_CONF="${MOODS_DIR}/moods.conf"
+
+if [ -d "$MOODS_DIR" ]; then
+	create_moods(){
+	mood_url=`echo "${MOODS_URL//\//\\\\/}\\\\/${mood_img//\//\\\\/}"`
+	sed_sub=' <img src="'$mood_url'" alt="'$mood_var'" \/>'
+	sed_script='/[ ]'$mood_var'[ ]/ s// '$sed_sub' /g; /[ ]'$mood_var'$/ s// '$sed_sub'/g; /^'$mood_var'[ ]/ s//'$sed_sub' /g'
+	TEMP_MOOD=$(< "$SCRATCH_FILE")
+	sed -e "$sed_script" > "$SCRATCH_FILE" <<-EOF
+		$TEMP_MOOD
+	EOF
+	}
+
+	load_moods(){
+	if [ -f "$MOODS_CONF" ]; then
+		if [ "$BLOG_INTERACTIVE" = 1 ]; then
+			echo ""
+			echo "moods:"
+			echo ""
+			cat "$MOODS_CONF" | sed -e '/^[\#\]/d; /^$/d' | cut -d" " -f1
+			echo ""
+			echo "enter your mood or leave blank if you feel the same"
+			read -p "$NB_PROMPT" My_Mood
+			echo ""
+		fi
+		nb_msg "$plugins_action mood icon ..."
+		# if no mood then recall last mood from mymood.txt
+		if [ -z "$My_Mood" ] ; then
+			if [ -f "$MOODS_DIR/mymood.txt" ] ; then
+				My_Mood=$(< "$MOODS_DIR/mymood.txt")
+			fi
+		fi
+		echo " $My_Mood " > "$SCRATCH_FILE"
+		# store current mood here
+		echo " $My_Mood " > "$MOODS_DIR/mymood.txt"
+		mood_lines=(`cat "$MOODS_CONF" |sed -e '/^$/d; /[\#\]/d; /[^ ].*/ s//dummy/g'`)
+		mood_list=(`cat "$MOODS_CONF" |sed -e '/^$/d; /[\#\]/d'`)
+		moodoffset=0; moodlimit=3
+		for mood in ${mood_lines[@]}; do
+			[ -z "${mood_list[*]:$moodoffset:$moodlimit}" ] &&
+				break
+			mood_var=`echo "${mood_list[@]:$moodoffset:$moodlimit}" |cut -d" " -f1 | sed -e '/[\*\]/ s//[*]/'`
+			mood_img=`echo "${mood_list[@]:$moodoffset:$moodlimit}" |cut -d" " -f3`
+			create_moods
+			let moodoffset=${moodoffset}+$moodlimit
+		done
+	fi
+	}
+
+	load_moods
+	NB_MyMood=$(< "$SCRATCH_FILE")
+fi
+

@@ -1,0 +1,48 @@
+# NanoBlogger French language definitions
+# traduction : Denis Bernard <deber@users.sourceforge.net>
+# Templates
+# lang/fr/templates.lang
+
+# weblog entry links and messages
+template_permlink="permalien"
+template_catlinks="dans :"
+template_cmtlink="Commentaires"
+template_postedby="Posté par"
+
+# only here for compat. with early 3.3 rc's
+permanentlink_title="$template_permlink"
+categorylinks_title="$template_catlinks"
+# depecrated catlinks_title here for transitional purposes
+catlinks_title="$categorylinks_title"
+commentslink_title="$template_cmtlink"
+
+# weblog main messages
+template_archiveindex="Index des archives"
+template_category="Catégories"
+template_contact="Contact"
+template_fortune="Fortune"
+template_links="Liens"
+template_rentries="Entrées récentes"
+template_syndicate="Syndiquer"
+template_syndicate_main="Site"
+template_status="Statut du blog"
+template_powered="Propulsé par : $NB_EDITORNAME, bash, cat, grep, sed et"
+articles_nolist="0"
+categories_nolist="0"
+
+# miscellaneous
+template_archives="Archives"
+template_main="Accueil"
+template_catarchives="Catégorie :"
+template_articles="Articles"
+# depecrated template_browsecat here for transitional purposes
+template_browsecat="Parcourir par catégorie"
+template_browsedate="Parcourir par date"
+template_browseentry="Parcourir par entrée"
+
+# weblog status messages
+template_totalcats="Total des catégories :"
+template_totalentries="Total des entrées :"
+template_lastentry="Dernière entrée :"
+template_lastupdated="Mis à jour le :"
+

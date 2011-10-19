@@ -1,0 +1,2082 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"><head>
+
+
+
+  <meta name="generator" content="HTML Tidy for MkLinux (vers 6 November 2007), see www.w3.org">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"><title>Manuel utilisateur NanoBlogger</title>
+  
+  <style type="text/css">
+/*<![CDATA[*/
+        <!--
+body {
+        font-family:verdana, arial, sans-serif;
+        font-size:11px;
+        line-height:14px;
+        margin:20px 20px 20px 20px;
+        background:#FFFFFF;
+        }
+
+table {
+        color:#333; 
+        font-size:10px;
+        border:1px solid #999;
+        }
+th {
+        background:#CCC;
+        }
+td {
+        background:#EEE;
+        }
+
+div.tables { margin:10px; padding:4px; }
+
+h1, h2, h3 {
+        font-family:verdana, arial, sans-serif;
+        font-color:#333;
+        }
+
+p {
+        color:#333;
+        line-height:15px;
+        }
+
+pre {
+        font-family:geneva, verdana, arial, sans-serif;
+        font-size:11px;
+        color:#333;
+        line-height:15px;
+        background-color: #EEE;
+        border: 1px solid #333;
+        padding: 2px;
+        margin-left: 30px;
+        margin-right: 75px;
+        }
+        
+ol { 
+        color:#333; 
+        font-family: verdana, helvetica, sans-serif; 
+        font-size: 11px; 
+        line-height:14px;  }
+        
+ul { 
+        color:#333; 
+        font-family: verdana, helvetica, sans-serif; 
+        font-size: 11px; 
+        list-style: square; 
+        line-height:14px;  }
+
+li { 
+        font-family: verdana, helvetica, sans-serif;
+        color:#333; 
+        font-size: 11px; 
+        margin-left: 0px; 
+        margin-right: 0px; 
+        margin-top: 6px; 
+        margin-bottom: 0px;
+        line-height:14px;
+        }
+
+.underline {
+        text-decoration: underline;
+        }
+
+.warning {
+        text-decoration: underline overline;
+        }
+        
+.copyright {
+        border-top: 1px solid #999;
+        font-family:verdana, arial, sans-serif;
+        font-size:10px;
+        color:#999;
+        line-height:15px;
+        }       
+        -->
+/*]]>*/
+    </style></head><body>
+  <div id="summary" style="border-top: 1px solid rgb(153, 153, 153); border-bottom: 1px solid rgb(153, 153, 153);">
+    <h1>
+        Manuel utilisateur de NanoBlogger
+      </h1>
+
+    <h2>by <a href="mailto:n1xt3r%7B-at-symbol-%7Dfastmail.fm">n1xt3r</a> (Kevin Wood) </h2>
+
+<h2>Traduit de l'anglais par <a href="mailto:deber@users.sourceforge.net">Denis Bernard</a>  </h2>
+    <p><em>Le guide officiel du moteur de blog NanoBlogger<br>version du 26 juillet 2008</em></p>
+ </div>
+
+  <div id="toc">
+    <p><b>Table des matières</b></p>
+
+    <table summary="toc" style="border: 0px none ;">
+      <tbody><tr>
+        <td>1.</td>
+
+        <td><a href="#s.1">Introduction</a></td>
+      </tr>
+
+      <tr>
+        <td>2.</td>
+
+        <td><a href="#s.2">Fonctionnalités</a></td>
+      </tr>
+
+      <tr>
+        <td>3.</td>
+
+        <td><a href="#s.3">Dépendances</a></td>
+      </tr>
+
+      <tr>
+        <td>4.</td>
+
+        <td><a href="#s.4">Pour commencer</a></td>
+      </tr>
+
+      <tr>
+        <td>5.</td>
+
+        <td><a href="#s.5">Installation et configuration</a></td>
+      </tr>
+
+      <tr>
+        <td>6.</td>
+
+        <td><a href="#s.6">Gestion des entrées et tags (catégories)</a></td>
+      </tr>
+
+      <tr>
+        <td>7.</td>
+
+        <td><a href="#s.7">Templates</a></td>
+      </tr>
+
+      <tr>
+        <td>8.</td>
+
+        <td><a href="#s.8">Articles et le pluging des articles</a></td>
+      </tr>
+
+      <tr>
+        <td>9.</td>
+
+        <td><a href="#s.9">À propos des plugins</a></td>
+      </tr>
+
+      <tr>
+        <td>10.</td>
+
+        <td><a href="#s.10">Configuration des plugins</a></td>
+      </tr>
+
+      <tr>
+        <td>11.</td>
+
+        <td><a href="#s.11">Écriture des plugins</a></td>
+      </tr>
+
+      <tr>
+        <td>12.</td>
+
+        <td><a href="#s.12">Publication</a></td>
+      </tr>
+
+      <tr>
+        <td>13.</td>
+
+        <td><a href="#s.13">Ajout du support des commentaires</a></td>
+      </tr>
+
+      <tr>
+        <td>14.</td>
+
+        <td><a href="#s.14">Importation des entrées</a></td>
+      </tr>
+       <tr>
+       <td>15.</td>
+         <td><a href="#s.15">Trucs et astuces</a></td>
+       </tr>
+       <tr>
+       <td>16.</td>
+       <td><a href="#s.16">Crédits</a></td>	
+    </tr>
+</tbody></table>
+  </div>
+
+  <div id="intro">
+    <h2><a id="s.1" name="s.1">1. Introduction</a></h2>
+NanoBlogger est un petit moteur de blog écrit en Bash pour la commande
+en ligne. Il utilise les outils UNIX courants comme cat, grep et sed
+pour créer des contenus statiques HTML. Son utilisation ou sa
+modification est libre, selon les conditions de la GNU General Public
+License.
+</div>
+
+  <div id="synopsis">
+    <p><b>Synopsis</b></p>
+    <pre>nb [<span class="underline">-b blog_rep</span>] [<span class="underline">options</span>] &lt;<span class="underline">actions</span>&gt; [&lt;<span class="underline">keyword</span>&gt; (variable)]
+</pre>
+
+    <h2><a id="s.2" name="s.2">2. Fonctionnalités</a></h2>
+
+    <ul>
+      <li>interface en ligne de commande souple</li>
+
+      <li>hautement configurable et scriptable :) </li>
+
+      <li>brouillon, publication et gestion facile des entrées</li>
+
+      <li>archivage par catégorie, année, mois, jour et entrée</li>
+
+      <li>pagination</li>
+
+      <li>permaliens et liens de navigation</li>
+
+      <li>templates et feuilles de style pour la maîtrise totale de la présentation</li>
+
+      <li>dossiers pour faciliter l'emploi des templates</li>
+
+      <li>support des blogs multiples</li>
+
+      <li>support des catégories (tags) multiples</li>
+
+      <li>support des liens en adressage relatif ou absolu</li>
+
+      <li>support de la datation des entrées</li>
+
+      <li>syndication Atom (version 1.0)</li>
+
+      <li>syndication RSS (versions RSS 2.0 et 1.0)</li>
+
+      <li>plugins pour calendrier, entrées récentes, statut du blog, etc.</li>
+
+      <li>plugins pour l'édition du texte (par ex. retours à la ligne traduits en HTML)</li>
+
+      <li>configuration globale (nb.conf) et blog par blog (blog.conf);</li>
+
+      <li>mise à jour intelligente - seulement les fichiers concernés</li>
+
+      <li>dispositif simple de cache pour une meilleure efficacité</li>
+
+      <li>n'utilise pas de java-script ou de scripting côté serveur (par ex. PHP)</li>
+
+      <li>n'utilise pas de base de données externe (données enregistrées en fichiers plats)</li>
+
+      <li>support multilingue</li>
+
+      <li>portabilité multiplateforme (seulement Bash et les commandes requises)</li>
+    </ul>
+  </div>
+
+  <h2><a id="s.3" name="s.3">3. Dépendances</a></h2><p>Programmes :</p>
+
+  <p>Bash (au moins v2.05), cat, cp, cut, dirname, date*, grep, mkdir, mv, rm, sed, sort</p>
+
+  <p>* = version GNU recommandée, mais non indispensable.</p>
+
+  <h2><a id="s.4" name="s.4">4. Pour commencer</a></h2>
+
+  <p><b>Créer un nouveau blog</b></p>
+
+  <p>Pour créer un nouveau blog (au prompt):</p>
+  <pre>nb --blog-dir [monblog_rep] add weblog
+
+</pre><p>où <em>monblog_rep</em> est un répertoire inexistant. Ça
+créera un nouveau répertoire, copiera les fichiers par défaut dedans et
+finalement vous laissera éditer le fichier de configuration. Plusieurs
+blogs peuvent être créés de cette manière.</p>
+
+  <p>Pour assigner au blog un répertoire par défaut</p>
+
+<pre>1. éditer soit nb.conf ou $HOME/.nb.conf.
+2. mettre à BLOG_DIR le répertoire du blog:
+        BLOG_DIR="$HOME/public_html/[monblog_rep]"
+        
+</pre>
+  <p>Vous pouvez aussi aller sur le répertoire du blog et NanoBlogger ajustera automatiquement <em>$BLOG_DIR</em> pour vous : ainsi vous n'aurez pas à le spécifier en ligne de commande.</p>
+  <div id="config">
+    <h2><a id="s.5" name="s.5">5. Installation et configuration</a></h2>Pour éditer le fichier de configuration du blog, entrez :
+    <pre>nb --blog-dir [monblog_rep] configure update all
+
+        
+</pre>ce qui ouvre <em>blog.conf</em> depuis le répertoire du blog pour l'éditer, puis fait la mise à jour intégrale du blog.
+
+    <p><b>Définir le navigateur</b></p>
+
+    <p><em>NB_BROWSER</em> spécifie le navigateur à utiliser au lieu de celui de la variable <em>BROWSER</em> standard. Vous pouvez spécifier un autre navigateur en le mentionnant à <em>NB_BROWSER</em> dans <em>blog.conf</em>. Sous MacOS X, vous pourriez mettre "open". Si aucun navigateur n'est mentionné, "lynx" sera appelé.</p>
+
+ 
+    <p><b>Définir l'éditeur</b></p>
+
+    <p><em>NB_EDITOR</em> spécifie l'éditeur au lieu de celui de la variable <em>EDITOR</em> standard. Vous pouvez spécifier un autre éditeur en le mentionnant à <em>NB_EDITOR</em> dans <em>blog.conf</em>. Si aucun éditeur n'est spécifié, "vi" sera appelé.</p>
+
+
+    <p><b>Définir le format des dates des nouvelles entrées</b></p>
+
+
+    <p><em>DATE_FORMAT</em> spécifie le format de datation d'une nouvelle entrée. Par défaut, c'est celui de la commande <em>date</em>. Vous pouvez spécifier la localisation pour la commande "date" (voir la variable <em>DATE_LOCALE</em>). Vous pouvez aussi spécifier des arguments supplémentaires à la ligne de commande avec <em>DATE_ARGS</em>, pratique pour exprimer le temps en UTC. Veuillez noter que ces paramètres n'ont <strong>pas d'effet</strong>
+sur les précédentes entrées et si vous employez UTC, attention aux
+conditions de concurrence qui pourraient advenir, car les noms de
+fichier des entrées pourraient être hors synchronisation. La solution
+est aussi de changer <em>DB_DATEARGS</em> à l'identique de <em>DATE_ARGS</em>,
+ainsi ces deux là renverront la même date et heure. Lire les pages
+"man" de la command "date" pour voir comment personnaliser le format de
+sortie de la commande "date". </p>
+    <p>Exemples:</p>
+    <pre>DATE_FORMAT="%m.%d.%Y %H:%M"
+DATE_LOCALE="$LANG"
+DATE_ARGS="-u"   
+</pre>
+
+    <p><b>Définir le fuseau horaire</b></p>
+
+    <p><em>BLOG_TZD</em> détermine le fuseau horaire des entrées de votre blog. Par défaut, c'est fait automatiquement en utilisant <code>"%z"</code>,
+une extension hors standard de la commande date. Si la commande "date"
+de votre système ne la supporte pas, vous aurez à le spécifier. </p>
+    <p>Exemple :</p>
+    <pre>BLOG_TZD="-0:500"
+   
+</pre>
+
+    <p><b>Définir l'encodage</b></p>
+    <p><em>BLOG_CHARSET</em> mentionne le type d'encodage des caractères à employer pour votre blog.</p>
+
+    <p>Exemple :</p>
+    <pre>BLOG_CHARSET="iso-8859-1"
+
+</pre>
+
+    <p><span class="warning">AVERTISSEMENT</span>: Si vous avez
+le plugin Tidy actif, cette disposition peut être changée par Tidy.
+Prière de vous rapporter à la documentation de Tidy pour le choix de
+l'encodage des caractères.</p>
+
+    <p><b>Définir le type mime</b></p>
+    <p><em>BLOG_MIMETYPE</em> donne le type mime à être employé pour votre blog.</p>
+
+    <p>Exemple :</p>
+    <pre>BLOG_MIMETYPE="text/html"
+   
+</pre>
+
+    <p><b>Définir l'adresse Web</b></p>
+
+    <p><em>BLOG_URL</em> devrait être mis comme étant l'URL complète du blog, en excluant le fichier index et "/"  le précédent. </p>
+
+    <p>Exemple :</p>
+    <pre>BLOG_URL="http://mon-site.com/blog"
+   
+</pre>
+
+    <p><b>Définir la feuille de style</b></p>
+
+    <p><em>BLOG_CSS</em> indique la feuille de style à être appelée pour votre blog. Les feuilles de style sont placées dans le répertoire <em>styles</em>.</p>
+
+    <p>Exemple :</p>
+    <pre> BLOG_CSS="styles/nb_clean.css"
+</pre>
+
+
+    <p><b>Définir le favicon</b></p>
+
+    <p><em>BLOG_ICON</em> indique le favicon à être appelé par votre blog. Les favicons sont placés dans le répertoire <em>images</em>.</p>
+
+    <p>Exemple :</p>
+    <pre>BLOG_ICON="images/favicon.ico"
+</pre>
+
+    <p><b>Activer l'affichage dans les liens du fichier index du répertoire</b></p>
+    <p><em>SHOW_INDEXFILE</em> active l'affichage dans les liens du fichier index du répertoire. Par défaut mis à "1", activé.<br>NdT : en fait c'est l'affichage ou
+    non de l'URL complète, avec ou sans "index.html" par ex.</p>
+
+    <p><b>Définir le nom de l'auteur</b></p>
+
+    <p><em>BLOG_AUTHOR</em> peut être rempli pour mettre le nom de l'auteur; par défaut c'est le nom pris dans la variable d'environnement USER. Ainsi <em>BLOG_AUTHOR</em> se subsistera à cette dernière.</p>
+
+    <p><b>Définir le nombre par défaut pour "max" de Query</b></p>
+
+    <p><em>MAX_ENTRIES</em> met le nombre maximal d'entrées qui seront retournées par "max" de Query. Par défaut : 10.</p>
+
+    <p><b>Définir le nombre maximal d'entrées à afficher pour toutes les pages délimitées.</b></p>
+
+    <p><em>MAX_PAGE_ENTRIES</em>
+met le nombre maximal d'entrées affichées pour toutes les pages délimitée. Par défaut :
+"$MAX_ENTRIES".</p>
+
+    <p><em>MAX_CATPAGE_ENTRIES</em> met
+le nombre maximal d'entrées affichées pour chaque page d'archive
+"catégorie". Par défaut : "$MAX_PAGE_ENTRIES". Une page archive
+"catégorie" sera scindée en plusieurs si le nombre d'entrées est plus
+grand que <em>$MAX_CATPAGE_ENTRIES</em>.</p>
+
+    <p><em>MAX_MONTHPAGE_ENTRIES</em>
+met le nombre maximal d'entrées affichées par page d'archive "mois".
+Par défaut :"$MAX_PAGE_ENTRIES". Une page d'archive "mois" sera scindée
+en plusieurs si le nombre d'entrées est plus grand que <em>$MAX_MONTHPAGE_ENTRIES</em>.</p>
+
+    <p><em>MAX_MAINPAGE_ENTRIES</em>
+met le nombre maximal d'entrées à afficher pour chaque page principale.
+Par défaut : "$MAX_PAGE_ENTRIES". La page principale sera scindée si <em>$MAX_MAINPAGE_ENTRIES</em> est moindre que le résultat <em>MAINPAGE_QUERY</em>.</p>
+
+    <p><b>Définir le nombre par défaut de Query pour la page principale</b></p>
+
+    <p><em>MAINPAGE_QUERY</em> Met le nombre par défaut de Query pour la page principale. Par défaut : "max".
+Quand combiné avec <em>MAX_MAINPAGE_ENTRIES</em>, cela peut être utilisé pour la mise en pages multiples de la page principale.</p>
+
+    <p><b>Définir le format du texte par défaut</b></p>
+
+    <p><em>ENTRY_FORMAT</em> spécifie le format de texte par défaut pour une nouvelle entrée. Par défaut : "raw".</p>
+
+   <p><b>Activer la création des archives des entrées</b></p>
+<p>Mettre <em>ENTRY_ARCHIVES</em> égal à "1", active la création des
+archives des entrées et reconfigure les liens des entrées pointant vers
+leurs propre page d'archive.</p>
+<p><b>Activer la création des archives mensuelles</b></p>
+<p>Mettre <em>MONTH_ARCHIVES</em> égal à "1", active la création des archives mensuelles.</p>
+<p><b>Activer la création d'archives quotidiennes</b></p>
+<p>Mettre <em>DAY_ARCHIVES</em> égal à "1", activer la création
+d'archives quotidiennes et reconfigure les leins des entrées pointant
+vers leur propre page d'archive quand <em>$ENTRY_ARCHIVES</em> n'est pas activé.</p>
+ <p><b>Préférences d'archivage spéciales</b></p>
+<p><em>CATARCH_DATATYPE</em> détermine le jeu de métadonnées à charger pour la catégorie des archives.</p>
+<p><em>MONTHARCH_DATATYPE</em> détermine le jeu de métadonnées à charger pour les archives mensuelles.</p>
+<p><em>DAYARCH_DATATYPE</em> détermine le jeu de métadonnées à charger pour les archives quotidiennes.</p>
+<p>Il y a deux types de données qui peuvent être spécifiées, "ALL" ou "NOBODY":</p>
+    <pre>ALL = Totalité des métadonnées (lent et plus gros cache).
+NOBODY = Tout, sauf les métadonnées dans le BODY des entrées (plus rapide et plus petit cache).
+
+</pre>
+
+    <p><span class="warning">IMPORTANT</span> : Veuillez éditer (ou créer) <a href="#s.7">category_entry.htm</a>, month_entry.htm, and day_entry.htm selon les besoins.</p>
+
+    <p><b>Définir  l'ordre chronologique</b></p>
+
+    <p><em>CHRON_ORDER</em> spécifie l'ordre chronologique des archives du blog. - 0/1 = normal/inverse. Par défaut mis à "1", ordre inverse.</p>
+    <p><span class="warning">WARNING</span>
+: Si vous n'utilisez pas l'action "configure" pour changer ceci, les
+bases de données ne pourront pas refléter le nouvel ordre chronologique.</p>
+    <p><b>Définir des paramètres de prévisualisation et de publication</b></p>
+
+    <p><em>BLOG_PREVIEW_CMD</em> et <em>BLOG_PUBLISH_CMD</em> permet d'inclure une commande personnalisée quand elles sont invoquées par leurs actions respectives <em>preview</em> et <em>publish</em>.</p>
+
+    <p><b>Définir les préférences pour le cache</b></p>
+
+    <p><em>MAX_CACHE_ENTRIES</em> met le maximum d'entrées à stocker dans le cache. Par défaut : "$MAX_ENTRIES".</p>
+
+    <p>Mettre <em>BLOG_CACHEMNG</em>
+à "0" désactive la gestion automatique du cache. Le cache peut être
+géré manuellement en invoquant en ligne de commande l'action : <code>update-cache</code>.</p>
+
+    <p><b>Activer le mode interactif</b></p>
+
+    <p><em>BLOG_INTERACTIVE</em> active le mode interactif pour votre blog et a le même effet que la commande en ligne : <code>--interactive</code>. Par défaut c'est "0" pour désactivé, le mettre à "1" l'activera à nouveau.</p>
+
+    <p><b>Activer l'affichage des statistiques des temps</b></p>
+
+    <p><em>SHOW_TIMES</em>
+active les temps cumulés de l'utilisateur et du système pour le
+processus de construction. Ça s'avèrera probablement utile si vous
+n'avez pas déjà la commande "time" sur votre système. Par défaut c'est
+"0" pour désactivé, le mettre à "1" l'activera à nouveau. </p>
+
+    <p><b>Changer le type de fichier</b></p>
+
+    <p><em>NB_FILETYPE</em> spécifie le type de fichier. En bref, le suffixe des fichiers générés. Par défaut : "html".</p>
+
+    <p><b>Changer le répertoire "Temp"</b></p>
+
+    <p><em>NB_TEMP_DIR</em>
+spécifie l'emplacement du stockage temporaire des fichiers. Par défaut
+c'est "/tmp", mais il peut en être affecté un à chaque blog, pour une
+meilleure confidentialité et une sécurité accrue dans un environnement
+multi-utilisateur.</p>
+
+    <p><b>Changer le critère du mode de requête</b></p>
+
+    <p><em>QUERY_MODE</em>spécifie le mode de requête par défaut pour toutes les opérations du blog.
+Par défaut à "all", mais peut être celui de toute requête valide. voir l'action "query" pour toutes les requêtes possibles.</p>
+
+    <p><b>Configuration des liens</b></p>
+
+    <p><em>ABSOLUTE_LINKS</em> bascule entre les liens en chemin absolu ou relatif. Par défaut mis à "0", chemin relatif.</p>
+
+    <p><em>FRIENDLY_LINKS</em>
+bascule entre les liens amicaux ou inamicaux. Les liens amicaux sont
+plus basés sur du texte, alors que les autres ont majoritairement des
+chiffres. Par défaut mis à "1", liens amicaux.</p>
+
+    <p><em>MAX_TITLEWIDTH</em> fixe la largeur maximale du titre (en nombre de caractères) générés pour les liens amicaux.</p>
+
+    <p><em>SHOW_CATLINKS</em> active l'affichage du lien de la catégorie (tag) de l'entrée; affichage par défaut.</p>
+
+    <p><em>PERMALINKS</em> active l'affichage du permalien d'une entrée. Les permaliens sont mis par défaut.</p>
+
+    <p><b>Configuration des plugins</b></p>
+
+    <p><em>PLUGINS_DIR</em> spécifie le répertoire des plugins globaux. Les plugins globaux affectent tous les blogs. Par défaut c'est : <em>$NB_BASE_DIR/plugins</em>.</p>
+
+     <p><em>USR_PLUGINSDIR</em>
+spécifie le répertoire des plugins de l'utilisateur. Les plugins de
+l'utilisateur affectent le blog spécifié. Les plugins globaux peuvent
+être surpassés ponctuellement par les plugins utilisateur. Par exemple
+si vous copiez "raw.sh" dans "$BLOG_DIR/plugins/entry/format/", votre
+copie sera utilisée à la place du global "raw.sh". Par défaut : <em>$BLOG_DIR/plugins</em>.</p>
+
+    <p><b>Configuration globale</b></p>
+
+    <p>NanoBlogger possède son propre fichier de configuration, <em>$NB_BASE_DIR/nb.conf</em>,
+qui contient tous les réglages qui agissent sur tous les blogs. Le
+fichier de configuration globale est lu en premier ce qui signifie que
+les réglages propres à un blog peuvent se substituer à ceux de <em>$NB_BASE_DIR/nb.conf</em>. La configuration est aussi examinée dans le fichier <em>$HOME/.nb.conf</em>.</p>
+
+    <p><b>Changer la langue par défaut de NanoBlogger</b></p>
+
+    <p><em>NB_LANG</em>
+est un paramètre global pour la langue à utiliser. Par défaut c'est
+"en" pour l'anglais. Tous les paramètres linguistiques devraient être
+formatés suivant la norme ISO 639-2.</p>
+
+    <p>Exemple pour l'espagnol :</p>
+    <pre>NB_LANG="es"
+    
+</pre>
+
+    <p><b>Paramétrage linguistique</b></p>
+
+    <p>Créer des variables dans une autre langue est chose simple :</p>
+
+    <ol>
+      <li>démarrer avec le "en" mis par défaut;</li>
+
+      <li>redéfinir toutes les variables dans leur traduction équivalente dans la langue cible;</li>
+
+      <li>copier la traduction dans un sous répertoire nommé d'après son code ISO 639-2 alpha-3 ou alpha-2 code sous le répertoire "lang".</li>
+    </ol>
+  </div>
+
+  <div id="mgmt">
+    <h2><a id="s.6" name="s.6">6. Gestion des entrées et des tags (catégories)</a></h2>Commandes pour la gestion des entrées et des tags.
+
+    <h3>Gestion des entrées</h3>
+
+    <p><b>Numérotation des entrées</b></p>
+
+    <p>La
+dernière entrée aura toujours le numéro "1", les entrées antérieures
+auront des numéros supérieurs. Une entrée peut avoir un numéro
+différent pour chaque catégorie à laquelle elle appartient. Quand on
+modifie des entrées sur la base de sa catégorie (tag), les numéros d'à
+la fois la catégorie et l'entrée doivent être spécifiés.</p>
+
+    <p><b>Écriture des entrées</b></p>
+        
+      <p>Créer un nouveau brouillon:</p>
+    <pre>nb [-b blog_rep] draft un_fichier.txt
+    
+</pre>
+
+    <p>
+        Importer un brouillon comme nouvelle entrée :
+      </p>
+    <pre>nb [-b blog_rep] import entry un_fichier.txt
+    
+</pre>
+
+    <p><b>Création des entrées</b></p>
+
+    <p>Ajouter une nouvelle entrée :</p>
+    <pre>nb [-b blog_rep] add entry
+        
+</pre>Affecter une catégorie à une nouvelle entrée :
+    <pre>nb [-b blog_rep] --tag &lt;ID&gt; add entry
+        
+</pre>Mettre un titre et le nom de l'auteur à la nouvelle entrée :
+    <pre>nb [-b blog_rep] --title "Nouvelle entrée" --author [auteur_entrée] add entry
+        
+</pre>Mettre un titre, le nom de l'auteur et le corps du texte pour une nouvelle entrée :
+    <pre>nb [-b blog_rep] --title "Nouvelle entrée" --author [auteur_entrée] --text "Ceci est ma prose." add entry
+        
+</pre>Importer une nouvelle entrée à partir d'un fichier :
+    <pre>nb [-b blog_rep] import entry un_fichier.txt
+</pre>
+
+    <p><b>Lister les entrées</b></p>
+
+    <p>Lister les entrées :</p>
+    <pre> nb [-b blog_rep] list [&lt;query&gt;]
+        
+</pre>
+     Lister tous les entrées par tag donné :
+    <pre>nb [-b blog_rep] list tag &lt;ID&gt;
+        
+</pre>
+
+    <p><b>Éditer les entrées</b></p>
+
+    <p>Éditer l'entrée :</p>
+    <pre>nb [-b blog_rep] edit entry &lt;ID&gt;
+        
+</pre>Édition d'entrée selon un tag :
+    <pre>nb [-b blog_rep]--tag &lt;ID&gt; edit entry &lt;ID&gt;
+        
+</pre>Éditer de multiples entrées :
+    <pre>nb [-b blog_rep] edit entry 1,2,3
+        
+</pre>
+
+    <p><b>Affectation des entrées à des tags</b></p>
+
+    <p>Affecter un tag à une entrée donnée :</p>
+    <pre>nb [-b blog_rep] --tag &lt;ID&gt; tag-entry &lt;ID&gt;
+        
+</pre>Affecter de multiples tags à une entrée donnée :
+    <pre>nb [-b blog_rep] --tag 1,2,3 tag-entry &lt;ID&gt;
+        
+</pre>Affecter un tag donné à de multiples entrées :
+    <pre>nb [-b blog_rep] --tag &lt;ID&gt; tag-entry 1,2,3
+        
+</pre>
+
+    <p><b>Supprimer des entrées</b></p>
+
+    <p>Suppression définitive d'une entrée donnée :</p>
+    <pre>nb [-b blog_rep] delete entry &lt;ID&gt;
+        
+</pre>Suppression définitive de plusieurs entrées :
+    <pre>nb [-b blog_rep] delete entry 1,2,3
+        
+</pre>Suppression du tag d'une entrée donné :
+<p>1.) trouver le numéro de l'entrée depuis la liste :</p>
+    <pre>nb [-b blog_rep]--tag &lt;ID&gt; list</pre>
+<p>2.) ôter l'entrée utilisant le numéro d'entrée trouvée dans la première étape :</p>
+<pre>nb [-b blog_rep] --tag &lt;ID&gt; delete entry &lt;ID&gt;
+</pre>
+
+    <p><b>Changer la date des entrées</b></p>
+
+    <p>Spécifier la date d'une nouvelle entrée en utilisant le méta-tag TIMESTAMP :</p>
+    <pre>nb [-b blog_dir] --var TIMESTAMP --set-var "CCYY-MM-DD HH:MM:SS" add entry
+    
+</pre>Changer la date d'entrée ancienne :
+    <pre>nb [-b blog_dir] --var TIMESTAMP --set-var "CCYY-MM-DD HH:MM:SS" edit entry &lt;ID&gt;
+     
+</pre>Changer manuellement la date d'entrée :
+    <pre>1. nb [-b blog_dir] edit entry &lt;ID&gt;
+2. TIMESTAMP: YYYY-MM-DD HH:MM:SS
+     
+</pre><em>La commande "date" doit supporter l'option  "<code>-d</code>" pour suivre le format donné par "<code>$DATE_FORMAT</code>".</em>
+
+    <h3>Gestion des tags</h3>
+<p>Également connus comme catégories.</p>
+
+    <p><b>Le numéro de tag</b></p>
+
+    <p>Un
+numéro de tag démarre à "1". Un numéro de tag reste inchangé jusqu'à ce
+qu'il soit supprimé. Supprimer un tag rendra ce numéro libre pour une
+nouvelle création.</p>
+
+    <p><b>Commandes "tag"</b></p>
+
+    <p>Créer un nouveau tag :</p>
+    <pre>nb [-b blog_rep] add tag 
+        
+</pre>Mettre un intitulé pour une nouveau tag :
+    <pre>nb [-b blog_rep] --title exemples add tag 
+        
+</pre>Lister les tags en cours :
+    <pre>nb [-b blog_rep] list tags 
+        
+</pre>Taguer les entrées existantes :
+    <pre>nb [-b blog_rep] --tag &lt;ID&gt; tag-entry &lt;ID&gt;
+        
+</pre>Éditer l'intitulé d'un tag :
+    <pre>nb [-b blog_rep] --title exemple edit tag &lt;ID&gt;
+        
+</pre>Supression d'un tag :
+   <pre>nb [-b blog_rep] delete tag &lt;ID&gt;
+</pre>
+
+    <h3>Gestion avancée</h3>
+ 
+    <p>Employer l'action "--query"
+pour manipuler la liste des entrées avec lesquelles on doit agir.
+Premièrement, vérifier votre requête par la combinaison des actions
+"--query" avec "list" pour voir quel(s) numéro(s) y correspond(ent).
+Ensuite, le faire depuis cette requête en combinant l'action "--query"
+avec l'une des actions "edit", "delete", "tag-entry" ou "update"; en
+employant le(s) numéro(s) d'entrée en accord d'avec la précédente
+requête.</p>
+
+    <p>Éditer les entrées avec "query" :</p>
+    <pre>nb [-b blog_rep] --query &lt;all,CCYY-MM-DD,max&gt; list
+nb [-b blog_rep]--query &lt;all,CCYY-MM-DD,max&gt; edit entry &lt;ID&gt;
+</pre>Supprimer des entrées avec "query" :
+    <pre>nb [-b blog_rep]--query &lt;all,CCYY-MM-DD,max&gt; list
+nb [-b blog_rep]--query &lt;all,CCYY-MM-DD,max&gt; delete entry &lt;ID&gt;
+</pre>Éditer des entrées avec "tag" et "query" :
+    <pre>nb [-b blog_rep]--tag &lt;ID&gt; --query &lt;all,CCYY-MM-DD,max&gt; list
+nb [-b blog_rep]--tag &lt;ID&gt; --query &lt;all,CCYY-MM-DD,max&gt; edit entry &lt;ID&gt;
+</pre>
+  </div>
+
+  <div id="templates">
+    <h2><a id="s.7" name="s.7">7. Templates</a></h2>Les templates sont placés dans le sous-répertoire "templates".
+
+    <div class="tables">
+      <p><b>Caractères spéciaux des templates</b></p>
+
+      <p><span class="warning">IMPORTANT</span>: protéger ces caractères par le caractère d'échappement pour éviter qu'ils ne soient interprétés par le Shell.
+        </p>
+
+      <table summary="templates" border="0" cellpadding="2" cellspacing="4">
+        <caption>
+          Caractères spéciaux qui, placés dans des templates, sont interprétés par le Shell s'ils ne sont pas échappés :
+        </caption>
+
+        <tbody><tr>
+          <th align="left">caractères</th>
+
+          <th align="left">description</th>
+
+          <th align="left">notes</th>
+        </tr>
+
+        <tr>
+          <td align="left">$</td>
+
+          <td align="left">signe dollar</td>
+
+          <td align="left">
+              protéger en le précédant d'une barre de fraction inversée, par ex. "\$"
+            </td>
+        </tr>
+
+        <tr>
+          <td align="left">`</td>
+
+          <td align="left">apostrophe inversée</td>
+
+          <td align="left">protéger en la précédant d'une barre de fraction inversée, par ex. "\`"</td>
+        </tr>
+
+        <tr>
+          <td align="left">$(</td>
+
+          <td align="left">signe dollar et parenthèse gauche</td>
+
+          <td align="left">protéger en les précédant d'une barre de fraction inversée, par ex. "\$("</td>
+        </tr>
+      </tbody></table>
+    </div>
+
+    <div class="tables">
+      <p><b>Templates par défaut</b></p>
+
+      <table summary="templates" border="0" cellpadding="2" cellspacing="4">
+        <caption>
+          La présentation du blog est contrôlée par les templates suivants :
+        </caption>
+
+        <tbody><tr>
+          <th align="left">templates</th>
+
+          <th align="left">description</th>
+        </tr>
+
+        <tr>
+          <td align="left">category_archive.htm</td>
+
+          <td align="left">contrôle la structure des pages d'archive par catégorie</td>
+        </tr>
+
+        <tr>
+          <td align="left">day_archive.htm</td>
+
+          <td align="left">contrôle la structure des pages d'archive journalière</td>
+        </tr>
+
+        <tr>
+          <td align="left">main_index.htm</td>
+
+          <td align="left">contrôle la structure de la page principale du blog</td>
+        </tr>
+
+        <tr>
+          <td align="left">main_links.htm*</td>
+
+          <td align="left">contient les liens définis par l'utilisateur</td>
+        </tr>
+
+        <tr>
+          <td align="left">makepage.htm</td>
+
+          <td align="left">template utilisé par défaut par l'action "make-page"</td>
+        </tr>
+
+        <tr>
+          <td align="left">month_archive.htm</td>
+
+          <td align="left">contrôle la structure des pages d'archive mensuelles</td>
+        </tr>
+
+        <tr>
+          <td align="left">permalink.htm</td>
+
+          <td align="left">contrôle la structure des pages d'archives des entrées</td>
+        </tr>
+
+        <tr>
+          <td align="left">entry.htm</td>
+
+          <td align="left">contrôle la structure du contenu des entrées pour beaucoup d'archives</td>
+        </tr>
+
+        <tr>
+          
+          <td align="left">permalink_entry.htm</td>
+
+          <td align="left">contrôle la structure du contenu des entrées en archivage individuel</td>
+        </tr>
+
+        <tr>
+          <td align="left">weblog_status.htm</td>
+
+          <td align="left">contrôle la structure du statut du blog</td>
+        </tr>
+
+        <tr>
+          <td align="left">year_archive.htm</td>
+
+          <td align="left">contrôle la structure des pages d'archive annuelles</td>
+        </tr>
+
+        <tr>
+          <td align="left">entry.metadata</td>
+
+          <td align="left">contrôle le format du méta-fichier des entrées</td>
+        </tr>
+
+        <tr>
+          <td align="left">file.metadata</td>
+
+          <td align="left">contrôle le format d'un méta-fichier</td>
+     </tr>
+    </tbody></table>
+       <p><b>Templates spéciaux</b></p>
+
+    <table summary="templates" border="0" cellpadding="2" cellspacing="4">
+       <caption>
+        L'apparence du blog peut en outre être contrôlée par les templates suivants :
+       </caption>
+         <tbody><tr>
+           <th align="left">templates</th>
+           <th align="left">description</th>
+         </tr>
+         <tr>
+         <td align="left">category_entry.htm</td>
+         <td align="left">contrôle la structure et le contenu de la catégorie des entrées</td>
+        </tr>
+        <tr>
+           <td align="left">month_entry.htm</td>
+           <td align="left">contrôle la structure et le contenu des entrées mensuelles</td>
+        </tr>
+         <tr>
+           <td align="left">day_entry.htm</td>
+           <td align="left">contrôle la structure et le contenu des entrées journalières</td>
+        </tr>
+      </tbody></table>
+    </div>
+  </div>
+ <div id="articles.plugin">
+  <h2><a id="s.8" name="s.8">8. Articles et le plugin des articles</a></h2>
+<p>
+Les articles sont indépendants des archives principales du blog et
+procurent une façon facile et rapide d'organiser et de créer un contenu
+supplémentaire pour le blog. La gestion est presque entièrement faite au
+travers d'un gestionnaire de fichier (ou la ligne de commande). Les
+articles sont créés simplement depuis des métafichiers trouvés dans le
+répertoire des articles. La réactualisation des articles se fait à la
+prochaine mise à jour du blog ou par une mise à jour provoquée, selon
+ce qui arrive en premier. La génération de l'index et du contenu dépend
+du plugin 'articles'. Pour plus d'information au sujet du plugin
+'articles', veuillez vous référer "*articles_meta.sh" dans <a href="#s.9">À propos des plugins</a>.</p>
+
+
+  <h3>Configuration des articles</h3>
+
+   <p><b>Établissement du répertoire "articles"</b></p>
+
+	     <p><em>ARTICLES_DIR</em>
+assigne le nom du répertoire "articles" pour votre blog. Par défaut :
+"articles". plusieurs répertoires d'articles peuvent être spécifiés.</p>
+
+             <p>Exemple :</p>
+ 	     <pre>  	 ARTICLES_DIR="articles articles/divers"
+ 
+	 </pre>
+
+         <p><b>Assigner le formatage du texte par défaut pour articles</b></p>
+
+         <p><em>ARTICLES_FORMAT</em> assigne le formatage par défaut du texte pour les nouveaux articles. Par défaut : "raw".</p>
+
+         <p><b>Définition du suffixe par défaut pour les articles</b></p>
+
+         <p><em>ARTICLES_SUFFIX</em> met le suffixe à inclure comme article dans le répertoire des articles. Par défaut : ".txt".</p>
+
+         <p><b>Assigner le template par défaut pour les articles</b></p>
+
+         <p><em>ARTICLES_TEMPLATE</em> assigne le template par défaut à utiliser pour les nouveaux articles. Par défaut : "[blog_dir/]templates/makepage.htm".</p>
+
+  	     <h3>Ajouter de nouveaux articles</h3>
+
+         <p>La création de nouveaux articles est facilement faite à l'aide de la commande 'add article' :</p>
+         <pre>	 nb [--title 'Exemple d'article'] add article
+
+         </pre>
+
+         <p>Importation d'un nouvel article (dans un sous-répertoire d'articles existant) :</p>
+         <pre> 	 nb import article [blog_rep/]articles/divers/exemple.txt
+
+  	 </pre>
+
+         <p><b>Réactualisation manuelle d'articles</b></p>
+
+         <p>Réactualisation manuelle des index et contenus des articles :</p>
+         <pre> 	 nb update articles
+
+  	 </pre>
+   </div>
+
+
+  <div id="about.plugins">
+    <h2><a id="s.9" name="s.9">9. À propos des plugins</a></h2>
+
+    <h3>Cadre de fonctionnement des plugins</h3>
+
+    <div>
+      <p><b>Plugins ordinaires : plugins</b></p>
+
+      <p>Les plugins ordinaires sont initialisés inconditionnellement après une requête de mise à jour.</p>
+
+      <p><b>Plugins d'archivage : plugins/archive</b></p>
+
+      <p>Les plugins d'archivage sont inititialisés quand les archives sont à mettre à jour.</p>
+
+      <p><b>Plugins d'archives "catégorie" : plugins/archive/category</b></p>
+
+      <p>Les plugins d'archivage "catégorie" sont inititialisés pour chaque catégorie d'archive qui soit à mettre àjour.</p>
+
+      <p><b>Plugins d'archives "jour" : plugins/archive/day</b></p>
+
+      <p>Les plugins d'archives "jour" sont inititialisés pour chaque archive journalière qui soit à mettre à jour.</p>
+
+      <p><b>Plugins d'archives "mois" : plugins/archive/month</b></p>
+
+      <p>Les plugins d'archive "mois" sont initialisés pour chaque archive mensuelle qui soit à mettre à jour.</p>
+
+      <p><b>Plugins d'archive "année" : plugins/archive/year</b></p>
+
+      <p>Les plugins d'archive "année" sont initialisés pour chaque archive annuelle qui soit à mettre à jour.</p>
+
+      <p><b>Plugins "entrée" : plugins/entry</b></p>
+
+      <p>Les plugins "entrée" sont initialisés inconditionnellement pour chaque entrée qui soit à mettre à jour.</p>
+
+      <p><b>Plugins de modification d'entrée : plugins/entry/mod</b></p>
+
+      <p>Les plugins "modification d'entrée" sont initialisés pour chaque entrée qui soit à mettre à jour.</p>
+
+      <p><b>Plugins de formatage des entrées : plugins/entry/format</b></p>
+
+      <p>Les
+plugins de formatage des entrées sont initialisés pour chaque entrée
+modifiée sur la base du champ du méta-tag FORMAT. Plus d'un format peut
+être spécifié avec un espace ou une virgule comme séparateur; mais en
+étant prudent quant à leur ordre. </p>
+
+      <p><b>Plugins "page" : plugins/page</b></p>
+
+      <p>Les plugins "page" sont initialisés inconditionnellement avant la mise à jour de chaque page.</p>
+
+      <p><b>Plugins de formatage des pages : plugins/page/format</b></p>
+
+      <p>
+Les plugins de formatage des pages sont initialisés à la mise à jour de
+chaque page sur la base du champ de la méta-donnée FORMAT. Plus d'un
+format peut être spécifié avec un espace ou une virgule comme
+séparateur, mais en étant prudent quant à leur ordre. </p>
+
+      <p><b>Plugins de fabrication des pages : plugins/makepage</b></p>
+
+      <p>Les plugins de fabrication des pages sont initialisés pour chaque page qui soit à mettre à jour.</p>
+
+      <p><b>Plugins de publication : plugins/post</b></p>
+
+      <p>Les plugins "post" sont initialisés inconditionnellement par les tâches relatives aux publications du blog.</p><em>Beaucoup
+de ces plugins fonctionneront suivant leurs propres règles une fois
+qu'ils auront été initialisés, autrement dit, plus inconditionnellement.</em>
+    </div>
+
+    <div class="tables">
+      <p><b>Plugins fournis</b></p>
+
+      <table summary="plugins" border="0" cellpadding="2" cellspacing="4">
+        <caption>
+          Plugins fournis (beaucoup sont actifs par défaut) :
+        </caption>
+
+        <tbody><tr>
+          <th align="left">plugins</th>
+
+          <th align="left">description</th>
+
+          <th align="left">variables</th>
+
+          <th align="left">cibles</th>
+
+          <th align="left">notes</th>
+        </tr>
+
+        <tr>
+          <td align="left">archive/day/cal2daytitle.sh</td>
+
+          <td align="left">crée un titre personnalisé pour les archives "jour".</td>
+
+          <td align="left">CAL_CMD, CAL_ARGS, DATE_LOCALE</td>
+
+          <td align="left">$NB_ArchiveTitle</td>
+
+          <td align="left">requiert la commande "cal"</td>
+        </tr>
+
+        <tr>
+          <td align="left">archive/month/month_calendar.sh</td>
+
+          <td align="left">génère un calendrier avec des liens sur le jour de chaque ajout</td>
+
+          <td align="left">CAL_CMD, CAL_ARGS, DATE_LOCALE</td>
+
+          <td align="left">$NB_MonthlyCalendar</td>
+
+          <td align="left">requiert la commande "cal"</td>
+        </tr>
+
+        <tr>
+          <td align="left">archives/year/year_index.sh</td>
+
+          <td align="left">génère les archives "année"</td>
+
+          <td align="left">néant</td>
+
+          <td align="left">$ARCHIVES_DIR/$yearn/index.$NB_FILETYPE</td>
+
+          <td align="left">requiert le template "makepage.htm"</td>
+        </tr>
+
+        <tr>
+          <td align="left">articles_meta.sh*</td>
+
+          <td align="left">génère les articles à partir des méta-fichiers dans le répertoire "articles"</td>
+
+          <td align="left">ARTICLES_DIR, ARTICLES_FORMAT</td>           
+
+          <td align="left">$NB_ArticleLinks</td>
+
+          <td align="left">requiert le template "makepage.htm", ce plugin doit être programmé pour être le dernier à être chargé</td>
+        </tr>
+
+        <tr>
+          <td align="left">atom.sh</td>
+
+          <td align="left">ajoute le flux "atom"</td>
+
+          <td align="left">BLOG_FEED_ITEMS, ATOM_ITEMS, ATOM_CATFEEDS, ATOM_FEED_LANG</td>
+
+          <td align="left">$NB_AtomVer, $NB_AtomFile, index-atom.$NB_SYND_FILETYPE</td>
+
+          <td align="left">néant</td>
+        </tr>
+
+        <tr>
+          <td align="left">calendar.sh</td>
+
+          <td align="left">génère un calendrier avec des liens sur le jour de chaque ajout</td>
+
+          <td align="left">CAL_CMD, CAL_ARGS, DATE_LOCALE</td>
+
+          <td align="left">$NB_Calendar</td>
+
+          <td align="left">requiert "cal"</td>
+        </tr>
+
+        <tr>
+          <td align="left">entry/category_links.sh</td>
+
+          <td align="left">génère les liens "catégorie"</td>
+
+          <td align="left">néant</td>
+
+          <td align="left">$NB_EntryCategories</td>
+
+          <td align="left">néant</td>
+        </tr>
+
+        <tr>
+          <td align="left">entry/excerpt.sh*</td>
+
+          <td align="left">crée l'extrait du texte de l'entrée</td>
+
+          <td align="left">néant</td>
+
+          <td align="left">$NB_EntryExcerpt</td>
+
+          <td align="left">finit après la première détection d'un double retour à la ligne (ligne vide)</td>
+        </tr>
+
+        <tr>
+          <td align="left">entry/format/autobr.sh</td>
+
+          <td align="left">converti les lignes vides en balises HTML pour former un paragraphe</td>
+
+          <td align="left">néant</td>
+
+          <td align="left">$NB_MetaBody, $NB_EntryBody</td>
+
+          <td align="left">FORMAT : autobr</td>
+        </tr>
+
+        <tr>
+          <td align="left">entry/format/markdown.sh</td>
+
+          <td align="left">utilise "Markdown" pour le formatage</td>
+
+          <td align="left">MARKDOWN_CMD, MARKDOWN_OPTS</td>
+
+          <td align="left">$NB_MetaBody, $NB_EntryBody</td>
+
+          <td align="left">FORMAT : markdown</td>
+        </tr>
+
+        <tr>
+          <td align="left">entry/mod/base_url.sh</td>
+
+          <td align="left">aide à la mise en chemin relatif des liens</td>
+
+          <td align="left">%base_url%</td>
+
+          <td align="left">$NB_EntryBody</td>
+
+          <td align="left">exemple : &lt;img src="%base_url%images/pic.png" /&gt;</td>
+        </tr>
+
+        <tr>
+          <td align="left">entry/mod/moods.sh</td>
+
+          <td align="left">converti les variables "mood" en icônes "smiley"</td>
+
+          <td align="left">MOODS_URL</td>
+
+          <td align="left">$NB_EntryBody</td>
+
+          <td align="left">copie le répertoire des "moods" dans le répertoire du blog</td>
+        </tr>
+
+        <tr>
+          <td align="left">fortune.sh</td>
+
+          <td align="left">génère aléatoirement des citations </td>
+
+          <td align="left">FORTUNE_CMD, FORTUNE_FILE</td>
+
+          <td align="left">$NB_Fortune</td>
+
+          <td align="left">requiert "fortune"</td>
+        </tr>
+
+        <tr>
+          <td align="left">makepage/tidy.sh</td>
+
+          <td align="left">valide le code HTML/XML</td>
+
+          <td align="left">TIDY_CMD, TIDY_HTML_ARGS, TIDY_XML_ARGS</td>
+
+          <td align="left">$NB_Tidy, $BLOG_DIR/tidy.log</td>
+
+          <td align="left">requiert "HTML Tidy", surpasse $BLOG_CHARSET</td>
+        </tr>
+
+        <tr>
+          <td align="left">mymood.sh*</td>
+
+          <td align="left">ajoute la possibilité d'afficher votre "mood"</td>
+
+          <td align="left">MOODS_URL</td>
+
+          <td align="left">$NB_MyMood</td>
+
+          <td align="left">copie le répertoire "moods" dans le répertoire du blog</td>
+        </tr>
+
+        <tr>
+          <td align="left">page/feed_links.sh</td>
+
+          <td align="left">génère les "alt" des liens des flux de syndication</td>
+
+          <td align="left">néant</td>
+
+          <td align="left">$NB_AtomAltLink, $NB_RSS2AltLink, $NB_RSSAltLink</td>
+
+          <td align="left">requiert un des plugins "atom.sh", "rss.sh" ou "rss2.sh"</td>
+        </tr>
+
+        <tr>
+          <td align="left">page/page_links.sh</td>
+
+          <td align="left">régénère les liens pour les inclure sur d'autres pages</td>
+
+          <td align="left">néant</td>
+
+          <td align="left">$NB_MainLinks, $NB_RecentEntries, $NB_CategoryLinks, $NB_MonthLinks, etc.</td>
+
+          <td align="left">requiert un des plugins "weblog_links.sh" ou "recent_entries.sh"</td>
+        </tr>
+
+        <tr>
+	  <td align="left">page/format/autobr.sh</td>
+
+          <td align="left">convertit les lignes vides en balises HTML pour former un paragraphe</td>
+
+          <td align="left">néant</td>
+
+          <td align="left">$NB_MetaBody, $NB_EntryBody</td>
+
+          <td align="left">FORMAT : autobr</td>
+        </tr>
+
+        <tr>
+          <td align="left">page/format/markdown.sh</td>
+
+          <td align="left">utilise "Markdown" pour le formatage</td>
+
+          <td align="left">MARKDOWN_CMD, MARKDOWN_OPTS</td>
+
+          <td align="left">$NB_MetaBody, $NB_EntryBody</td>
+
+          <td align="left">FORMAT : markdown</td>
+        </tr>
+
+        <tr>
+          <td align="left">page/format/moods.sh</td>
+
+          <td align="left">convertit les variables "mood" en icônes "smiley"</td>
+
+          <td align="left">MOODS_URL</td>
+
+          <td align="left">$NB_MetaBody, $NB_EntryBody</td>
+
+          <td align="left">peut se combiner avec d'autres, par ex. "FORMAT : moods, markdown"</td>
+        </tr>
+
+        <tr>
+          <td align="left">recent_entries.sh</td>
+
+          <td align="left">génère les listes des entrées récentes et anciennes</td>
+
+          <td align="left">RECENTLIST_ENTRIES, RECENTLIST_OFFSET, RECENTLIST_MODE</td>
+
+          <td align="left">$NB_RecentEntries, $NB_OlderEntries</td>
+
+          <td align="left">néant</td>
+        </tr>
+
+        <tr>
+          <td align="left">rss2.sh</td>
+
+          <td align="left">ajoute les flux rss 2.0</td>
+
+          <td align="left">BLOG_FEED_ITEMS, RSS2_ITEMS, RSS2_CATFEEDS, BLOG_FEED_LANG</td>
+
+          <td align="left">$NB_RSS2File, index-rss.$NB_SYND_FILETYPE</td>
+
+          <td align="left">néant</td>
+        </tr>
+
+        <tr>
+          <td align="left">rss.sh</td>
+
+          <td align="left">ajoute les flux rss 1.0</td>
+
+          <td align="left">BLOG_FEED_ITEMS, RSS_ITEMS, RSS_CATFEEDS, BLOG_FEED_LANG</td>
+
+          <td align="left">$NB_RSSFile, index.$NB_SYND_FILETYPE</td>
+
+          <td align="left">none</td>
+        </tr>
+
+        <tr>
+          <td align="left">weblog_links.sh</td>
+
+          <td align="left">génère quelques liens utiles</td>
+
+          <td align="left">ALL_YEARLINKS, MAX_YEARLINKS, ALL_MONTHLINKS, MAX_MONTHLINKS</td>
+
+          <td align="left">$NB_MainLinks, $NB_MonthLinks, $NB_CategoryLinks</td>
+
+          <td align="left">requiert le template "main_links.htm"</td>
+        </tr>
+
+        <tr>
+          <td align="left">weblog_status.sh</td>
+
+          <td align="left">génères quelques statistiques</td>
+
+          <td align="left">néant</td>
+
+          <td align="left">$NB_BlogStatus</td>
+
+          <td align="left">requiert le template "weblog_status.htm"</td>
+        </tr>
+      </tbody></table>
+
+      <div>
+        <p>* = le nom actuel peut changer</p>
+
+        <p>Pour désactiver un plugin individuel, renommer l'extension du plugin de ".sh" en ".off".</p>
+      </div>
+    </div>
+  </div>
+  <div id="configuring.plugins">
+     <h2><a id="s.10" name="s.10">10. Configuration des plugins</a></h2>
+
+     <p>Les configurations des plugins sont contenues et faites dans le "blog.conf" de votre blog.</p>
+
+     <h3>Configuration des plugins de syndication</h3>
+
+     <p>La
+syndication de votre blog est effectuée par les plugins de NanoBlogger.
+Veuillez noter qu'une adresse Internet complète et accessible est
+requise pour avoir une syndication correcte. Ce qui est fait en
+renseignant <em>BLOG_FEED_URL</em>. C'est mieux aussi de mettre le bon fuseau horaire pour vos flux de syndication. Pour ça, veuillez vous référer à <em>BLOG_TZD</em> dans <a href="#s.5">Installation et configuration</a>.</p>
+     <p><b>Mettre l'adresse Web</b></p>
+
+     <p><em>BLOG_FEED_URL</em> Met l'URL des flux de syndication. Par défaut "$BLOG_URL", seulement s'il a déjà été mis.</p>
+
+     <p>Exemple :</p>
+     <pre>      BLOG_FEED_URL="http://www.example.com/johndoe/weblog"
+
+      </pre>
+      <p><b>Mettre le fuseau horaire</b></p>
+      <p><em>BLOG_FEED_TZD</em>met le fuseau horaire utilisé pour les flux de syndication. Par défaut "$BLOG_TZD".</p>
+
+     <p><b>Mettre la langue</b></p>
+     <p><em>BLOG_FEED_LANG</em> met la langue utilisée par les flux de syndication.</p>
+
+     <p>Exemple :</p>
+     <pre>         BLOG_FEED_LANG="en-us"
+     </pre>
+     <p><em>ATOM_FEED_LANG</em> met la langue utilisée par le flux de syndication Atom.</p>
+     <p>Exemple :</p>
+     <pre>         ATOM_FEED_LANG="en"
+
+     </pre>
+ 
+     <p><span class="warning">NOTE</span>: Le code langage pour les flux de syndication Atom est différent de celui du standard RSS.</p>
+     <p><b>Mettre le nombre maximum d'entrées à syndiquer</b></p>
+
+     <p><em>BLOG_FEED_ITEMS</em> met le nombre maximum d'entrées à inclure dans vos flux de syndication, indépendemment de <em>$MAX_ENTRIES</em>.
+Par défaut mis à "10". Pour des possibilités d'exportation, vous
+pourriez vouloir le mettre à "-1" pour inclure toutes les entrées
+existantes de votre blog.</p>
+     <p>Exemple :</p>
+     <pre>      BLOG_FEED_ITEMS="10"
+     </pre>
+     <p><b>Support des feuilles de style</b></p>
+     <p><em>BLOG_FEED_CSS</em> met la feuille de style employée pour vos flux de syndication (le chemin devrait être relatif).</p>
+
+     <p>Exemple :</p>
+     <pre>     BLOG_FEED_CSS="styles/feed.css"
+
+     </pre>
+     <p><b>Support des icônes &amp; logos</b></p>
+     <p><em>BLOG_FEED_ICON</em> met une icône pour vos flux de syndication (le chemin devrait être relatif).</p>
+
+     <p>Exemple :</p>
+     <pre>      BLOG_FEED_ICON="images/feedicon.png"
+
+     </pre>
+
+     <p><em>BLOG_FEED_LOGO</em> met un logo à vos flux de syndication (le chemin devrait être relatif).</p>
+
+     <p>Exemple :</p>
+     <pre>     BLOG_FEED_LOGO="images/feedlogo.png"
+
+     </pre>
+
+     <p><span class="warning">NOTE</span>: Dans le plugin de syndication RSS 2.0, le logo sera employé quand l'icône ne sera pas définie.</p>
+
+     <p><b>Support de la syndication des catégories</b></p>
+
+     <p>Il y a trois manières d'activer la syndication par catégorie :</p>
+
+     <ol>
+       <li><em>CATEGORY_FEEDS</em> activer toutes les méthodes supportées de syndication de catégorie. Par défaut "0" - désactivé.</li>
+
+       <li><em>ATOM_CATFEEDS</em> activer les flux Atom par catégorie. Par défaut "0" - désactivé.</li>
+
+       <li><em>RSS2_CATFEEDS</em> activer les flux RSS 2.0 par catégorie. Par défaut "0" - désactivé.</li>
+     </ol>
+
+     <p><b>Support pour la création des podcasts</b></p>
+
+     <p>Il
+y a un méta-tag appelé ENCLOSURE qui est employé pour mettre une donnée
+d'entrée "enclosure" pour chaque entrée. Le méta-tag ENCLOSURE devrait
+contenir deux jeux différents de données séparés par un simple espace.
+Le fichier média et le type de média (par ex. audio/mpeg).</p>
+     <p>Exemple :</p>
+     <pre>     ENCLOSURE: mp3s/mypodcast.mp3 audio/mpeg
+
+     </pre>
+
+     <p>Le fichier média devrait être en un chemin relatif qui peut être trouvé dans <em>$BLOG_DIR</em>.
+La commande système "du -b" est requise pour obtenir la longueur du
+fichier média nécessaire à la donnée "enclosure". La commande "du"
+devrait être présente sur bien des systèmes où Bash est supporté, mais
+il n'y pas de garantie que la syntaxe soit la même et cela doit être
+vérifié manuellement. Les "enclosures" sont supportés tant pour les
+plugins des flux de syndication Atom que RSS2.</p>
+
+     <p><b>Vérification &amp; correction syntaxique</b></p>
+
+     <p>Le
+plugin Tidy apporte la vérification et la correction syntaxique. Cette
+sorte d'outil peut être tout autant votre meilleur ami ou votre pire
+ennemi, au sens qu'il peut trop bien dissimuler (corriger) vos erreurs.
+Un fichier log est tenu dans le répertoire de votre blog; ainsi vous
+pouvez vérifier toute erreur ou changement enregistré par Tidy.</p>
+
+     <p>Il
+y a deux variables de configuration de Tidy. Une pour le HTML et
+l'autre pour le XML (plugins de syndication). Comme indiqué dans <a href="#s.5"> Installation et configuration</a>, Tidy a  tendance à ré-écrire quoique vous ayez mis à  <em>$BLOG_CHARSET</em>. Alors, attention.</p>
+
+     <p><em>TIDY_HTML_ARGS</em> met les arguments de la commande pour Tidy.</p>
+
+     <p><em>TIDY_XML_ARGS</em> met les arguments de la commande pour Tidy lors de la vérification le XML des flux de syndication.</p>
+
+     <p>Exemples :</p>
+     <pre>     TIDY_HTML_ARGS="-asxhtml -n -utf8"
+     TIDY_XML_ARGS="-xml -n -utf8 -wrap 0"
+
+     </pre>
+
+     <p>Plus de configurations avancées incluant des personnalisations peuvent être faites à travers les plugins utilisateur.</p>
+   </div>
+
+  <div id="writing.plugins">
+    <h2><a id="s.11" name="s.11">11. Écriture des plugins</a></h2>
+
+    <h3>Outils pour le développement des plugins</h3>
+
+    <div>
+      <p>Typiquement,
+les plugins sont faits pour créer des dossiers pour les templates, mais
+ne sont en aucun cas limités à ça. Les dossiers permettent un grand
+contrôle de la manière où sont placées les sorties des plugins dans le
+template. Quelques plugins requièrent que vous identifiez son unique
+dossier/destination et que vous l'ajoutiez manuellement à vos templates.</p>
+
+      <p>Pour écrire un plugin, vous devriez commencer par créer un fichier texte avec le suffixe <em>".sh"</em>.
+Les plugins sont ordinairement des scripts shell qui sont chargés
+(sourcés en terminologie du shell) selon d'où ils sont situés dans le
+répertoire des plugins ou l'un de ses sous répertoires. Ça peut être
+une bonne idée de jeter un coup d'oeil à un plugin simple comme
+"fortune.sh", pour avoir une idée de son fonctionnement. Quand un
+nouveau plugin est copié, il est nécessaire qu'il ait les droits
+adéquats en lecture, pour qu'il puisse être chargé par NanoBlogger. Les
+droits à l'exécution ne sont pas nécessaires pour les plugins.</p>
+
+      <p>
+          Ce qui suit est un ensemble d'outils qui peuvent être utiles au développement de vos propres plugins.
+        </p>
+    </div>
+
+    <div class="tables">
+      <p><b>API de plugin</b></p>
+
+      <table summary="api" border="0" cellpadding="2" cellspacing="4">
+        <caption>
+          API pour l'écriture de plugins.
+        </caption>
+
+        <tbody><tr>
+          <th align="left">commande</th>
+
+          <th align="left">description</th>
+
+          <th align="left">variables and commutateurs</th>
+
+          <th align="left">cibles</th>
+
+          <th align="left">notes</th>
+        </tr>
+
+        <tr>
+          <td align="left">die</td>
+
+          <td align="left">sort avec un message d'erreur</td>
+
+          <td align="left">$@</td>
+
+          <td align="left">stdout</td>
+
+          <td align="left">renvoie le statut de sortie "1"</td>
+        </tr>
+
+        <tr>
+          <td align="left">nb_browser</td>
+
+          <td align="left">utiltaire pour le lancement d'un navigateur adapté</td>
+
+          <td align="left">$NB_BROWSER, $BROWSER, $1</td>
+
+          <td align="left">stdout</td>
+
+          <td align="left">parse $BROWSER avec le séparateur ":"</td>
+        </tr>
+
+        <tr>
+          <td align="left">nb_edit</td>
+
+          <td align="left">wrapper simple pour l'éditeur</td>
+
+          <td align="left">$NB_EDITOR, $EDITOR, $1, $2, -p = force l'invite de commande, prompt (pause)</td>
+
+          <td align="left">stdout</td>
+
+          <td align="left">si $2 est nul, alors $1 est supposé être le fichier</td>
+
+	</tr>
+	<tr>
+	   <td align="left">nb_print</td>
+
+	   <td align="left">imprime un fichier ligne par ligne</td>
+
+	   <td align="left">nomfichier=$1, nombre de lignes=$2 (en blanc pour tout)</td>
+	
+           <td align="left">stdout</td>
+
+	   <td align="left">employé à la place de "sed 1q"</td>
+  	</tr>
+
+        <tr>
+          <td align="left">nb_msg</td>
+
+          <td align="left">préférence du mode de verbalisation</td>
+
+          <td align="left">$@</td>
+
+          <td align="left">stdout</td>
+
+          <td align="left">employé au lieu de "echo" quand c'est possible</td>
+        </tr>
+
+        <tr>
+          <td align="left">confirm_action</td>
+
+          <td align="left">demande à l'utilisateur de confirmer l'action</td>
+
+          <td align="left">néant</td>
+
+          <td align="left">stdout</td>
+
+          <td align="left">peut être employé avec $BLOG_INTERACTIVE</td>
+        </tr>
+
+        <tr>
+          <td align="left">chg_suffix</td>
+
+          <td align="left">change le suffixe d'un fichier</td>
+
+          <td align="left">nom du fichichier=$1, suffixe=$2</td>
+
+          <td align="left">fichier</td>
+
+          <td align="left">peut spécifier $NB_FILETYPE, $NB_SYND_FILETYPE comme suffixe</td>
+        </tr>
+
+        <tr>
+          <td align="left">query_db</td>
+
+          <td align="left">interroge les bases de données</td>
+
+          <td align="left">db_query=$1, db_catquery=$2, db_setlimit=$3 db_limit=$4, db_offset=$5</td>
+
+          <td align="left">$DB_RESULTS</td>
+
+          <td align="left">exemple (extrait les entrées de 1 à 10) : "query_db all nocat limit 10 1"</td>
+        </tr>
+
+        <tr>
+	  <td align="left">lookup_id</td>
+
+	  <td align="left">extrait le numéro d'une entrée correspondante de la base de donnée principale</td>
+
+          <td align="left">$1, $2</td>
+
+          <td align="left">stdout</td>
+	
+          <td align="left">exemple : lookup_id 2005-12-14T00_00_00.$NB_DATATYPE "$MASTER_DB_RESULTS"</td>
+        </tr>
+
+        <tr>
+          <td align="left">translit_text</td>
+
+          <td align="left">translittération d'un texte sous une forme acceptable pour les liens web</td>
+
+          <td align="left">$1</td>
+
+          <td align="left">stdout</td>
+
+          <td align="left">néant</td>
+        </tr>
+
+        <tr>
+          <td align="left">set_baseurl</td>
+
+          <td align="left">aide à la mise des liens en chemin relatif</td>
+
+          <td align="left">node_var=$1, base_dir=$2</td>
+
+          <td align="left">$BASE_URL, $ARCHIVES_PATH</td>
+
+          <td align="left">on ne devrait en spécifier seulement qu'un à la fois, à node_var ou à base_dir.</td>
+        </tr>
+
+        <tr>
+          <td align="left">set_catlink</td>
+
+          <td align="left">met le lien et le fichier pour une catégorie donnée</td>
+
+          <td align="left">$1</td>
+
+          <td align="left">$category_file, $category_link</td>
+
+          <td align="left">la catégorie devrait être au format : cat_N.$NB_DBTYPE</td>
+        </tr>
+
+        <tr>
+          <td align="left">set_daylink</td>
+
+          <td align="left">met le lien et le fichier pour un jour donné</td>
+
+          <td align="left">$1</td>
+
+          <td align="left">$day_file, $day_link</td>
+
+          <td align="left">le jour devrait être au format CCYY-MM-DD</td>
+        </tr>
+
+        <tr>
+          <td align="left">set_monthlink</td>
+
+          <td align="left">met le lien et le fichier pour un mois donné</td>
+
+          <td align="left">$1</td>
+
+          <td align="left">$month_file, $month_link</td>
+
+          <td align="left">le mois devrait être au format CCYY-MM</td>
+        </tr>
+
+        <tr>
+          <td align="left">set_entryid</td>
+
+          <td align="left">met une ancre/n° pour une entrée donnée</td>
+
+          <td align="left">$1</td>
+
+          <td align="left">stdout</td>
+
+          <td align="left">l'entrée devrait être au format CCYY-MM-DDTHH_MM_SS.$NB_DATATYPE</td>
+        </tr>
+
+        <tr>
+          <td align="left">set_entrylink</td>
+
+          <td align="left">met le lien et le fichier pour une entrée donnée</td>
+
+          <td align="left">$1</td>
+
+          <td align="left">$entry_dir, $permalink_file, $NB_EntryPermalink</td>
+
+          <td align="left">l'entrée devrait être au format CCYY-MM-DDTHH_MM_SS.$NB_DATATYPE</td>
+        </tr>
+
+        <tr>
+          <td align="left">update_cache</td>
+
+          <td align="left">compile, liste ou vide le cache des entrées</td>
+
+          <td align="left">cache_update=$1, cache_def=$2, CACHEUPDATE_LIST=$3</td>
+
+          <td align="left">$CACHE_LIST</td>
+
+          <td align="left">communément utilisé pour renouveler les données en cache</td>
+        </tr>
+
+        <tr>
+          <td align="left">load_template</td>
+
+          <td align="left">charge le template d'un fichier</td>
+
+          <td align="left">TEMPLATE_FILE=$1</td>
+
+          <td align="left">$TEMPLATE_DATA</td>
+
+          <td align="left">ne jamais charger les données template plus d'une à la fois, make_page appelle load_template</td>
+        </tr>
+
+        <tr>
+          <td align="left">write_template</td>
+
+          <td align="left">écrit le template vers la sortie standard</td>
+
+          <td align="left">$TEMPLATE_DATA</td>
+
+          <td align="left">stdout</td>
+
+          <td align="left">"left"&gt;example: write_template &gt; "$OUTFILE"</td>
+        </tr>
+
+        <tr>
+          <td align="left">load_metadata</td>
+
+          <td align="left">charge la métadonnée d'un fichier (entrée)</td>
+
+          <td align="left">METADATA_TYPE=$1, $METADATA_FILE=$2</td>
+
+          <td align="left">dépends de $METADATA_TYPE</td>
+
+          <td align="left">le type de métadonnée peut être ALL, NOBODY, BODY, TITLE, AUTHOR, DATE, DESC, FORMAT</td>
+        </tr>
+
+        <tr>
+          <td align="left">write_metadata</td>
+
+          <td align="left">écrit la métadonnée sur le fichier</td>
+
+          <td align="left">MVAR=$1, METADATA=$2, META_FILE=$3</td>
+
+          <td align="left">$META_FILE</td>
+
+          <td align="left">exemple : "write_metadata UPDATED "`date`" $meta-file"</td>
+        </tr>
+
+        <tr>
+          <td align="left">read_metadata</td>
+
+          <td align="left">extrait la métadonnée du fichier (entrée)</td>
+
+          <td align="left">MVAR=$1, META_FILE=$2</td>
+
+          <td align="left">$METADATA</td>
+
+          <td align="left">voir comme bon exemple recent_entries.sh </td>
+        </tr>
+
+        <tr>
+          <td align="left">write_var</td>
+
+          <td align="left">crée/modifie le champs de la métadonnée utilisateur</td>
+
+          <td align="left">WRITE_MVAR=$1, WRITE_MVARVALUE=$2, WRITEMETAVAR_FILE=$3</td>
+
+          <td align="left">$WRITEMETAVAR_FILE</td>
+
+          <td align="left">exemple : write_var MODTIME "$(date)" $meta-file</td>
+        </tr>
+
+        <tr>
+          <td align="left">loop_archive</td>
+
+          <td align="left">boucle et exécute les instructions par années ou mois</td>
+
+          <td align="left">looparch_list=$1, looparch_type=$2, looparch_exec=$3</td>
+
+          <td align="left">déterminé par $looparch_exec</td>
+
+          <td align="left">exemple : "query_db max; loop_archive "$DB_RESULTS" months make_monthlink"</td>
+        </tr>
+
+        <tr>
+          <td align="left">load_entry</td>
+
+          <td align="left">charge les données pour les templates</td>
+
+          <td align="left">ENTRY_FILE=$1, ENTRY_DATATYPE=$2, ENTRY_CACHETYPE=$3</td>
+
+          <td align="left">$NB_EntryTitle, $NB_EntryBody, ...</td>
+
+          <td align="left">voir comme bon exemple le plugin atom.sh </td>
+        </tr>
+
+        <tr>
+          <td align="left">make_page</td>
+
+          <td align="left">crée les pages du blog à partir des fichiers texte</td>
+
+          <td align="left">MKPAGE_SRCFILE=$1, MKPAGE_TMPLFILE=$2, MKPAGE_OUTFILE=$3</td>
+
+          <td align="left">$MKPAGE_CONTENT, $NB_MetaBody</td>
+
+          <td align="left">voir comme bon exemple le plugin articles_text.sh </td>
+        </tr>
+
+        <tr>
+          <td align="left">weblog_page</td>
+
+          <td align="left">crée la page du blog à partir du méta-fichier</td>
+
+          <td align="left">BLOGPAGE_SRCFILE=$1, BLOGPAGE_TEMPLATE=$2, $BLOGPAGE_OUTFILE=$3</td>
+
+          <td align="left">$MKPAGE_CONTENT, $NB_MetaBody</td>
+
+          <td align="left">voir comme bon exemple le plugin articles_meta.sh </td>
+        </tr>
+      </tbody></table>
+    </div>
+  </div>
+
+  <div id="publish">
+    <h2><a id="s.12" name="s.12">12. Publication</a></h2>
+
+    <p><b>Configurer la commande de publication</b></p>
+
+    <p>la variable <em>BLOG_PUBLISH_CMD</em>
+permet d'affecter une commande pour la publication sur votre blog. Ça
+peut être aussi simple qu'une commande FTP pour transférer des fichiers
+ou que des tâches plus complexe par script. </p>
+
+    <p><b>Publication à distance</b></p>
+
+    <p>FTP, SSH (scp, sftp, etc.), RSYNC ou WebDAV, sont toutes les méthodes qui peuvent être utilisées pour la publication du blog.</p>
+
+    <p><b>exemple</b> : publier automatiquement avec ftp et .netrc.</p>blog.conf:
+    <pre>BLOG_PUBLISH_CMD="ftp exemple.weblog.com"
+ 
+</pre>.netrc:
+    <pre>machine exemple.weblog.com login foo password
+RIGHT!
+macdef init
+passive on
+prompt off
+lcd ~/public_html/blog
+mput *.*
+cd archives
+lcd archives
+mput *
+ 
+</pre>
+
+    <p><b>Publication locale</b></p>
+
+    <p>Si vous choisissez
+de publier localement, vous voudrez probablement désactiver la commande
+de publication. Pour ce faire vous pouvez nullifier <em>BLOG_PUBLISH_CMD</em> par ex. BLOG_PUBLISH_CMD=""</p>
+  </div>
+
+  <div id="comments">
+    <h2><a id="s.13" name="s.13">13. Ajout du support des commentaires</a></h2>
+
+    <p>Services de commentaire et add-on's :NanoBlogger Comments, CGIComment, blogkomm[1], JS-Kit[2], and Haloscan.com[3].</p>
+
+    <p>Choisissez l'un d'eux et suivez leurs instructions d'installation.</p>
+  </div>
+
+  <div id="entries.import">
+    <h2><a id="s.14" name="s.14">14. Importation des entrées</a></h2>
+
+    <p>En premier lieu pour importer des entrées, les données doivent d'abord être converties au format de NanoBlogger.</p>
+
+    <p><b>Format d'une entrée</b></p>
+
+    <p>Un nom de fichier d'une entrée a pour format :</p>
+    <pre>CCYY-MM-DDTHH_MM_SS.txt
+        
+</pre>
+      Ainsi le fichier d'une entrée sera typiquement nommé comme suit : 
+      <pre>2004-06-25T22_24_37.txt
+        
+</pre>
+
+    <p> Le format d'une entrée est fait de méta-tags. Beaucoup
+de ces méta-tags sont du format "VAR: VALUE" suivi d'un retour chariot
+qui le sépare du suivant. L'ordre des méta-tags n'est pas significatif.
+La variable <em>BODY</em> est particulière et doit être fermée par la marque <em>END-----</em>. Par défaut, le contenu de la variable BODY doit contenir du code HTML valide avec toutes les entités correctement protégées.</p> Exemple de format d'une entrée :
+    <pre>TITLE: Une nouvelle entrée
+AUTHOR: toto
+DATE: Janvier 30 2004, 12:00 PM
+DESC: mots clé ou une courte ligne d'introduction
+FORMAT: raw
+-----
+BODY:
+&lt;p&gt;Ceci est ma nouvelle entrée...&lt;/p&gt;
+END-----
+        
+</pre>
+
+    <p><b>Conversion des entrées</b></p>
+
+    <p>Avant l'importation des entrées, elles doivent d'abord être converties dans un format précis.</p>
+
+    <p>Étapes de conversion des entrées :</p>
+    <pre>1. Convertir chaque entrée pour qu'elle contienne les méta-tags suivants : TITLE, AUTHOR, DATE, DESC, FORMAT, BODY
+2. Le méta-tag BODY doit se terminer par "END-----".
+3. Renommer chaque fichier des entrées avec la date et l'heure correspondantes.
+        
+</pre>
+
+    <p>S'il y a de beaucoup d'entrées, ce pourrait être une bonne idée que d'automatiser tout ça par un script.</p>
+
+    <p><b>Mise à jour du répertoire "Data" du blog</b></p>
+
+    <p>Les entrées importées devraient être copiées dans le répertoire <em>data</em> de votre blog.<br>
+    Mettre à jour le blog avec les nouvelles entrées :</p>
+    <pre>nb [-b blog_rep] --force update all
+        
+</pre>
+  </div>
+
+  <div id="tips">
+    <h2><a id="s.15" name="s.15">15. Trucs et astuces</a></h2>
+
+    <p><b>Commandes d'édition pratiques</b></p>Créer un nouveau méta-fichier :
+    <pre>nb [-b blog_rep] make-file un_fichier.txt
+</pre>
+      Importer le méta-fichier comme nouvelle entrée de blog : 
+      <pre>nb [-b blog_rep] import entry un_fichier.txt
+</pre>
+      ou exporter le méta-fichier comme nouvelle page de blog : 
+      <pre>nb [-b blog_rep] --makepage un_fichier.txt un_fichier.html
+</pre><em>À noter que ces tâches sont plus faciles quand l'éditeur
+supporte un sub-shell ou quand vous pouvez suspendre votre éditeur du
+shell actif (en supposant qu'il y en ait un).</em>
+
+    <p><b>Écriture des méta-tags au vol</b></p>
+
+    <p>
+Les méta-tags sont simplement des tags qui englobent des méta-fichiers.
+Ainsi le formatage du texte peut être fait à partir de la ligne de
+commande : </p>
+    <pre>nb [-b blogdir] --var FORMAT --set-var "markdown" make-page un_texte.txt un_texte.html
+    
+</pre>
+<p>Actuellement, un seul méta-tag ne peut être spécifié qu'à la fois.</p>
+
+    <p><b>Définir un répertoire de blog par défaut</b></p>
+
+    <p>Normalement vous devez spécifier le répertoire du blog, mais en définissant BLOG_DIR, vous n'avez plus à le faire. Éditez <em>nb.conf</em> ou bien <em>$HOME/.nb.conf</em>:</p>
+    <pre>BLOG_DIR="/chemin/vers/blog"
+    
+</pre>
+
+    <p><b>Désactiver les plugins</b></p>
+
+    <p>Vous pouvez souhaiter désactiver les plugins globaux ou bien tous.</p>
+
+    <p>Pour désactiver les plugins globaux, éditer <em>blog.conf</em> et changer <em>PLUGINS_DIR</em> d'un répertoire pré-existant :</p>
+<pre>PLUGINS_DIR="$BLOG_DIR/plugins"
+</pre>
+
+     <p>Pour désactiver tous les plugins, y compris ceux de l'utilisateur, éditer <em>blog.conf</em> et changer <em>PLUGINS_DIR</em> et <em>USR_PLUGINSDIR</em> pour un répertoire (vide) préexistant:</p>
+<pre> PLUGINS_DIR="$BLOG_DIR/no-plugins"
+ USR_PLUGINSDIR="$BLOG_DIR/no-plugins"
+
+</pre>
+     <p>Comme noté plus haut, les plugins peuvent être désactivés individuellement en changeant leur suffixe en autre chose que ".sh".</p>
+     
+    <p><b>Ajout d'un script shell à vos templates</b></p>
+
+    <p>IL est possible d'employer une commande de substitution dans vos templates suivant une des formes suivantes :</p>
+    <pre>        $(commande)
+ou
+        `commande`
+                
+</pre>
+
+    <p><b>Ajouter une introduction à votre blog</b></p>
+
+    <p>Créer
+un fichier texte dans le répertoire de votre blog, appelé "intro.txt".
+Éditer le fichier texte à votre guise, puis ajouter ce qui suit dans le
+template principal :</p>
+    <pre>$(&lt; "$BLOG_DIR/intro.txt")
+        
+</pre>
+
+    <p><b>Intégration de parties de votre blog dans un site Web existant</b></p>
+
+    <p>Beaucoup de parties du blog sont stockées et construites dans le répertoire <em>parts</em>.
+Disons que vous avez déjà un site Web avec vos scripts "côté serveur"
+maison, mais que vous aimeriez y ajouter une nouvelle section de news.
+C'est là que le fichier "parts/index.html" convient. Il contient les
+plus récentes entrées; ainsi ajouter une section news/diary/blog
+consiste à ajouter du code pour inclure "parts/index.html" dans la
+page. </p>
+
+    <p>Des personnes astucieuses combinent la sortie de
+page statique de NanoBlogger avec du PHP ou du Perl. Par exemple,
+supposons que vous aimiez avoir quelques liens dans la barre latérale,
+comme les entrées récentes : utilisant PHP, mettez votre <em>NB_FILETYPE</em>
+à "php" et modifiez le template concerné pour y inclure le code PHP qui
+extrait les données du répertoire "parts". Un des principaux avantages
+à ça est qu'il n'y a pas à reconstruire l'intégralité des archives du
+blog, seulement à y conserver les liens courants. </p>
+
+    <p><b>Encapsuler d'autres variables dans les templates</b></p>
+
+    <p>
+Tout caractère similaire à l'une des variables du shell ou d'une
+commande de substitution de caractère, aura à être protégé avant son
+inclusion dans les templates. </p>
+
+    <p>Exemple d'utilisation de variables dans le code PHP :</p>
+    <pre>&lt;?php
+\$VAR = array ();
+echo "\\\$VAR=\$VAR";
+php?&gt;
+     
+</pre>
+  </div>
+
+  <div id="credits">
+    <h2><a id="s.16" name="s.16">16. Crédits</a></h2>
+
+    <p>
+Remerciements à Adrien "ze" Urban, Paul Drain, Pavel Janik, and
+O.R.Senthil Kumaran pour toutes les contributions et suggestions.
+Remerciements à Bowie J. Poag, l'auteur de MicroBlogger, pour
+l'inspiration de ce projet. Reconnaissance particulière au "Ted
+Walther's Diary"[4], qui inspira à Bowie la création de MicroBlogger.
+Enfin, merci à ceux ayant contribué à un patch ou une demande de
+fonctionnalité. Voir le ChangeLog. </p>
+
+<p><a href="http://blogkomm.com/">1. http://blogkomm.com</a><br>
+ <a href="http://js-kit.com/">2. http://js-kit.com</a><br>
+<a href="http://www.haloscan.com/">3. http://www.haloscan.com</a><br>
+<a href="http://reactor-core.org/%7Edjw/diary/">4. http://reactor-core.org/~djw/diary/</a><br></p>
+	<h3>Crédits pour la traduction française</h3>
+<dl>
+<dt>Relecture (mise en français ) :</dt>
+<dd>Hubert Lombard (versions 554 et 602)</dd>
+</dl>
+
+    <div class="copyright">
+      <span>Copyright © 2003-2008 Kevin Wood. Tous droits réservés.<br>
+            Copyright © 2007-2008 Denis Bernard, pour la traduction. </span>
+    </div>
+  </div>
+
+</body></html>

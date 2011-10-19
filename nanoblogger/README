@@ -1,0 +1,68 @@
+# Last modified: 2008-09-11T22:14:32-04:00
+
+NanoBlogger is a small weblog engine written in Bash for the command
+line. It uses common UNIX tools such as cat, grep, and sed to create
+static HTML content.
+
+Installing NanoBlogger
+----------------------
+
+1. download gzipped tarball:
+   http://nanoblogger.sourceforge.net/downloads/nanoblogger-xx.tar.gz
+2. decompress gzipped tarball: tar xzf nanoblogger-xx.tar.gz
+3. Modify shell's path to include the installation path.[1]
+
+   NOTE: this step will be taken care for you when you install through a
+         package manager, like apt-get.
+
+Generic Upgrade Instructions
+----------------------------
+
+Follow these three steps:
+
+1. create a new weblog directory using nanoblogger (skip the
+   configuration):
+	nb --interactive 0 -b [new-blog-dir] add weblog
+
+2. copy the old data directory over to the new weblog directory:
+	cp -r [old-blog-dir]/data [new-blog-dir]
+
+3. edit the new blog.conf to your likings and rebuild
+   the weblog:
+	nb -b [new-blog-dir] configure update all
+
+Upgrade Notes
+-------------
+
+### Style Sheets & Templates ###
+ 
+In addition to your *old* data directory, you will probably want to also
+copy over your styles and templates directory. If you decide to do this,
+you may find that your style sheets or templates no longer work as
+expected. In which case some adjustments will have to be made before
+they work properly with the new version. A side-by-side comparison
+between the old and new version will be your best recourse. Consider
+this a small trade-off for the ability to fully customize the weblog's
+appearance.
+
+### Configuration ###
+
+Similarly, you will probably want to keep many settings from your old
+blog.conf. In which case, I suggest you do a side-by-side comparison of
+your old blog.conf and the new blog.conf. Then manually migrate your
+settings over to the new blog.conf.
+
+### Plugins ###
+
+If you created your own plugins, please take into account any changes to
+variables, settings, etc., that your plugins may depend on.
+
+Final Notes
+-----------
+
+For more in depth documentation please see the
+[NanoBlogger User Manual](nanoblogger.html) which should've been
+included with your copy of NanoBlogger.
+
+Project Page: http://nanoblogger.sourceforge.net
+Mailing List: http://groups.yahoo.com/group/nanoblogger

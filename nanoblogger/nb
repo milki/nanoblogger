@@ -1,0 +1,1085 @@
+#! /bin/bash
+############################################################
+#  NanoBlogger 3.4.2 Copyright 2010 n1xt3r (Kevin R. Wood) #
+############################################################
+# Last modified: 2010-02-15T15:39:48-05:00
+
+# nanoblogger's version.
+VERSION="3.4.2"
+# nanoblogger's copyright 
+COPYRIGHT="2004-2010"
+
+# -- hardcoded paths --
+# where to expect nanoblogger's base
+NB_BASE_DIR=`dirname $0`
+# where to expect nanoblogger's documentation
+NB_DOC_DIR="$NB_BASE_DIR/docs"
+# where to expect nanoblogger's conf file
+NB_CFG_DIR="$NB_BASE_DIR"
+# nanoblogger's language definitions directory.
+NB_LANG_DIR="${NB_BASE_DIR}/lang"
+# nanoblogger's module directory.
+NB_LIB_DIR="${NB_BASE_DIR}/lib"
+# --
+
+# -- modules --
+. ${NB_LIB_DIR}/error.sh
+. ${NB_LIB_DIR}/tools.sh
+. ${NB_LIB_DIR}/config.sh
+. ${NB_LIB_DIR}/database.sh
+. ${NB_LIB_DIR}/archive.sh
+# --
+
+# load specified or default language
+load_lang(){
+LOADLANG_CODE="$1"
+[ -z "$1" ] && LOADLANG_CODE="$NB_LANG"
+# always fallback to english
+if [ ! -d "${NB_LANG_DIR}/${LOADLANG_CODE}" ]; then
+	LOADLANG_CODE=en; NB_LANG=en
+fi
+for lang_file in ${NB_LANG_DIR}/${LOADLANG_CODE}/*.lang; do
+	. "$lang_file"
+done
+# configure language for docs
+if [ -f "$NB_DOC_DIR/nanoblogger_$LOADLANG_CODE.html" ]; then
+	NB_DOC_FILE="$NB_DOC_DIR/nanoblogger_$LOADLANG_CODE.html"
+elif [ "$LOADLANG_CODE" = en ]; then
+		# allow for non-existant nanoblogger_en.html
+		NB_DOC_FILE="$NB_DOC_DIR/nanoblogger.html"
+fi
+}
+
+# ensure a sane configuration - do or die!
+check_config(){
+deconfig; load_config
+load_lang
+[ ! -d "$NB_BASE_DIR" ] &&
+	die "`basename $0`: '$NB_BASE_DIR' - $checkconf_nobase."
+[ -z "$BLOG_DIR" ] && die "$checkconf_noblog"
+[ ! -z "$USR_BLOGCONF" ] &&
+	[ ! -f "$USR_BLOGCONF" ] && die "'$USR_BLOGCONF' - $checkconf_nousrconf"
+[ ! -d "$BLOG_DIR" ] && die "'$BLOG_DIR' - $checkconf_noblogdir"
+[ ! -d "$NB_DATA_DIR" ] && die "'$NB_DATA_DIR' - $checkconf_nodata"
+[ ! -d "$BLOG_DIR/$CACHE_DIR" ] && die "'$CACHE_DIR' - $checkconf_nocache"
+[ ! -d "$BLOG_DIR/$PARTS_DIR" ] && die "'$PARTS_DIR' - $checkconf_nocache"
+[ ! -d "$NB_TEMPLATE_DIR" ] && die "'$NB_TEMPLATE_DIR' - $checkconf_notemplates"
+[ ! -w "$NB_TEMP_DIR" ] &&
+	die "'$NB_TEMP_DIR' - $nowritedir"
+[ ! -w "$BLOG_DIR" ] &&
+	die "'$BLOG_DIR' - $nowritedir"
+# if we're still alive set trap for special temp files
+SCRATCH_FILE="$NB_TEMP_DIR/nb_scratch$$"
+NB_TEMP_FILES="$NB_TEMP_DIR/nb_entry$$.* $SCRATCH_FILE*"
+trap "rm -fr $NB_TEMP_FILES; exit" 0 1 2 3 15
+# activate custom file creation mask
+[ ! -z "$NB_UMASK" ] && umask $NB_UMASK
+}
+
+# edit $BLOG_CONF
+config_weblog(){
+PREV_CHRONORDER="$CHRON_ORDER"
+nb_edit "$BLOG_CONF"
+# check if file's been modified since opened
+[ ! -N "$BLOG_CONF" ] && die "$configweblog_nomod"
+deconfig; load_config
+# set flag to resort databases if chronological order has changed
+# NOTE: rendered ineffective outside configure action
+[ "$PREV_CHRONORDER" != "$CHRON_ORDER" ] &&
+	RESORT_DATABASE=1
+}
+
+# load specified plugins (defaults to all) from $PLUGINS_DIR
+load_plugins(){
+PLUGIN_DIR="$1"
+PLUGINS_LIST=( ${@:1} )
+	add_plugin_script(){
+	plugin_file="$1"
+	if [ -f "$plugin_file" ]; then
+		plugin_basefile="${PLUGIN_DIR}/${plugin_file##*\/}"
+		plugin_basefile="${plugin_basefile##\/}"
+		plugin_rmdir="${PLUGIN_DIR}/"
+		plugin_rmfile="${plugin_rmdir##\/}${plugin_basefile##*\/}"
+		# remove plugins while we add them to eliminate duplications
+		plugin_scripts=(${plugin_scripts[@]//$plugin_rmfile/} "$plugin_basefile" )
+	fi
+	}
+# determine the plugin direcory
+[ ! -z "$PLUGIN_DIR" ] && PLUGIN_DIR="/$1"
+# cleanup any trailing slashes in $USR_PLUGINSDIR
+USR_PLUGINSDIR=${USR_PLUGINSDIR%%\/}
+# allow loading plugins individually
+if [ -f "${USR_PLUGINSDIR}${PLUGIN_DIR}" ] || [ -f "${PLUGINS_DIR}${PLUGIN_DIR}" ]; then
+	PLUGIN_BASEFILE="${PLUGIN_DIR##*\/}"
+	PLUGIN_BASEDIR="${PLUGIN_DIR//\/${PLUGIN_BASEFILE}/}"
+	PLUGIN_DIR="$PLUGIN_BASEDIR"
+fi
+# determine the plugins directory list
+if [ -d "${USR_PLUGINSDIR}${PLUGIN_DIR}" ] && [ -d "${PLUGINS_DIR}${PLUGIN_DIR}" ]; then
+	if [ "${PLUGINS_DIR}" != "${USR_PLUGINSDIR}" ]; then
+		PLUGINSDIR_LIST="${USR_PLUGINSDIR}${PLUGIN_DIR} ${PLUGINS_DIR}${PLUGIN_DIR}"
+	else
+		PLUGINSDIR_LIST="${PLUGINS_DIR}${PLUGIN_DIR}"
+	fi
+elif [ -d "${USR_PLUGINSDIR}${PLUGIN_DIR}" ]; then
+	PLUGINSDIR_LIST="${USR_PLUGINSDIR}${PLUGIN_DIR}"
+elif [ -d "${PLUGINS_DIR}${PLUGIN_DIR}" ]; then
+	PLUGINSDIR_LIST="${PLUGINS_DIR}${PLUGIN_DIR}"
+fi
+# initialise the array of plugins
+plugin_scripts=()
+for plugin_path in $PLUGINSDIR_LIST; do
+	# break out of loop on bogus plugin path with last error value
+	[ ! -d "$plugin_path" ] && return
+	# add single plugin specified to load then drop out of loop
+	if [ ! -z "$PLUGIN_BASEFILE" ]; then
+		add_plugin_script "$plugin_path/$PLUGIN_BASEFILE"
+		break
+	fi
+	# was more than one plugin name defined?
+	PLUGINLIST_DEFINED=`echo "${PLUGINS_LIST[*]}" |grep -c '.[ ].'`
+	if [ "$PLUGINLIST_DEFINED" != 0 ] ; then
+		# yes, so we add them in order specified (removing any commas)
+		for plugin in ${PLUGINS_LIST[@]//\,/}; do
+			nb_plugin="$plugin_path/${plugin//[ ][ ]/}.sh"
+			add_plugin_script "$nb_plugin"
+		done
+	else
+		# no plugins specified, so get them all
+		for nb_plugin in "$plugin_path"/*.sh ; do
+			add_plugin_script "$nb_plugin"
+		done
+	fi
+done
+PLUGIN_BASEFILE=
+# load user and main plugins in alpha-numeric order (0-9, A-z)
+for nb_plugin in ${plugin_scripts[@]}; do
+	#nb_msg "loading ../$nb_plugin ..."
+	# allow user plugins to override and disable main plugins
+	nbpl_prefix=${nb_plugin%%.sh}
+	nbpl_glob=`echo "${PLUGINS_DIR}/${nbpl_prefix}".*`
+	nbupl_glob=`echo "${USR_PLUGINSDIR}/${nbpl_prefix}".*`
+	if [ -f "${PLUGINS_DIR}/$nb_plugin" ] && [ -f "${USR_PLUGINSDIR}/$nb_plugin" ]; then
+		# plugin.sh exists in both places, user plugin.sh takes precedence
+		#nb_msg "loading ... ${USR_PLUGINSDIR}/$nb_plugin"
+		. "${USR_PLUGINSDIR}/$nb_plugin"
+	elif [ -f "$nbupl_glob" ] && [ ! -f "${USR_PLUGINSDIR}/${nb_plugin}" ]; then # something other than plugin.sh exists
+		continue # stay in loop, but skip to next in list
+	elif [ -f "${USR_PLUGINSDIR}/$nb_plugin" ]; then # plugin.sh only exists in one place
+		#nb_msg "loading ... ${USR_PLUGINSDIR}/$nb_plugin"
+		. "${USR_PLUGINSDIR}/$nb_plugin"
+	elif [ -f "$nbpl_glob" ] && [ ! -f "${PLUGINS_DIR}/${nb_plugin}" ]; then # something other than plugin.sh exists
+		continue # stay in loop, but skip to next in list
+	elif [ -f "${PLUGINS_DIR}/$nb_plugin" ]; then # plugin.sh only exists in on place
+		#nb_msg "loading ... ${PLUGINS_DIR}/$nb_plugin"
+		. "${PLUGINS_DIR}/$nb_plugin"
+	fi
+done
+}
+
+# filter content through a template
+load_template(){
+TEMPLATE_FILE="$1"
+if [ -f "$TEMPLATE_FILE" ]; then
+	# prefix lines with an X
+	TEMPLATE=`sed -e '/^/ s//X: /' < "$TEMPLATE_FILE"`
+	# remove X's and source variables into a temp file
+	cat > "$SCRATCH_FILE".template <<-EOF
+		sed -e '/^X:[ ]/ s///' <<TMPL
+			$TEMPLATE
+		TMPL
+	EOF
+	TEMPLATE_DATA=`. "$SCRATCH_FILE".template`
+else
+	die "'$TEMPLATE_FILE' - $loadtemplate_nofile"
+fi
+}
+
+# write template data to stdout
+write_template(){
+cat <<-EOF
+	$TEMPLATE_DATA
+EOF
+}
+
+# build the weblog
+build_weblog(){
+# pre-processing for extensive update options
+if [ "$QUERY_WEBLOG" != 1 ]; then
+	NB_QUERY="$updweblog_type"; db_query="$NB_QUERY"
+fi
+case "$updweblog_type" in
+	article|article[a-z]) NB_QUERY=article; db_query=main;;
+	feed|feed[a-z]) NB_QUERY=feed; db_query=main;;
+	tag|tag[a-z]) if [ ! -z "$update_idsel" ]; then
+				db_query=; cat_num="$update_idsel"; fi;;
+esac
+	init_update(){
+	# add welcome message with category id 1 (nanoblogger-help) to new weblogs
+	if [ -f "$BLOG_DIR/.nb_newblogdir" ]; then
+		# force full update
+		UPDATE_WEBLOG=1; NB_QUERY=all
+		import_file "$NB_BASE_DIR/welcome-to-nb.txt"
+		old_catnum="$cat_num"; cat_num=1
+		add_entry; cat_num="$old_catnum"
+		rm -f "$BLOG_DIR/.nb_newblogdir"
+	fi
+	# for clean build remove all generated files
+	if [ "$UPDATE_WEBLOG" = 1 ] && [ "$NB_QUERY" = all ] && [ -z "$cat_num" ] && \
+		! [[ $NB_UPDATE == *arch ]]; then
+		nb_msg "$buildweblog_all"
+		# confirm removal of any previously generated files
+		[ "$BLOG_INTERACTIVE" = 1 ] && confirm_action
+		# use "--force" to rebuild databases
+		[ "$FORCE_UPDATE" = 1 ] && query_db rebuild
+		# use "--force" to clear cached data
+		for update_dir in "$ARCHIVES_DIR" "$PARTS_DIR"; do
+			[ ! -z "$update_dir" ] && [ -d "$BLOG_DIR/$update_dir" ] &&
+				rm -fr "$BLOG_DIR"/"$update_dir"/*
+		done
+	fi
+	# update master.db
+	if [ "$NB_QUERY" != main ]; then
+		nb_msg "$querydb_init"
+		query_db master
+	fi
+	# update special query results for months and years
+	query_db years
+	query_db months
+	query_db days
+	# generate our update list from the query
+	if [ -z "${UPDATE_LIST[*]}" ]; then
+		# reassert any previously specified categories
+		[ ! -z "$cat_num" ] && db_catquery=`cat_id "$cat_num"`
+		# query falls back to default query mode 
+		[ -z "$NB_QUERY" ] && NB_QUERY="$QUERY_MODE"
+		db_query="$NB_QUERY"
+		query_db "$db_query" "$db_catquery"
+		UPDATE_LIST=(${DB_RESULTS[*]})
+	fi
+	# only update specified categories upon forced updates
+	if [ -z $cat_num ] && ! [[ $NB_UPDATE == *arch ]]; then
+		find_categories "${UPDATE_LIST[*]}"
+	else
+		find_categories
+	fi
+	# update previous entry's nav. links for new entries
+	if [ ! -z "$New_EntryFile" ]; then
+		findba_entries "$New_EntryFile" "${MASTER_DB_RESULTS[*]}"
+		set_entrynavlinks prev "$before_entry"
+		set_entrynavlinks next "$after_entry"
+		[ ! -z "$prev_entry" ] &&
+			echo "$prev_entry" >> "$SCRATCH_FILE".newentry_list
+		[ ! -z "$next_entry" ] &&
+			echo "$next_entry" >> "$SCRATCH_FILE".newentry_list
+		UPDATE_LIST=(`sort -u "$SCRATCH_FILE".newentry_list`)
+	fi
+	}
+	init_plugins(){
+	# setup cache for plugins
+	export CACHE_TYPE=plugin
+	# always load main plugins
+	load_plugins
+	}
+	init_main(){
+	# build main weblog index
+	nb_msg "$buildweblog_main"
+	export CACHE_TYPE=main
+	# reset UPDATE_LIST so main index gets updated
+	query_db "$MAINPAGE_QUERY" nocat
+	UPDATE_LIST=(${DB_RESULTS[*]})
+	paginate "$MAINPAGE_QUERY" nocat "$MAX_MAINPAGE_ENTRIES" "$MAIN_TEMPLATE" \
+		"$ENTRY_TEMPLATE" "$BLOG_DIR/" "$NB_INDEXFILE"
+	if [ "$NB_QUERY" != main ]; then
+		# remove any expired cache data to save disk space
+		if [ "$BLOG_CACHEMNG" != 0 ]; then
+			nb_msg "$buildweblog_cache"
+			update_cache expired
+		fi
+	fi
+	# load post plugins
+	load_plugins post
+	if [ "$SHOW_TIMES" = 1 ] && [ "$VERBOSE" != 0 ]; then
+		times
+	fi
+	}
+nb_msg "$buildweblog_files"
+case "$NB_QUERY" in
+	tag|tag[a-z]|cat)
+			[ -z "$cat_num" ] && NB_UPDATE=catarch; NB_QUERY=all;
+			init_update; init_plugins; build_catarchives; init_main
+		;;
+	main) 		db_query=main; init_update; init_plugins; init_main
+		;;
+	*) 		# build/update archives based on the query results
+			if [ "$NB_QUERY" != main ]; then
+				init_update; init_plugins;
+				build_archives; init_main;
+			fi
+		;;
+esac
+}
+
+# add new entry
+add_entry(){
+# acquire and validate specified categories
+if [ ! -z "$cat_num" ]; then
+	db_catquery=`cat_id "$cat_num"`; check_catid "$cat_num"
+	nb_msg "$addentry_catinfo $cat_num ..."
+fi
+nb_msg "$addentry_action"
+# generate formatted date string for entry's metadata
+meta_timestamp; NB_EntryDate="$NB_MetaDate"
+# load user specified timestamp
+if [ -f "$NB_EditFile" ]; then
+	read_metadata TIMESTAMP "$NB_EditFile"
+	New_TimeStamp="$METADATA"
+fi
+New_EntryFile="$NB_MetaTimeStamp.$NB_DATATYPE"
+# dump all custom modications from edit file to new entry's data file
+if [ -f "$NB_EditFile" ]; then
+	cat "$NB_EditFile" > "$NB_DATA_DIR/$New_EntryFile"
+elif [ -f "$IMPORT_FILE" ]; then
+	# dump all custom modifications from import file to new entry's data file
+	cat "$IMPORT_FILE" > "$NB_DATA_DIR/$New_EntryFile"
+fi
+# save date metadata to entry's data file
+[ -f "$NB_DATA_DIR/$New_EntryFile" ] &&
+	write_var DATE "$NB_EntryDate" "$NB_DATA_DIR/$New_EntryFile"
+# use specified timestamp as entry's new date
+chg_entrydate "$New_EntryFile" "$New_TimeStamp"
+[ ! -z "$New_EntryDateFile" ] &&
+	New_EntryFile="$New_EntryDateFile"
+# add to specified categories
+if [ ! -z "$cat_num" ]; then
+	for cat_db in $db_catquery; do 
+		update_catdb "$New_EntryFile" "$NB_DATA_DIR/$cat_db"
+	done
+fi
+echo "$New_EntryFile" >> "$SCRATCH_FILE".newentry_list
+UPDATE_LIST=(`sort -u "$SCRATCH_FILE".newentry_list`)
+find_categories "${UPDATE_LIST[*]}"
+nb_msg "$querydb_update"
+update_maindb "$New_EntryFile" "$NB_DATA_DIR/master.db"
+update_categories
+resort_categories
+resort_db "$NB_DATA_DIR/master.db"
+}
+
+# edit entry or tag by id number
+edit_weblog(){
+case "$editweblog_type" in
+	entry)  # edit entries
+		NUMVAR=`echo "$edit_idsel" |grep '[0-9]' |sed -e '/[\,]/ s// /g; /[A-Z,a-z\)\.\-]/d'`
+		[ -z "$NUMVAR" ] && die "$novalid_entryid"
+		db_catquery=`cat_id "$cat_num"`; check_catid "$cat_num"
+		# find entry id(s) from specified query
+		[ ! -z "$NB_QUERY" ] && db_query="$NB_QUERY"
+		query_db "$db_query" "$db_catquery"; ENTRY_LIST=(${DB_RESULTS[*]})
+		for entry_id in $NUMVAR; do
+			# adjust offset by 1 for arrays (1 = 0)
+			((entry_id--))
+			Edit_EntryFile=${ENTRY_LIST[$entry_id]}
+			[ ! -f "$NB_DATA_DIR/$Edit_EntryFile" ] && die "$invalid_entryid $edit_idsel"
+		done
+		> "$SCRATCH_FILE".edit_weblog
+		# for chg_entrydate
+		[ ! -z "$cat_num" ] && nb_msg "$editweblog_catinfo $cat_num"
+		for entry_id in $NUMVAR; do
+			((entry_id--)) # adjust offset by 1 for arrays (1 = 0)
+			Edit_EntryFile=${ENTRY_LIST[$entry_id]}
+			read_metadata TITLE "$NB_DATA_DIR/$Edit_EntryFile"
+			OldEdit_EntryTitle="$METADATA"
+			# write any user metadata
+			write_var "$USR_METAVAR" "$USR_SETVAR" "$NB_DATA_DIR/$Edit_EntryFile"
+			nb_edit -p "$NB_DATA_DIR/$Edit_EntryFile"
+			# validate metafile
+			check_metavars "TITLE: AUTHOR: DATE: BODY: $METADATA_CLOSEVAR" \
+				"$NB_DATA_DIR/$Edit_EntryFile"
+			# load user specified timestamp
+			read_metadata TIMESTAMP "$NB_DATA_DIR/$Edit_EntryFile"
+			New_TimeStamp="$METADATA"
+			# use specified timestamp as entry's new date
+			chg_entrydate "$Edit_EntryFile" "$New_TimeStamp"
+			[ -f "$NB_DATA_DIR/$New_EntryDateFile" ] &&
+				Edit_EntryFile="$New_EntryDateFile"
+			# add timestamp modified entries to update list
+			if [ ! -z "$Old_EntryFile" ]; then
+				echo "$Old_EntryFile" >> "$SCRATCH_FILE".edit_weblog
+				nb_msg "$querydb_update"
+				find_categories "$Old_EntryFile"
+				for olde_catdb in ${CAT_LIST[*]}; do
+					delete_db "$Old_EntryFile" "$NB_DATA_DIR/$olde_catdb"
+				done
+				delete_db "$Old_EntryFile" "$NB_DATA_DIR/master.db"
+				update_maindb "$Edit_EntryFile" "$NB_DATA_DIR/master.db"
+				update_categories "$Edit_EntryFile"
+				resort_categories
+				resort_db "$NB_DATA_DIR/master.db"
+			fi
+			# use cached version for 'newer than' comparison
+			nt_cachefile=`echo "$BLOG_DIR/$CACHE_DIR/$Edit_EntryFile".*`
+			nt_cachefile=${nt_cachefile//[ ]*/}
+			if [ "$NB_DATA_DIR/$Edit_EntryFile" -nt "$nt_cachefile" ]; then
+				read_metadata TITLE "$NB_DATA_DIR/$Edit_EntryFile"
+				NewEdit_EntryTitle="$METADATA"
+				# update previous and next entries of modified entry
+				query_db master
+				findba_entries "$Edit_EntryFile" "${MASTER_DB_RESULTS[*]}"
+				set_entrynavlinks prev "$before_entry"
+				set_entrynavlinks next "$after_entry"
+				[ ! -z "$prev_entry" ] &&
+					echo "$prev_entry" >> "$SCRATCH_FILE".edit_weblog
+				[ ! -z "$next_entry" ] &&
+					echo "$next_entry" >> "$SCRATCH_FILE".edit_weblog
+				echo "$Edit_EntryFile" >> "$SCRATCH_FILE".edit_weblog
+				# remove old cache data for clean build
+				rm -f "$BLOG_DIR/$CACHE_DIR/$Edit_EntryFile".*
+				# remove old entry archive directory
+				set_entrylink "$Edit_EntryFile"
+				Delete_EntryArchiveDir="$BLOG_DIR/$ARCHIVES_DIR/$entry_dir/$entry_linkname"
+				[ ! -z "$entry_linkname" ] && [ -d "$Delete_EntryArchiveDir" ] &&
+					rm -fr "$Delete_EntryArchiveDir"
+			fi
+		done
+		NB_QUERY=; UPDATE_LIST=(`sort -u "$SCRATCH_FILE".edit_weblog`)
+		if [ ! -z "${UPDATE_LIST[*]}" ]; then
+			nb_msg "$editweblog_action"
+			find_categories "${UPDATE_LIST[*]}"
+			resort_categories
+			build_weblog
+		else
+			die "$editweblog_noaction"
+		fi
+
+	;;
+	meta-file|file)  # edit files
+		nb_draft "$edit_idsel"
+	;;
+	tag|cat) # edit categories
+		cat_num="$edit_idsel"; cat_var=`echo "$cat_num" |sed -e '/,/d'`
+		[ -z "$cat_var" ] && die "$editweblog_onecat"
+		db_catquery=`cat_id "$cat_num"`; check_catid "$cat_num"
+		nb_msg "$editweblog_catinfo $cat_num"
+		if [ ! -z "$USR_TITLE" ]; then
+			set_catlink "$db_catquery"
+			[ ! -z "$category_dir" ] && [ -d "$BLOG_DIR/$ARCHIVES_DIR/$category_dir" ] &&
+				rm -fr "$BLOG_DIR/$ARCHIVES_DIR/$category_dir"
+
+			new_usrtitle=`translit_text "$USR_TITLE"`
+			nb_msg "$editweblog_title '$new_usrtitle' ..."
+			echo "$new_usrtitle" > "$NB_DATA_DIR/$db_catquery".tmp && \
+			sed 1d "$NB_DATA_DIR/$db_catquery" >> "$NB_DATA_DIR/$db_catquery".tmp && \
+			mv "$NB_DATA_DIR/$db_catquery".tmp "$NB_DATA_DIR/$db_catquery"
+			NB_QUERY=; UPDATE_LIST=(`sed 1d "$NB_DATA_DIR/$db_catquery" |sort -u`)
+			find_categories "${UPDATE_LIST[*]}"
+			resort_categories
+			build_weblog; exit
+		else
+			die "$editweblog_nomod"
+		fi
+
+	;;
+	*) 	die "$main_badopts $editweblog_type";;
+esac
+}
+
+# delete entry or category by id number
+delete_weblog(){
+# find entry id(s) from specified query
+[ ! -z "$NB_QUERY" ] && db_query="$NB_QUERY"
+db_catquery=`cat_id "$cat_num"`; check_catid "$cat_num"
+cat_list="$db_catquery"
+case "$delweblog_type" in
+	entry) # delete entries
+		NUMVAR=`echo "$delete_idsel" |grep '[0-9]' |sed -e '/[\,]/ s// /g; /[A-Z,a-z\)\.\-]/d'`
+		[ -z "$NUMVAR" ] && die "$novalid_entryid"
+		if [ ! -z "$cat_list" ]; then
+			CATNUMVAR=`echo "$cat_num" |grep '[0-9]' |sed -e '/[\,]/ s// /g; /[A-Z,a-z\)\.\-]/d'`
+			[ -z "$CATNUMVAR" ] &&
+				die "$deleteweblog_onecat"
+		fi
+		[ ! -z "$NB_QUERY" ] && db_query="$NB_QUERY"
+		query_db "$db_query" "$cat_list"; ENTRY_LIST=(${DB_RESULTS[*]})
+		for entry_id in $NUMVAR; do
+			# adjust offset by 1 for arrays (1 = 0)
+			old_entryid="$entry_id"
+			((entry_id--))
+			Delete_EntryFile=${ENTRY_LIST[$entry_id]}
+			[ ! -f "$NB_DATA_DIR/$Delete_EntryFile" ] && die "$invalid_entryid $delete_idsel"
+			read_metadata TITLE "$NB_DATA_DIR/$Delete_EntryFile"; Delete_EntryTitle=`echo "${METADATA:0:25}"`..
+			delete_titles="$delete_titles $old_entryid=$Delete_EntryTitle,"
+		done
+		delete_titles=`echo "$delete_titles" |sed -e '/^[ ]/ s///; /[\,]$/ s///'`
+		[ ! -z "$cat_num" ] && nb_msg "$deleteweblog_catinfo $cat_num"
+		nb_msg "$deleteweblog_delentry $delete_idsel ($delete_titles) ..."
+		# confirm delete in interactive mode
+		[ "$BLOG_INTERACTIVE" = 1 ] && confirm_action
+		# initialize master.db
+		if [ ! -z "$NB_QUERY" ]; then
+			db_query="$NB_QUERY"
+		else
+			db_query=master
+		fi
+		query_db "$db_query"
+		> "$SCRATCH_FILE"; > "$SCRATCH_FILE.x-update"
+		nb_msg "$querydb_update"
+		for entry_id in $NUMVAR; do
+			# adjust offset by 1 for arrays (1 = 0)
+			((entry_id--))
+			Delete_EntryFile=${ENTRY_LIST[$entry_id]}
+			if [ -f "$NB_DATA_DIR/$Delete_EntryFile" ]; then
+				echo "$Delete_EntryFile" >> "$SCRATCH_FILE"
+				if [ ! -z "${cat_list[*]}" ]; then
+					# deletes entry from categories
+					for cat_db in ${cat_list[@]}; do
+						cat_match=`grep -c "$Delete_EntryFile" "$NB_DATA_DIR/$cat_db"`
+						[ "$cat_match" -ge 1 ] &&
+							echo "$cat_db" >> "$SCRATCH_FILE.x-catdbs"
+						delete_db "$Delete_EntryFile" "$NB_DATA_DIR/$cat_db"
+					done
+					update_maindb "$Delete_EntryFile" "$NB_DATA_DIR/master.db"
+				else
+					# permanently deletes entry
+					for cat_db in ${db_categories[@]}; do
+						cat_match=`grep -c "$Delete_EntryFile" "$NB_DATA_DIR/$cat_db"`
+						[ "$cat_match" -ge 1 ] &&
+							echo "$cat_db" >> "$SCRATCH_FILE.x-catdbs"
+						delete_db "$Delete_EntryFile" "$NB_DATA_DIR/$cat_db"
+					done
+					set_entrylink "$Delete_EntryFile"
+					Delete_PermalinkFile="$BLOG_DIR/$ARCHIVES_DIR/$permalink_file"
+					Delete_EntryArchiveDir="$BLOG_DIR/$ARCHIVES_DIR/$entry_dir/$entry_linkname"
+					# delete permalink file
+					[ -f "$Delete_PermalinkFile" ] && rm -fr "$Delete_PermalinkFile"
+					# delete permalink directory
+					[ ! -z "$entry_linkname" ] && [ -d "$Delete_EntryArchiveDir" ] &&
+						rm -fr "$Delete_EntryArchiveDir"
+					# delete old cache data
+					rm -f "$BLOG_DIR/$CACHE_DIR/$Delete_EntryFile".*
+					# update previous and next entries of deleted entry
+					query_db master
+					findba_entries "$Delete_EntryFile" "${MASTER_DB_RESULTS[*]}"
+					set_entrynavlinks prev "$before_entry"
+					set_entrynavlinks next "$after_entry"
+					delete_db "$Delete_EntryFile" "$NB_DATA_DIR/master.db"
+					rm -f "$NB_DATA_DIR/$Delete_EntryFile"
+					echo "$Delete_EntryFile" >> "$SCRATCH_FILE.x-entries"
+					# hide prev and next entries from category updates
+					[ ! -z "$prev_entry" ] &&
+						echo "$prev_entry" >> "$SCRATCH_FILE.x-update"
+					[ ! -z "$next_entry" ] &&
+						echo "$next_entry" >> "$SCRATCH_FILE.x-update"
+				fi
+			fi
+		done
+		NB_QUERY=; UPDATE_LIST=(`sort -u "$SCRATCH_FILE"`)
+		# update all categories with removed entries
+		[ ! -z "${UPDATE_LIST[*]}" ] &&
+			find_categories "${UPDATE_LIST[*]}"
+		[ -f "$SCRATCH_FILE.x-catdbs" ] && CAT_XLIST=(`sort -u "$SCRATCH_FILE.x-catdbs"`)
+		[ ! -z "${CAT_XLIST[*]}" ] &&
+			CAT_LIST=(`for xcatdb in ${CAT_LIST[@]} ${CAT_XLIST[@]}; do echo $xcatdb; done |sort -u`)
+		# prune all removed entries from update list
+		if [ -f "$SCRATCH_FILE.x-entries" ]; then
+			for xentry in $(< "$SCRATCH_FILE.x-entries"); do
+				sed -e '/'$xentry'/d' "$SCRATCH_FILE".x-update > "$SCRATCH_FILE".x-update.new && \
+				mv "$SCRATCH_FILE".x-update.new "$SCRATCH_FILE".x-update
+			done
+			UPDATE_LIST=(`sort -u "$SCRATCH_FILE.x-update"`)
+		fi
+		update_categories
+		resort_categories
+		build_weblog
+	;;
+	tag|cat) # delete categories
+		cat_num="$delete_idsel"
+		[ -z "$cat_num" ] && die "$checkcatid_novalid"
+		db_catquery=`cat_id "$cat_num"`; check_catid "$cat_num"
+		cat_list="$db_catquery"
+		nb_msg "$deleteweblog_delcat $cat_num ..."
+		# confirm delete in interactive mode
+		[ "$BLOG_INTERACTIVE" = 1 ] && confirm_action
+		query_db "$db_query" "${cat_list[*]}"
+		echo "${DB_RESULTS[*]}" > $SCRATCH_FILE
+		for cat_db in ${cat_list[@]}; do
+			Delete_CatDBFile="$cat_db"
+			[ -f "$NB_DATA_DIR/$cat_db" ] && set_catlink "$cat_db"
+			[ ! -z "$category_dir" ] && [ -d "$BLOG_DIR/$ARCHIVES_DIR/$category_dir" ] &&
+				rm -fr "$BLOG_DIR/$ARCHIVES_DIR/$category_dir"
+			rm -f "$NB_DATA_DIR/$cat_db" "$BLOG_DIR/$ARCHIVES_DIR"/`chg_suffix "$cat_db"`
+		done; cat_num=
+		NB_QUERY=; UPDATE_LIST=(`sort -u "$SCRATCH_FILE"`)
+		[ ! -z "${UPDATE_LIST[*]}" ] &&
+			find_categories "${UPDATE_LIST[*]}"
+		nb_msg "$querydb_update"
+		for oldcat_dbitem in ${UPDATE_LIST[*]}; do
+			update_maindb "$oldcat_dbitem" "$NB_DATA_DIR/master.db"
+		done
+		resort_db "$NB_DATA_DIR/master.db"
+		build_weblog; exit
+	;;
+	*) 	die "$main_badopts $delweblog_type";;
+esac
+}
+
+# assign categories to entries
+cat_entry(){
+NUMVAR=`echo "$catentry_num" |grep '[0-9]' |sed -e '/[\,]/ s// /g; /[A-Z,a-z\)\.\-]/d'`
+[ -z "$NUMVAR" ] && die "$novalid_entryid"
+[ ! -z "$NB_QUERY" ] && db_query="$NB_QUERY"
+query_db "$db_query"
+for entry_id in $NUMVAR; do
+	# adjust offset by 1 for arrays (1 = 0)
+	old_entryid="$entry_id"
+	((entry_id--))
+	Cat_EntryFile=${DB_RESULTS[$entry_id]}
+	[ ! -f "$NB_DATA_DIR/$Cat_EntryFile" ] && die "$invalid_entryid $catentry_num"
+	read_metadata TITLE "$NB_DATA_DIR/$Cat_EntryFile"; Cat_EntryTitle=`echo "${METADATA:0:25}"`..
+	catentry_titles="$catentry_titles $old_entryid=$Cat_EntryTitle,"
+done
+catentry_titles=`echo "$catentry_titles" |sed -e '/^[ ]/ s///; /[\,]$/ s///'`
+nb_msg "$catentry_catinfo $cat_num ..."
+nb_msg "$catentry_catging $catentry_num ($catentry_titles) ..."
+db_catquery=`cat_id "$cat_num"`; check_catid "$cat_num"; [ -z "$cat_num" ] && die "$catentry_catfirst"
+# confirm category in interactive mode
+[ "$BLOG_INTERACTIVE" = 1 ] && confirm_action
+> "$SCRATCH_FILE"
+nb_msg "$querydb_update"
+query_db "$db_query"
+for entry_id in $NUMVAR; do
+	# adjust offset by 1 for arrays (1 = 0)
+	((entry_id--))
+	Cat_EntryFile=${DB_RESULTS[$entry_id]}
+	if [ -f "$NB_DATA_DIR/$Cat_EntryFile" ]; then
+		echo "$Cat_EntryFile" >> "$SCRATCH_FILE"
+		if [ ! -z "${cat_list[*]}" ]; then
+			for cat_db in ${cat_list[@]}; do
+				update_catdb "$Cat_EntryFile" "$NB_DATA_DIR/$cat_db"
+			done
+		fi
+		update_maindb "$Cat_EntryFile" "$NB_DATA_DIR/master.db"
+	fi
+done
+NB_QUERY=; UPDATE_LIST=(`sort -u "$SCRATCH_FILE"`)
+[ ! -z "${UPDATE_LIST[*]}" ] &&
+	find_categories "${UPDATE_LIST[*]}"
+update_categories
+resort_categories
+resort_db "$NB_DATA_DIR/master.db"
+build_weblog
+}
+
+# list entries and categories
+list_weblog(){
+query_db; db_query="$NB_QUERY"
+# pre-processing for extensive list options
+if [ "$QUERY_WEBLOG" != 1 ]; then
+	NB_QUERY="$listweblog_type"; db_query="$NB_QUERY"
+fi
+case "$listweblog_type" in 
+	tag|tag[a-z]|cat) if [ ! -z "$list_idsel" ]; then
+			db_query=; cat_num="$list_idsel"; fi;;
+esac
+db_catquery=`cat_id "$cat_num"`; check_catid "$cat_num"
+explode_list(){
+EXPLODE_RESULTS=($1)
+list_entryid=0
+entry_items=${#EXPLODE_RESULTS[*]}
+id=0
+while [ "$id" -lt "$entry_items" ]; do
+	let list_entryid=${list_entryid}+1
+	entry=${EXPLODE_RESULTS[$id]%%>[0-9]*}
+	entry_cat=${EXPLODE_RESULTS[$id]##*\>}
+	read_metadata TITLE "$NB_DATA_DIR/$entry"; NB_EntryTitle="$METADATA"
+	[ "$entry_cat" != "$entry" ] && entry_catids="- [$entry_cat]"
+	entry_date=${entry%%.$NB_DATATYPE}; entry_date=${entry_date//\_/:}
+	NB_EntryDate=${entry_date//[A-Z]/ }
+	echo " $list_entryid, $NB_EntryTitle - ($NB_EntryDate) $entry_catids"
+	let id=${id}+1
+	entry_cat=; entry_catids=; entry=
+done
+}
+# lists categories
+case "$db_query" in
+	tag|tag[a-z]|cat) [ -z "${db_categories[*]}" ] && die "$listweblog_nocat"
+			nb_msg "$header_ID, $header_Title"
+			query_db; id=0
+			cat_items=${#db_categories[*]}
+			while [ "$id" -le "$cat_items" ]; do
+				let id=${id}+1
+				[ -f "$NB_DATA_DIR/cat_$id.$NB_DBTYPE" ] &&
+				echo " $id, `nb_print "$NB_DATA_DIR"/cat_$id.$NB_DBTYPE 1`"
+			done; exit;;
+esac
+list_entries(){
+	[ -z "$db_query" ] && db_query="$QUERY_MODE"
+	list_query="$db_query"
+	# raw_db necessary for including category info
+	raw_db "$db_query" "$db_catquery"
+	[ -z "${DB_RESULTS[*]}" ] && die "'$list_query' - $listweblog_nomatch"
+}
+# lists entries
+case "$db_query" in
+	a|any|all|entry|entries)
+			db_query=all; list_entries
+			nb_msg "$header_ID, $header_Title - ($header_Date) - [$header_Category]"
+			explode_list "${DB_RESULTS[*]}";;
+	""|main|max|[0-9]*)
+			list_entries
+			nb_msg "$header_ID, $header_Title - ($header_Date) - [$header_Category]"
+			explode_list "${DB_RESULTS[*]}";;
+	*) 	die "$main_badopts $listweblog_type";;
+esac
+}
+
+# create a new entry, category or weblog directory
+add_weblog(){
+process_entry(){
+	if [ -z "$USR_ADDFILE" ]; then
+		# read user specified attributes for entry (interactively)
+		if [ -z "$USR_AUTHOR" ] && [ "$BLOG_INTERACTIVE" = 1 ]; then
+			echo "$addweblog_author [$BLOG_AUTHOR]"
+			read -p "$NB_PROMPT" NB_EntryAuthor
+		fi
+		if [ -z "$USR_TITLE" ] && [ "$BLOG_INTERACTIVE" = 1 ]; then
+			echo "$addweblog_title"
+			read -p "$NB_PROMPT" NB_EntryTitle
+		fi
+		[ ! -z "$USR_TEXT" ] && NB_EntryBody="$USR_TEXT"; USR_TEXT=
+		[ ! -z "$USR_DESC" ] && NB_EntryDescription="$USR_DESC"
+		# prompt for description interactively
+		if [ -z "$NB_EntryDescription" ] && [ "$DESC_PROMPT" != 1 ] &&
+			[ "$BLOG_INTERACTIVE" = 1 ]; then
+				echo "$addweblog_desc"
+				read -p "$NB_PROMPT" NB_EntryDescription
+		fi
+	fi
+	[ ! -z "$USR_TITLE" ] && NB_EntryTitle="$USR_TITLE"; USR_TITLE=
+	[ ! -z "$USR_AUTHOR" ] && NB_EntryAuthor="$USR_AUTHOR"
+	[ -z "$NB_EntryAuthor" ] && NB_EntryAuthor="$BLOG_AUTHOR"
+	[ -z "$NB_EntryFormat" ] && NB_EntryFormat="$ENTRY_FORMAT"
+	# set a default entry format
+	[ -z "$NB_EntryFormat" ] && NB_EntryFormat="$ENTRY_FORMAT"
+	# create new temp file for prepping the entry's data file
+	NB_EditFile="$BLOG_DIR/nb_edit-entry-`nb_timestamp`.$NB_DATATYPE"
+	# save current metadata to temp file
+	write_entry "$NB_EditFile"
+	# save user metadata and preserve structure from imported file
+	if [ -f "$IMPORT_FILE" ]; then
+		write_var "$USR_METAVAR" "$USR_SETVAR" "$IMPORT_FILE"
+		cat "$IMPORT_FILE" > "$NB_EditFile"
+	fi
+	if [ -z "$NB_EntryBody" ]; then
+		nb_msg "$addweblog_editnew"
+		nb_edit -p "$NB_EditFile"
+		# preserve custom meta variable and data
+		[ ! -z "$USR_METAVAR" ] &&
+			read_metadata "$USR_METAVAR" "$NB_EditFile"; USR_SETVAR="$METADATA"
+		write_var "$USR_METAVAR" "$USR_SETVAR" "$NB_EditFile"
+		# validate metafile
+		check_metavars "TITLE: AUTHOR: DATE: BODY: $METADATA_CLOSEVAR" \
+			"$NB_EditFile"
+	fi
+}
+# process new
+process_new(){
+	add_entry
+	build_weblog
+	# remove editing session file upon success
+	[ $? = 0 ] && [ -f "$NB_EditFile" ] && rm -fr "$NB_EditFile"
+	# prompt for some post-tasks
+	[ ! -z "$BLOG_PREVIEW_CMD" ] && preview_weblog
+	[ ! -z "$BLOG_PUBLISH_CMD" ] && publish_weblog
+}
+load_config
+case "$addweblog_type" in
+	article)
+		check_config
+ 		# verify articles directories
+		for articlesection in ${ARTICLES_DIR[@]}; do
+			[ ! -d "$BLOG_DIR/$articlesection" ] &&
+				die "$addweblog_noarticledir"
+		done
+		USR_ARTICLEFILE="$USR_ADDFILE"; NB_ArticleFile=
+		if [ -z "$USR_ARTICLEFILE" ]; then
+			NB_ArticleFile="$BLOG_DIR/nb_edit-article-`nb_timestamp`.$ARTICLES_SUFFIX"
+			USR_ARTICLEFILE="$NB_ArticleFile"
+		fi
+		[ ! -z "$USR_TITLE" ] && NB_MetaTitle="$USR_TITLE"
+		# determine the articles destination
+		article_dirname=`dirname "$USR_ARTICLEFILE"`; article_dir=${ARTICLES_DIR%%[ ]*}
+		article_dirbase=${article_dirname//$BLOG_DIR}; article_dirbase=${article_dirbase//$article_dir}
+		article_dirbase=/${article_dirbase##*\/}; article_dirbase=${article_dirbase%%\/}
+		[ "${article_dirname//$BLOG_DIR}" = "$article_dirname" ] && article_dirbase=
+		article_filename=`chg_suffix "$article_filename" "$ARTICLES_SUFFIX"`
+		if [ -d "$article_dirname" ] && [ ! -f "$USR_ARTICLEFILE" ]; then
+			[ ! -z "$NB_ArticleFile" ] && make_file "$NB_ArticleFile" "$USR_TEMPLATE"
+			article_created=1; nb_draft -p "$USR_ARTICLEFILE"
+		fi
+		[ ! -f "$USR_ARTICLEFILE" ] && die "$addweblog_noarticlesrc"
+		check_metavars "TITLE: BODY: $METADATA_CLOSEVAR" "$USR_ARTICLEFILE"
+		if [ ! -z "$NB_ArticleFile" ]; then
+			read_metadata TITLE "$USR_ARTICLEFILE"
+			if [ ! -z "$METADATA" ]; then
+				article_filename=`translit_text "$METADATA"`.$ARTICLES_SUFFIX
+			else
+				article_filename=`translit_text "$notitle"`.$ARTICLES_SUFFIX
+			fi
+		else
+			article_filename=`basename "$USR_ARTICLEFILE"`
+		fi
+		if [ "$article_created" != 1 ]; then
+			[ -f "$BLOG_DIR/$article_dir${article_dirbase}/$article_filename" ] &&
+				die "'$BLOG_DIR/$article_dir${article_dirbase}/$article_filename' - $samefilename"
+		fi
+		if [ ! -z "$article_dir" ] && [ -d "$BLOG_DIR/$article_dir${article_dirbase}" ]; then
+			article_internal=${article_dirname//*${article_dir}*/true}
+			if [ ! -z "$article_dirbase" ] || [ "$article_internal" != "true" ]; then
+				if [ ! -f "$BLOG_DIR/$article_dir${article_dirbase}/$article_filename" ]; then
+					cp "$USR_ARTICLEFILE" \
+					"$BLOG_DIR/$article_dir${article_dirbase}/$article_filename" || exit
+					article_copied=1
+				fi
+			fi
+			[ -f "$NB_ArticleFile" ] && rm -f "$NB_ArticleFile"
+			if [ "$article_created" = 1 ] || [ "$article_copied" = 1 ]; then
+				nb_msg "$addweblog_newarticle"
+				NB_QUERY=main; build_weblog
+				# prompt for some post-tasks
+				[ ! -z "$BLOG_PREVIEW_CMD" ] && preview_weblog
+				[ ! -z "$BLOG_PUBLISH_CMD" ] && publish_weblog
+				exit
+			fi
+		fi
+		die "$addweblog_noarticlesrc"
+	;;
+	entry)
+		check_config
+		# add new entry from metafile
+		[ ! -z "$USR_ADDFILE" ] && import_file "$USR_ADDFILE"
+		process_entry; process_new
+	;;
+	weblog)
+		[ -z "$BLOG_DIR" ] && die "$addweblog_noweblog"
+		[ -d "$BLOG_DIR" ] && die "$addweblog_nocreate"
+		# create new weblog directory ...
+		if [ ! -d "$BLOG_DIR" ]; then
+			nb_msg "$addweblog_newblog '$BLOG_DIR' ..."
+			mkdir -p "$BLOG_DIR"
+			[ ! -d "$BLOG_DIR" ] &&
+				die "$addweblog_nocreate"
+			> "$BLOG_DIR/.nb_newblogdir"
+			nb_msg "$addweblog_copyaction"
+			# copy default files and directories
+			for weblog_dir in "$NB_BASE_DIR"/default/*; do
+				cp -R "$weblog_dir" "$BLOG_DIR"
+			done
+			# create some critical empty directories
+			for weblog_emptydir in "$ARCHIVES_DIR" "$CACHE_DIR" "$PARTS_DIR"; do
+				[ ! -d "$BLOG_DIR/$weblog_emptydir" ] && mkdir "$BLOG_DIR/$weblog_emptydir"
+			done
+			# ... prompt for configuration, unless interactive mode is 0
+			if [ "$BLOG_INTERACTIVE" = 0 ]; then
+				choice=n
+			else
+				echo "$addweblog_askconf [Y/n]"
+				read -p "$NB_PROMPT" choice
+			fi
+			case $choice in
+			[Yy]|"")
+				nb_msg "$addweblog_confaction"
+				nb_edit "$BLOG_DIR"/blog.conf
+				check_config; build_weblog
+				exit;;
+			[Nn])
+				check_config; build_weblog
+				nb_msg "$addweblog_noconf"
+				exit;;
+			esac
+		fi
+	;;
+	tag|cat)
+		check_config
+		# create a new category
+		query_db
+		id=0; cat_items=${#db_categories[*]}
+		while [ "$id" -lt "$cat_items" ] || [ "$cat_items" = 0 ]; do
+			let id=${id}+1
+			if [ ! -f "$NB_DATA_DIR/cat_$id.$NB_DBTYPE" ]; then
+				nb_msg "$addweblog_newcat id: $id ..."
+				if [ ! -z "$USR_TITLE" ]; then
+					cat_title=$USR_TITLE; USR_TITLE=
+				else
+					echo "$addweblog_titlecat [$addweblog_untitled]"
+					read -p "$NB_PROMPT" cat_title
+					[ -z "$cat_title" ] && cat_title="$notitle"
+				fi
+				translit_text "$cat_title" > "$NB_DATA_DIR"/cat_$id.$NB_DBTYPE
+				cat_num="$id"; db_catquery=`cat_id "$cat_num"`; check_catid "$cat_num"
+				cat_items="$id"
+			else
+				let cat_items=${cat_items}+1
+				db_categories=(${db_categories[*]} cat_$id.$NB_DBTYPE)
+			fi
+		done
+		newcat_title=`nb_print "$NB_DATA_DIR"/cat_$id.$NB_DBTYPE`
+		nb_msg "$addweblog_madecat '$newcat_title'."; exit
+	;;
+	*)
+		die "$main_badopts $addweblog_type"
+	;;
+esac
+}
+
+show_help(){
+nb_eval "date '+%Y' |grep '[0-9]'" && CURRENT_YEAR=`date '+%Y'` && COPYRIGHT="2004-$CURRENT_YEAR"
+NB_ShowHelp=$(< "${NB_LANG_DIR}/$NB_LANG"/help.txt)
+BASENAME=`basename $0`
+# transform keywords to variables and delete all hash-marked lines for display
+sed -e "/[\$]VERSION/ s//${VERSION}/g; /[\$]BASENAME/ s//${BASENAME}/g; /[\$]COPYRIGHT/ s//${COPYRIGHT}/g; /^[\#]/d" <<-EOF
+	$NB_ShowHelp
+EOF
+}
+
+# load minimal configuration data required to operate
+load_globals
+load_lang
+
+[ $# -lt 1 ] && show_help
+check_arg(){
+if [ -z "$1" ]; then
+	echo "$bad_argument $checkarg_badarg"
+	echo "$checkarg_help"
+	exit 1
+fi
+}
+sanity_check(){
+invalid_opt=`echo "$@" |grep '^[--]$*'`
+[ ! -z "$invalid_opt" ] && argument=
+}
+while [ $# -gt 0 ]; do
+	bad_argument=$1
+	# -a,-c,-d,-E,-e,-l,-m,-q,-u exists for backwards compability
+	case "$1" in
+		add|-a) 		check_arg "$2"; addweblog_type="$2"; shift; ADD_WEBLOG=1;;
+		configure)		CONFIG_WEBLOG=1;;
+		edit)			check_arg "$2"; editweblog_type="$2"; edit_idsel="$3"; shift 2
+					EDIT_WEBLOG=1;;
+		-e) 			check_arg "$2"; editweblog_type=entry; edit_idsel="$2"; shift
+					EDIT_WEBLOG=1;; # short option for backward compatibility
+		delete)			check_arg "$2"; delweblog_type="$2"
+					case "$3" in [0-9]*) delete_idsel="$3"; shift 2;; *) shift;;
+					esac; DELETE_WEBLOG=1;;
+		-d) 			check_arg "$2"; delweblog_type=entry; delete_idsel="$2"; shift
+					DELETE_WEBLOG=1;; # short option for backward compatibility
+		draft|-E) 		check_arg "$2"; USR_DRAFTFILE="$2"; shift; DRAFT_WEBLOG=1;;
+		import) 		check_arg "$2"; addweblog_type="$2"; USR_ADDFILE="$3"; shift 2
+					ADD_WEBLOG=1;;
+		list|-l)		listweblog_type="$2"
+					case "$3" in [0-9]*) list_idsel="$3"; shift 2;; *) shift;;
+					esac; LIST_WEBLOG=1;;
+		make-page)		check_arg "$2"; USR_MKPSRCFILE="$2"; USR_MKPOUTFILE="$3"; shift 2
+					MAKEPAGE_WEBLOG=1;;
+		make-file)		check_arg "$2"; USR_MKFFILE="$2"; shift; MAKEFILE_WEBLOG=1;;
+		manual)			load_config; load_lang; nb_browser "$NB_DOC_FILE"; exit;;
+		tag-entry|-m)		check_arg "$2"; catentry_num="$2"; shift; MOVE_WEBLOG=1;;
+		publish)		PUBLISH_WEBLOG=1;;
+		preview)		PREVIEW_WEBLOG=1;;
+		update|-u)		updweblog_type="$2";
+					case "$3" in [0-9]*) update_idsel="$3"; shift 2;; *) shift;;
+					esac; UPDATE_WEBLOG=1;;
+		update-cache) 		updcache_type="$2"
+					case "$3" in [0-9]*) updatec_idsel="$3"; shift 2;; *) shift;;
+					esac; UPDATECACHE_WEBLOG=1;;
+		--author)		check_arg "$2"; USR_AUTHOR="$2"; shift;;
+		--conf-file)		check_arg "$2"; USR_BLOGCONF="$2"; shift;;
+		--data-dir)		check_arg "$2"; USR_DATADIR="$2"; shift;;
+		--desc)			DESC_PROMPT=1; USR_DESC="$2"; shift;;
+		--meta-file) 		check_arg "$2"; USR_ADDFILE="$2"; shift;;
+		--title)		check_arg "$2"; USR_TITLE="$2"; shift;;
+		--plugin-dir) 		check_arg "$2"; USR_PLUGINSDIR="$2"; shift;;
+		--query|-q)		check_arg "$2"; NB_QUERY="$2"; shift; QUERY_WEBLOG=1;;
+		--set-var)		check_arg "$2"; USR_SETVAR="$2"; shift;;
+		--tag|-c)		check_arg "$2"; cat_num="$2"; shift;;
+		--text) 		check_arg "$2"; USR_TEXT="$2"; shift;;
+		--template)		check_arg "$2"; USR_TEMPLATE="$2"; shift;;
+		--template-dir)		check_arg "$2"; USR_TEMPLATE_DIR="$2"; shift;;
+		--var)			check_arg "$2"; USR_METAVAR="$2"; shift;;
+		--version)		echo "NanoBlogger $VERSION"; exit;;
+		--no-preview) 		NOPREVIEW_WEBLOG=1;;
+		--no-publish) 		NOPUBLISH_WEBLOG=1;;
+		-b|--blog-dir)		check_arg "$2"; USR_BLOGDIR="$2"; shift;;
+		-f|--force) 		FORCE_UPDATE=1; UPDATECACHE_WEBLOG=1;;
+		-h|--help|help)		show_help; exit;;
+		-i|--interactive) 	check_arg "$2"; USR_INTERACTIVE="$2"; shift;;
+		-v|--verbose)		check_arg "$2"; VERBOSE="$2"; shift;;
+		--)			shift; break;;
+		*)
+					sanity_check
+					echo "$main_badopts $bad_argument"; echo "$main_panic"
+					exit 1
+					;;
+	esac
+	shift
+done
+
+# post-processing for all command line args
+if [ "$CONFIG_WEBLOG" = 1 ]; then
+	check_config; config_weblog
+	[ "$RESORT_DATABASE" = 1 ] && resort_database
+fi
+if [ "$ADD_WEBLOG" = 1 ]; then
+	add_weblog
+fi
+if [ "$DELETE_WEBLOG" = 1 ]; then
+	check_config; delete_weblog
+fi
+if [ "$DRAFT_WEBLOG" = 1 ]; then
+	check_config; nb_draft
+fi
+if [ "$EDIT_WEBLOG" = 1 ]; then
+	check_config; edit_weblog
+fi
+if [ "$LIST_WEBLOG" = 1 ]; then
+	check_config; list_weblog
+fi
+if [ "$MAKEPAGE_WEBLOG" = 1 ]; then
+	check_config; weblog_page "$USR_MKPSRCFILE" "$USR_TEMPLATE" \
+		"$USR_MKPOUTFILE"
+fi
+if [ "$MAKEFILE_WEBLOG" = 1 ]; then
+	check_config
+	# don't overwrite existing files
+	[ -f "$USR_MKFFILE" ] &&
+		die "'$USR_MKFFILE' - $samefilename"
+	make_file "$USR_MKFFILE" "$USR_TEMPLATE"
+fi
+if [ "$MOVE_WEBLOG" = 1 ]; then
+	check_config; cat_entry
+fi
+if [ "$UPDATECACHE_WEBLOG" = 1 ]; then
+	USR_CACHEQUERY="$NB_QUERY"
+	check_config; db_catquery=`cat_id "$cat_num"`; check_catid "$cat_num"
+	update_cache "$USR_CACHEQUERY" "*"
+fi
+if [ "$UPDATE_WEBLOG" = 1 ]; then
+	check_config; db_catquery=`cat_id "$cat_num"`; check_catid "$cat_num"
+	build_weblog
+	if [ "$PREVIEW_WEBLOG" = 1 ]; then
+		check_config; preview_weblog
+	fi
+	if [ "$PUBLISH_WEBLOG" = 1 ]; then
+		check_config; publish_weblog
+	fi
+else
+	if [ "$PREVIEW_WEBLOG" = 1 ]; then
+		check_config; preview_weblog
+	fi
+	if [ "$PUBLISH_WEBLOG" = 1 ]; then
+		check_config; publish_weblog
+	fi
+fi
+
+exit 0
+

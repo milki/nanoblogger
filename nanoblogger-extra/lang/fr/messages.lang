@@ -1,0 +1,150 @@
+# NanoBlogger French language definitions
+# traduction : Denis Bernard <deber@users.sourceforge.net>
+# Messages
+# lang/fr/messages.lang
+
+# main
+main_badopts="option incorrecte :"
+main_panic="Essayer '`basename $0` --help' pour plus d'informations."
+
+# check_arg
+checkarg_badarg="'option' requiert un argument !"
+checkarg_help="Essayer '`basename $0` --help' pour plus d'informations."
+
+# check_conf
+checkconf_nobase="le répertoire de base n'existe pas ! bye."
+checkconf_noblog="aucun répertoire de blog specifié ! bye."
+checkconf_nousrconf="le fichier de configuration du blog n'existe pas ! bye."
+checkconf_noblogdir="le répertoire de blog n'existe pas ! bye."
+checkconf_nodata="le répertoire data du blog n'existe pas ! bye."
+checkconf_nocache="le répertoire cache du blog n'existe pas ! bye."
+checkconf_noparts="le répertoire parts du blog n'existe pas ! bye."
+checkconf_notemplates="le répertoire templates du blog n'existe pas ! bye."
+
+# query_db
+querydb_init="initialisation de la base de données principale..."
+querydb_update="mise à jour de la base de données principale..."
+
+# validate tag id(s)
+catid_bad="n° erroné(s) !"
+checkcatid_invalid="n° de tag erroné(s) :"
+checkcatid_novalid="il faut spécifier un n° de tag correct !"
+
+# validate metadata files
+checkmetavars_novar="il manque la métavariable :"
+
+# config_weblog
+configweblog_nomod="aucun changement n'a été fait ! bye."
+
+# load_template
+loadtemplate_nofile="le fichier template n'existe pas ! bye."
+
+# make_page
+makepage_nosource="le fichier source n'existe pas ! bye."
+makepage_nooutput="fichier de sortie non spécifié."
+makepage_notemplate="le fichier template n'existe pas ! bye."
+
+# paginate
+paginate_action="génération pages"
+
+# build_archives
+buildarchives_action="génération des archives..."
+
+# build_weblog
+buildweblog_all="mise à jour de tous les fichiers du blog ! ça peut prendre du temps..."
+buildweblog_files="génération des fichiers du blog..."
+buildweblog_main="génération des principales pages index..."
+buildweblog_cache="vidage du cache..."
+
+# import_file
+importfile_nofile="n'existe pas !"
+
+# nb_browser
+nbbrowser_running="lance :"
+nbbrowser_nobrowser="définissez un autre navigateur dans \$NB_BROWSER ou \$BROWSER, svp."
+
+# nb_draft
+nbdraft_asknew="le fichier n'existe pas ! le créer ?"
+
+# nb_edit
+nbedit_nofile="le fichier n'existe pas !"
+nbedit_prompt="appuyez sur la touche [entrée] pour continuer :"
+nbedit_failed="échec lors de l'écriture du fichier ! bye."
+
+# add_entry
+addentry_catinfo="n° de tag sélectionné(s) :"
+addentry_action="ajout d'une nouvelle entrée..."
+
+# confirm_action
+confirmaction_ask="êtes-vous sûr ?"
+
+# misc. validation errors
+novalid_entryid="il faut spécifier un n° d'entrée correct."
+invalid_entryid="n° d'entrée erroné :"
+novalid_entrytime="il faut spécifier un TIMESTAMP correct - 'YYYY-MM-DD HH:MM:SS'"
+invalid_entrytime="TIMESTAMP de l'entrée incorrect ou en conflit"
+
+# edit_weblog
+editweblog_onecat="un seul tag doit être spécifiée lors de l'édition d'un titre"
+editweblog_title="changement du titre en :"
+editweblog_catinfo="n° de tag sélectionné(s) :"
+editweblog_nomod="aucun changement n'a été fait ! bye."
+editweblog_action="modification des entrées du blog..."
+editweblog_noaction="aucun changement n'a été fait ! bye."
+
+# delete_weblog
+deleteweblog_delcat="suppression tag(s) n° :"
+deleteweblog_onecat="un seul tag doit être specifié pour sa suppression des entrées !"
+deleteweblog_catinfo="n° tag sélectionné(s) :"
+deleteweblog_delentry="suppression de l'entrée n° :"
+
+# header attributes
+header_ID="N°"
+header_Title="Titre"
+header_Category="Tag(s) N°"
+header_Date="Date"
+
+# list_weblog
+listweblog_nocat="il n'existe pas encore de tags ! bye !"
+listweblog_nomatch="Aucun résultat correspondant à votre requête ! bye."
+
+# cat_entry
+catentry_catfirst="on doit spécifier un tag avant l'entrée !"
+catentry_catinfo="n° tag sélectionné(s) :"
+catentry_tagging="attribution de tag à l'entrée(s) n° :"
+
+# add_weblog
+addweblog_noweblog="aucun répertoire de blog specifié ! bye."
+addweblog_newblog="création du répertoire de blog"
+addweblog_nocreate="échec lors de la création du répertoire de blog !"
+addweblog_copyaction="copie des fichiers par défaut du blog."
+addweblog_askconf="aimeriez-vous configurer votre  nouveau blog maintenant ?"
+addweblog_confaction="configuration du nouveau blog..."
+addweblog_noconf="blog non configuré ! le faire avec '`basename $0` --blog-dir [blog_dir] configure query all update'"
+addweblog_newcat="création d'un nouveau tag"
+addweblog_titlecat="entrez un nom pour le nouveau tag"
+addweblog_untitled="sans titre"
+addweblog_madecat="base de données des tags créée pour"
+addweblog_author="entrez le nom de l'auteur"
+addweblog_title="entrez un titre"
+addweblog_desc="entrez une courte description"
+addweblog_editnew="édition d'une nouvelle entrée..."
+addweblog_newarticle="ajout d'un nouvel article..."
+addweblog_noarticledir="échec lors de la vérification du répertoire articles ! contrôler ARTICLES_DIR dans la configuration."
+addweblog_noarticlesrc="aucune source valide d'article n'a pu être trouvée !"
+
+# preview_weblog
+prewiew_nocmd="commande d'aperçu non configurée ! bye."
+preview_action="aperçu du blog ..."
+preview_asknow="aimeriez-vous un aperçu de votre blog maintenant ?"
+
+# publish_weblog
+publish_nocmd="commande de publication non configurée ! bye."
+publish_action="publication du blog..."
+publish_asknow="aimeriez-vous publier votre blog maintenant ?"
+
+# misc.
+notitle="Sans titre"
+nowritedir="pas de droit en écriture pour ce répertoire ! bye."
+samefilename="le nom de ce fichier existe déjà !"
+filterdate_failed="échec sur la date, timestamp utilisé à la place."

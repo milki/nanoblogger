@@ -1,0 +1,144 @@
+# NanoBlogger English language definitions
+# Messages
+# lang/es/messages.lang
+# traducido al español por alejandro@janoli.com.ar
+
+# main
+main_badopts="opción inválida:"
+main_panic="Prueba '`basename $0` --help' para más información."
+
+# check_arg
+checkarg_badarg="la opción requiere argumento!"
+checkarg_help="Prueba '`basename $0` --help' para más información."
+
+# check_conf
+checkconf_nobase="directorio base no existe! adiós."
+checkconf_noblog="no ha especificado weblog! adiós."
+checkconf_nousrconf="archivo de configuración del weblog no existe! adiós."
+checkconf_noblogdir="directorio del weblog no existe! adiós.."
+checkconf_nodata="directorio de datos del weblog no existe! adiós."
+checkconf_nocache="directorio cache del weblog no existe! adiós."
+checkconf_notemplates="directorio de plantillas del weblog no existe! adiós."
+
+# query_db
+querydb_init="inicializando base de datos principal..."
+querydb_update="actualizando base de datos principal..."
+
+# validate category id(s)
+catid_bad="id(s) falso!"
+checkcatid_invalid="id(s) de categoría inválido:"
+checkcatid_novalid="utilice un id de categoría válido!"
+
+# validate metadata files
+checkmetatags_notag="metatag desconocido:"
+
+# config_weblog
+configweblog_nomod="sin cambios! adiós."
+
+# load_template
+loadtemplate_nofile="plantilla no existe! adiós."
+
+# make_page
+makepage_nosource="archivo fuente no existe! adiós."
+makepage_nooutput="archivo de salida no especificado."
+makepage_notemplate="plantilla no existe! adiós."
+
+# paginate
+paginate_action="paginando"
+
+# build_archives
+buildarchives_action="generando archivos ..."
+
+# build_weblog
+buildweblog_all="actualizando todos los archivos! puede tardar unos minutos ..."
+buildweblog_files="generando archivos de weblog ..."
+buildweblog_main="generando página(s) index principal ..."
+buildweblog_cache="limpiando cache ..."
+
+# import_file
+importfile_nofile="no existe!"
+
+# nb_browser
+nbbrowser_nobrowser="¡ningunos de los browsers en $NB_BROWSER trabajaron!"
+
+# nb_draft
+nbdraft_asknew="no existe el archivo! ¿crearlo?"
+
+# nb_edit
+nbedit_nofile="no existe el archivo!"
+nbedit_prompt="presione [enter] para continuar:"
+nbedit_failed="fallo al escribir archivo! adiós."
+
+# add_entry
+addentry_catinfo="id(s) de categoría seleccionado:"
+addentry_action="agregando nueva entrada ..."
+
+# confirm_action
+confirmaction_ask="está seguro?"
+
+# misc. validation errors
+novalid_entryid="debe especificar un id de entrada válido."
+invalid_entryid="id(s) de entrada inválido:"
+
+# edit_weblog
+editweblog_onecat="sólo una categoría puede ser utilizada al editar un título!"
+editweblog_title="cambiando título a:"
+editweblog_catinfo="id(s) de categoría elegido:"
+editweblog_nomod="no se hicieron cambios! adiós."
+editweblog_action="procesando entradas de weblog modificadas ..."
+editweblog_noaction="sin cambios! adiós."
+
+# delete_weblog
+deleteweblog_delcat="borrando id(s) de categoría:"
+deleteweblog_onecat="solo una categoría puede utilizarse al borrar entradas de una categoría!"
+deleteweblog_catinfo="id(s) de categoría elegida:"
+deleteweblog_delentry="borrando id(s) de entrada:"
+
+# header attributes
+header_ID="ID"
+header_Title="Título"
+header_Category="ID(s) de Categoría"
+header_Date="Fecha"
+
+# list_weblog
+listweblog_nocat="no existen categorías! adiós."
+listweblog_nomatch="búsqueda sin resultados! adiós."
+
+# move_entry
+moveentry_catfirst="debe especificar categoría antes!"
+moveentry_catinfo="id(s) de categoría:"
+moveentry_moventry="cambiando id(s) de entrada:"
+
+# add_weblog
+addweblog_noweblog="no ha elegido directorio de weblog! adiós."
+addweblog_newblog="creando directorio de weblog"
+addweblog_nocreate="fallo al crear directorio de weblog!"
+addweblog_copyaction="copiando archivos de weblog iniciales ..."
+addweblog_askconf="quieres configurar el nuevo weblog ahora?"
+addweblog_confaction="configurando nuevo weblog ..."
+addweblog_noconf="weblog no configurado! use '`basename $0` -b [blog_dir] --configure -u all' para configurar después."
+addweblog_newcat="creando nueva categoría"
+addweblog_titlecat="ingrese el título de la nueva categoría"
+addweblog_untitled="Sin título"
+addweblog_madecat="base de datos de categoría creada para"
+addweblog_author="ingrese nombre del autor"
+addweblog_title="ingrese un título"
+addweblog_desc="ingrese una descripción corta"
+addweblog_editnew="editando nueva entrada ..."
+
+# preview_weblog
+preview_nocmd="sin comando de vista previa! adiós."
+preview_action="vista previa del weblog ..."
+preview_asknow="deseas ver una vista previa del weblog ahora?"
+
+# publish_weblog
+publish_nocmd="sin comando para publicar! adiós."
+publish_action="publicando weblog ..."
+publish_asknow="deseas publicar el weblog ahora?"
+
+# misc.
+notitle="sin título"
+nowritedir="sin permisos de escritura para el directorio! adiós."
+samefilename="nombre de archivo existe!"
+filterdate_failed="filtrado por fecha fallo, usando marcas temporales en su lugar."
+

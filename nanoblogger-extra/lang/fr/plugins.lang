@@ -1,0 +1,12 @@
+# NanoBlogger French language definitions
+# traduction : Denis Bernard <deber@users.sourceforge.net>
+# Plugins
+# lang/fr/plugins.lang
+
+# plugins - generic messages
+plugins_action="génération de"
+plugins_loadaction="chargement ..."
+plugins_entryfilteraction="formatage du texte :"
+plugins_articles="articles"
+plugins_abort="défaillance du plugin ! veuillez vérifier ses paramètres ou désactivez-le !"
+

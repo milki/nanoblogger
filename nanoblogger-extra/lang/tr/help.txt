@@ -1,0 +1,85 @@
+NanoBlogger - Komut satırı weblog motoru.
+Sürüm $VERSION, (C) 2008 Kevin Wood <un1xt3r-at-fastmail-dot-fm>
+
+NanoBlogger KESİNLİKLE GARANTİSİZ gelmektedir; daha fazla bilgi için GNU General
+Public License, 2'inci sürüme bakınız
+
+Kullanım:
+ $BASENAME [-b blog_dizini] [seçenekler] <komut>
+
+Komutlar:
+ add					- Yeni bir yazı, etiket ya da web log
+                                          oluştur (dizin).
+ configure				- weblog'u yapılandır ('update' için).
+ delete <no,tag>			- yazı ya da etiketi sil, veya yazıdan
+                                          etiketi kaldır.
+ draft <dosya> 				- meta-dosya düzenle ya da yarat.
+ edit <no,tag>				- yazı ya da etiketi düzenle.
+ list					- yazıları ya da etiketleri listele
+                                          ('query' ve 'tag' için, varsayılan 'max').
+ make-page <dosya1> <dosya2> 		- meta-dosyadan (dosya1) yeni bir sayfa (dosya2)
+                                          yarat.
+ tag-entry <no>				- yazıyı etiketle ('tag' için).
+ tag-list 				- etiketleri listele ('query tag list' ile aynı).
+ manual					- klavuzu görüntüle.
+ make-file <dosya> 			- yeni meta-dosya yarat.
+ preview				- weblog'u önizleme komutunu çalıştır.
+ publish				- weblog'u yayınlama komutunu çalıştır.
+ query <all,tag,TARİH,main,max,		- çalıştırılacak sorguyu belirt ('edit',
+        expired> 			  'delete', 'list', 'tag-entry',
+					  'update' ve 'update-cache' için).
+ tag <no,yeni> 				- etiketi belirt ('add', 'delete',
+ 					  'edit', 'list', 'update' ve
+					  'update-cache' için).
+ file <dosya> 				- yazı olacak içe alınacak meta-dosyayı belirt
+ 					  ('add' için).
+ update-cache 				- önbelleği güncelle ('query' için,
+ 					  varsayılan 'expired').
+ update 				- weblog'u güncelle ('query' için,
+ 					  varsayılan 'max').
+
+Seçenekler:
+ -b, --blog-dir <dizin>			weblog dizinini belirt.
+ -f, --force 				Önbellek güncelle. ('update-cache' ile aynı).
+ -h,--help				bu yardım iletisini göster.
+ -i, --interactive <1=açık/0=kapalı> 	etkileşimli modu değiştir ('add',
+ 					'delete', 'preview', 'publish' ve
+					'update' için).
+ -v, --verbose <1=açık/0=kapalı>	mesaj ayrıntılarını değiştir.
+ --conf-file <dosya>			farklı bir yapılandırma dosyası belirt.
+ --desc <metin>				açıklamanın metnini belirle ('add',
+ 					'draft', 'make-file' ve 'make-page' için).
+ --data-dir <dizin>			weblog'un veri dizinini belirt.
+ --title <metin> 			başlığı belirt ('add', 'tag', 'draft',
+ 					'make-file' ve 'make-page' için).
+ --author <metin>			yazarı belirt ('add', 'draft',
+ 					'make-file' ve 'make-page' için).
+ --plugin-dir <dizin>	 		weblog eklenti dizinini belirt.
+ --text <metin>				metni belirt ('add', 'draft',
+ 					'make-file' ve 'make-page' için).
+ --template <dosya>			şablon olarak yüklenecek dosyayı belirt
+ 					('draft', 'make-page' ve 'make-file' için).
+ --template-dir <dizin>			weblog'un şablon dizinini belirt.
+ --var <DEĞİŞKEN>  	 		meta-değişken tanımla ('add',
+ 					'draft', 'edit', 'make-file' ve
+					'make-page' için).
+ --set-var <değer>  			meta-değişkeni ayarla ('--var' için).
+ --version				sürüm bilgisini göster.
+
+ tag,delete,edit,tag-entry virgülle ayrılmış numaralar kabul eder (örneğin 1,2,3).
+ 
+ TARİH = CCYY-MM-DD, CCYY-MM, CCYY (ya da zaman aralığı = TARİH1,TARİH2)
+
+Örnekler:
+
+ yaratılacak weblog için dizin belirtmek ya da yeni yazı eklemek: 
+	nb -b ~/public_html/weblog add
+
+ yeni "ornekler" etiketini oluşturmak
+	nb -b ~/public_html/weblog tag new --title ornekler add
+
+ tamamen komut satırından yeni bir yazı yaratmak
+	nb -b ~/public_html/weblog --author 'ismim' --title 'Başlık' --text 'Yazı' add
+
+Daha fazla bilgi için:
+ URL: http://nanoblogger.sourceforge.net

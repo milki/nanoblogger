@@ -1,0 +1,47 @@
+# NanoBlogger English language definitions
+# Templates
+# lang/en/templates.lang
+
+# weblog entry links and messages
+template_permlink="Permanent link"
+template_catlinks="File under:"
+template_cmtlink="Comments"
+template_postedby="Posted by"
+
+# only here for compat. with early 3.3 rc's
+permanentlink_title="$template_permlink"
+categorylinks_title="$template_catlinks"
+# depecrated catlinks_title here for transitional purposes
+catlinks_title="$categorylinks_title"
+commentslink_title="$template_cmtlink"
+
+# weblog main messages
+template_archiveindex="Archive Index"
+template_category="Categories"
+template_contact="Contact"
+template_fortune="Fortune"
+template_links="Links"
+template_rentries="Recent entries"
+template_syndicate="Syndicate"
+template_syndicate_main="Site"
+template_status="Weblog status"
+template_powered="powered by $NB_EDITORNAME, bash, cat, grep, sed, and"
+articles_nolist="0"
+categories_nolist="0"
+
+# miscellaneous
+template_archives="Archives"
+template_main="Main"
+template_catarchives="Filed under:"
+template_articles="Articles"
+# depecrated template_browsecat here for transitional purposes
+template_browsecat="Browse by category"
+template_browsedate="Browse by date"
+template_browseentry="Browse by entry"
+
+# weblog status messages
+template_totalcats="Total categories:"
+template_totalentries="Total entries:"
+template_lastentry="Last entry:"
+template_lastupdated="Last updated:"
+

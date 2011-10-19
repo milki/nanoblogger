@@ -1,0 +1,11 @@
+# NanoBlogger English language definitions
+# Plugins
+# lang/en/plugins.lang
+
+# plugins - generic messages
+plugins_action="generating"
+plugins_loadaction="loading ..."
+plugins_entryfilteraction="filtering text:"
+plugins_articles="articles"
+plugins_abort="plugin failed! please check plugin for correct settings or disable it"
+
