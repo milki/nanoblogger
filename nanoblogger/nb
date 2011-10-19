@@ -335,6 +335,11 @@ if [ -f "$NB_EditFile" ]; then
 	read_metadata TIMESTAMP "$NB_EditFile"
 	New_TimeStamp="$METADATA"
 fi
+# load user specified date
+if [ -f "$USR_ADDFILE" ]; then
+	read_metadata DATE "$USR_ADDFILE"
+    NB_EntryDate="$METADATA"
+fi
 New_EntryFile="$NB_MetaTimeStamp.$NB_DATATYPE"
 # dump all custom modications from edit file to new entry's data file
 if [ -f "$NB_EditFile" ]; then
